@@ -1,21 +1,22 @@
 # KnockDetector
 
-# Overwiev
+## Overview
 
-# Tools
+## Tools
 
-# How to run
+## How to run
 
-# How to compile
+## How to compile
 
-# Future improvements
+## Future improvements
 
-# Attributions
+## Attributions
 
-# License
+## License
 
-# Credits
+## Credits
 
 The project was conducted during the Microprocessor Lab course held by the Institute of Control and Information Engineering, Poznan University of Technology.
+```
 Contractors: Jakub Dąbrowski, Szymon Bandowski, Przemysław Czajka
 Supervisor: Marek Kraft/Michał Fularz/Tomasz Mańkowski/Adam Bondyra
