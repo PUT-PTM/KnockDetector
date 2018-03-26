@@ -16,7 +16,6 @@
 
 ## Credits
 
-The project was conducted during the Microprocessor Lab course held by the Institute of Control and Information Engineering, Poznan University of Technology.
-```
-Contractors: Jakub Dąbrowski, Szymon Bandowski, Przemysław Czajka
-Supervisor: Marek Kraft/Michał Fularz/Tomasz Mańkowski/Adam Bondyra
+*The project was conducted during the Microprocessor Lab course held by the Institute of Control and Information Engineering, Poznan University of Technology.
+*Contractors: Jakub Dąbrowski, Szymon Bandowski, Przemysław Czajka
+*Supervisor: Tomasz Mańkowski
