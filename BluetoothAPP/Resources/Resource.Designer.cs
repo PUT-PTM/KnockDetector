@@ -1669,14 +1669,14 @@ namespace BluetoothAPP
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0a0057
-			public const int ProductNameTextView = 2131361879;
-			
-			// aapt resource value: 0x7f0a0056
-			public const int ProductPictureImageView = 2131361878;
+			// aapt resource value: 0x7f0a0059
+			public const int Haslo = 2131361881;
 			
 			// aapt resource value: 0x7f0a005a
-			public const int ProductsListView = 2131361882;
+			public const int Login = 2131361882;
+			
+			// aapt resource value: 0x7f0a0058
+			public const int NazwaUzytkownika = 2131361880;
 			
 			// aapt resource value: 0x7f0a005e
 			public const int action0 = 2131361886;
@@ -1741,6 +1741,9 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0013
 			public const int add = 2131361811;
 			
+			// aapt resource value: 0x7f0a0074
+			public const int addUser = 2131361908;
+			
 			// aapt resource value: 0x7f0a003b
 			public const int alertTitle = 2131361851;
 			
@@ -1783,6 +1786,9 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a002a
 			public const int default_activity_button = 2131361834;
 			
+			// aapt resource value: 0x7f0a0075
+			public const int deleteUser = 2131361909;
+			
 			// aapt resource value: 0x7f0a000c
 			public const int disableHome = 2131361804;
 			
@@ -1800,9 +1806,6 @@ namespace BluetoothAPP
 			
 			// aapt resource value: 0x7f0a003d
 			public const int expanded_menu = 2131361853;
-			
-			// aapt resource value: 0x7f0a0059
-			public const int fragment_container = 2131361881;
 			
 			// aapt resource value: 0x7f0a0004
 			public const int home = 2131361796;
@@ -1830,9 +1833,6 @@ namespace BluetoothAPP
 			
 			// aapt resource value: 0x7f0a006f
 			public const int line3 = 2131361903;
-			
-			// aapt resource value: 0x7f0a0072
-			public const int linearLayout1 = 2131361906;
 			
 			// aapt resource value: 0x7f0a0009
 			public const int listMode = 2131361801;
@@ -1942,6 +1942,9 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0011
 			public const int showTitle = 2131361809;
 			
+			// aapt resource value: 0x7f0a0076
+			public const int showUsers = 2131361910;
+			
 			// aapt resource value: 0x7f0a002f
 			public const int spacer = 2131361839;
 			
@@ -1981,6 +1984,9 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0034
 			public const int textSpacerNoTitle = 2131361844;
 			
+			// aapt resource value: 0x7f0a0057
+			public const int textView1 = 2131361879;
+			
 			// aapt resource value: 0x7f0a0066
 			public const int time = 2131361894;
 			
@@ -1993,8 +1999,8 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a003a
 			public const int title_template = 2131361850;
 			
-			// aapt resource value: 0x7f0a0058
-			public const int toolbar = 2131361880;
+			// aapt resource value: 0x7f0a0056
+			public const int toolbar = 2131361878;
 			
 			// aapt resource value: 0x7f0a0023
 			public const int top = 2131361827;
@@ -2007,6 +2013,12 @@ namespace BluetoothAPP
 			
 			// aapt resource value: 0x7f0a0012
 			public const int useLogo = 2131361810;
+			
+			// aapt resource value: 0x7f0a0072
+			public const int userToolbar = 2131361906;
+			
+			// aapt resource value: 0x7f0a0073
+			public const int usersLogin = 2131361907;
 			
 			// aapt resource value: 0x7f0a0021
 			public const int withText = 2131361825;
@@ -2134,73 +2146,70 @@ namespace BluetoothAPP
 			public const int abc_select_dialog_material = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int DetailsFragment = 2130903067;
+			public const int MainActivity = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int MainActivity = 2130903068;
+			public const int notification_action = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int MainFragment = 2130903069;
+			public const int notification_action_tombstone = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public const int notification_action = 2130903070;
+			public const int notification_media_action = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public const int notification_action_tombstone = 2130903071;
+			public const int notification_media_cancel_action = 2130903071;
 			
 			// aapt resource value: 0x7f030020
-			public const int notification_media_action = 2130903072;
+			public const int notification_template_big_media = 2130903072;
 			
 			// aapt resource value: 0x7f030021
-			public const int notification_media_cancel_action = 2130903073;
+			public const int notification_template_big_media_custom = 2130903073;
 			
 			// aapt resource value: 0x7f030022
-			public const int notification_template_big_media = 2130903074;
+			public const int notification_template_big_media_narrow = 2130903074;
 			
 			// aapt resource value: 0x7f030023
-			public const int notification_template_big_media_custom = 2130903075;
+			public const int notification_template_big_media_narrow_custom = 2130903075;
 			
 			// aapt resource value: 0x7f030024
-			public const int notification_template_big_media_narrow = 2130903076;
+			public const int notification_template_custom_big = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public const int notification_template_big_media_narrow_custom = 2130903077;
+			public const int notification_template_icon_group = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int notification_template_custom_big = 2130903078;
+			public const int notification_template_lines_media = 2130903078;
 			
 			// aapt resource value: 0x7f030027
-			public const int notification_template_icon_group = 2130903079;
+			public const int notification_template_media = 2130903079;
 			
 			// aapt resource value: 0x7f030028
-			public const int notification_template_lines_media = 2130903080;
+			public const int notification_template_media_custom = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public const int notification_template_media = 2130903081;
+			public const int notification_template_part_chronometer = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
-			public const int notification_template_media_custom = 2130903082;
+			public const int notification_template_part_time = 2130903082;
 			
 			// aapt resource value: 0x7f03002b
-			public const int notification_template_part_chronometer = 2130903083;
+			public const int select_dialog_item_material = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public const int notification_template_part_time = 2130903084;
+			public const int select_dialog_multichoice_material = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public const int ProductRow = 2130903085;
+			public const int select_dialog_singlechoice_material = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public const int select_dialog_item_material = 2130903086;
+			public const int support_simple_spinner_dropdown_item = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int select_dialog_multichoice_material = 2130903087;
+			public const int UsersActivity = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int select_dialog_singlechoice_material = 2130903088;
-			
-			// aapt resource value: 0x7f030031
-			public const int support_simple_spinner_dropdown_item = 2130903089;
+			public const int UsersFragment = 2130903088;
 			
 			static Layout()
 			{

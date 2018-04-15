@@ -82,9 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="Adapters\ProductsListAdapter.cs" />
-    <Compile Include="Fragments\DetailsFragment.cs" />
-    <Compile Include="Fragments\MainFragment.cs" />
+    <Compile Include="Activities\UsersActivity.cs" />
+    <Compile Include="Fragments\UsersFragment.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,13 +94,10 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\MainFragment.axml">
+    <AndroidResource Include="Resources\layout\UsersActivity.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\DetailsFragment.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\ProductRow.axml">
+    <AndroidResource Include="Resources\layout\UsersFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -112,8 +108,8 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\mipmap-hdpi\" />
-    <Folder Include="Resources\mipmap-mdpi\" />
+    <Folder Include="Adapters\" />
+    <Folder Include="Resources\mipmap-mdpi\mipmap-hdpi\" />
     <Folder Include="Resources\mipmap-xhdpi\" />
     <Folder Include="Resources\mipmap-xxhdpi\" />
     <Folder Include="Resources\mipmap-xxxhdpi\" />
