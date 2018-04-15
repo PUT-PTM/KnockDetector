@@ -1672,14 +1672,14 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0057
 			public const int ProductNameTextView = 2131361879;
 			
-			// aapt resource value: 0x7f0a0072
-			public const int ProductPictureImageView = 2131361906;
+			// aapt resource value: 0x7f0a0073
+			public const int ProductPictureImageView = 2131361907;
 			
-			// aapt resource value: 0x7f0a0059
-			public const int ProductsListView = 2131361881;
+			// aapt resource value: 0x7f0a005a
+			public const int ProductsListView = 2131361882;
 			
-			// aapt resource value: 0x7f0a005d
-			public const int action0 = 2131361885;
+			// aapt resource value: 0x7f0a005e
+			public const int action0 = 2131361886;
 			
 			// aapt resource value: 0x7f0a0047
 			public const int action_bar = 2131361863;
@@ -1702,17 +1702,17 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0024
 			public const int action_bar_title = 2131361828;
 			
-			// aapt resource value: 0x7f0a005a
-			public const int action_container = 2131361882;
+			// aapt resource value: 0x7f0a005b
+			public const int action_container = 2131361883;
 			
 			// aapt resource value: 0x7f0a0048
 			public const int action_context_bar = 2131361864;
 			
-			// aapt resource value: 0x7f0a0061
-			public const int action_divider = 2131361889;
+			// aapt resource value: 0x7f0a0062
+			public const int action_divider = 2131361890;
 			
-			// aapt resource value: 0x7f0a005b
-			public const int action_image = 2131361883;
+			// aapt resource value: 0x7f0a005c
+			public const int action_image = 2131361884;
 			
 			// aapt resource value: 0x7f0a0002
 			public const int action_menu_divider = 2131361794;
@@ -1729,11 +1729,11 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0026
 			public const int action_mode_close_button = 2131361830;
 			
-			// aapt resource value: 0x7f0a005c
-			public const int action_text = 2131361884;
+			// aapt resource value: 0x7f0a005d
+			public const int action_text = 2131361885;
 			
-			// aapt resource value: 0x7f0a006a
-			public const int actions = 2131361898;
+			// aapt resource value: 0x7f0a006b
+			public const int actions = 2131361899;
 			
 			// aapt resource value: 0x7f0a0027
 			public const int activity_chooser_view_content = 2131361831;
@@ -1756,14 +1756,14 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a002e
 			public const int buttonPanel = 2131361838;
 			
-			// aapt resource value: 0x7f0a005e
-			public const int cancel_action = 2131361886;
+			// aapt resource value: 0x7f0a005f
+			public const int cancel_action = 2131361887;
 			
 			// aapt resource value: 0x7f0a003e
 			public const int checkbox = 2131361854;
 			
-			// aapt resource value: 0x7f0a0066
-			public const int chronometer = 2131361894;
+			// aapt resource value: 0x7f0a0067
+			public const int chronometer = 2131361895;
 			
 			// aapt resource value: 0x7f0a001e
 			public const int collapseActionView = 2131361822;
@@ -1792,14 +1792,17 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a001b
 			public const int end = 2131361819;
 			
-			// aapt resource value: 0x7f0a0070
-			public const int end_padder = 2131361904;
+			// aapt resource value: 0x7f0a0071
+			public const int end_padder = 2131361905;
 			
 			// aapt resource value: 0x7f0a0028
 			public const int expand_activities_button = 2131361832;
 			
 			// aapt resource value: 0x7f0a003d
 			public const int expanded_menu = 2131361853;
+			
+			// aapt resource value: 0x7f0a0059
+			public const int fragment_container = 2131361881;
 			
 			// aapt resource value: 0x7f0a0004
 			public const int home = 2131361796;
@@ -1810,8 +1813,8 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a002c
 			public const int icon = 2131361836;
 			
-			// aapt resource value: 0x7f0a006b
-			public const int icon_group = 2131361899;
+			// aapt resource value: 0x7f0a006c
+			public const int icon_group = 2131361900;
 			
 			// aapt resource value: 0x7f0a001f
 			public const int ifRoom = 2131361823;
@@ -1819,17 +1822,17 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0029
 			public const int image = 2131361833;
 			
-			// aapt resource value: 0x7f0a0067
-			public const int info = 2131361895;
+			// aapt resource value: 0x7f0a0068
+			public const int info = 2131361896;
 			
-			// aapt resource value: 0x7f0a006c
-			public const int line1 = 2131361900;
+			// aapt resource value: 0x7f0a006d
+			public const int line1 = 2131361901;
 			
-			// aapt resource value: 0x7f0a006e
-			public const int line3 = 2131361902;
+			// aapt resource value: 0x7f0a006f
+			public const int line3 = 2131361903;
 			
-			// aapt resource value: 0x7f0a0071
-			public const int linearLayout1 = 2131361905;
+			// aapt resource value: 0x7f0a0072
+			public const int linearLayout1 = 2131361906;
 			
 			// aapt resource value: 0x7f0a0009
 			public const int listMode = 2131361801;
@@ -1837,8 +1840,8 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a002b
 			public const int list_item = 2131361835;
 			
-			// aapt resource value: 0x7f0a0060
-			public const int media_actions = 2131361888;
+			// aapt resource value: 0x7f0a0061
+			public const int media_actions = 2131361889;
 			
 			// aapt resource value: 0x7f0a001c
 			public const int middle = 2131361820;
@@ -1855,14 +1858,14 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a000a
 			public const int normal = 2131361802;
 			
-			// aapt resource value: 0x7f0a0069
-			public const int notification_background = 2131361897;
+			// aapt resource value: 0x7f0a006a
+			public const int notification_background = 2131361898;
+			
+			// aapt resource value: 0x7f0a0064
+			public const int notification_main_column = 2131361892;
 			
 			// aapt resource value: 0x7f0a0063
-			public const int notification_main_column = 2131361891;
-			
-			// aapt resource value: 0x7f0a0062
-			public const int notification_main_column_container = 2131361890;
+			public const int notification_main_column_container = 2131361891;
 			
 			// aapt resource value: 0x7f0a0030
 			public const int parentPanel = 2131361840;
@@ -1876,11 +1879,11 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0040
 			public const int radio = 2131361856;
 			
-			// aapt resource value: 0x7f0a0068
-			public const int right_icon = 2131361896;
+			// aapt resource value: 0x7f0a0069
+			public const int right_icon = 2131361897;
 			
-			// aapt resource value: 0x7f0a0064
-			public const int right_side = 2131361892;
+			// aapt resource value: 0x7f0a0065
+			public const int right_side = 2131361893;
 			
 			// aapt resource value: 0x7f0a0015
 			public const int screen = 2131361813;
@@ -1954,8 +1957,8 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0018
 			public const int src_over = 2131361816;
 			
-			// aapt resource value: 0x7f0a005f
-			public const int status_bar_latest_event_content = 2131361887;
+			// aapt resource value: 0x7f0a0060
+			public const int status_bar_latest_event_content = 2131361888;
 			
 			// aapt resource value: 0x7f0a0041
 			public const int submenuarrow = 2131361857;
@@ -1966,11 +1969,11 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a000b
 			public const int tabMode = 2131361803;
 			
-			// aapt resource value: 0x7f0a006f
-			public const int text = 2131361903;
+			// aapt resource value: 0x7f0a0070
+			public const int text = 2131361904;
 			
-			// aapt resource value: 0x7f0a006d
-			public const int text2 = 2131361901;
+			// aapt resource value: 0x7f0a006e
+			public const int text2 = 2131361902;
 			
 			// aapt resource value: 0x7f0a0035
 			public const int textSpacerNoButtons = 2131361845;
@@ -1978,8 +1981,8 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0034
 			public const int textSpacerNoTitle = 2131361844;
 			
-			// aapt resource value: 0x7f0a0065
-			public const int time = 2131361893;
+			// aapt resource value: 0x7f0a0066
+			public const int time = 2131361894;
 			
 			// aapt resource value: 0x7f0a002d
 			public const int title = 2131361837;
