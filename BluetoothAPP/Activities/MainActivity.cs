@@ -2,6 +2,7 @@
 using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
+using BluetoothAPP.Fragments;
 
 namespace BluetoothAPP
 {
@@ -18,10 +19,10 @@ namespace BluetoothAPP
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             toolbar.Title = "Hello from Xamarin Android!";
             SetSupportActionBar(toolbar);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
             toolbar.NavigationClick += (s, e) =>
             {
-                OnBackPressed();
+               OnBackPressed();
             };
 
             FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();

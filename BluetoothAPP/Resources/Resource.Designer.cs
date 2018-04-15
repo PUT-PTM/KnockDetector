@@ -1641,17 +1641,20 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f02005b
 			public const int notification_icon_background = 2130837595;
 			
-			// aapt resource value: 0x7f02005e
-			public const int notification_template_icon_bg = 2130837598;
-			
 			// aapt resource value: 0x7f02005f
-			public const int notification_template_icon_low_bg = 2130837599;
+			public const int notification_template_icon_bg = 2130837599;
+			
+			// aapt resource value: 0x7f020060
+			public const int notification_template_icon_low_bg = 2130837600;
 			
 			// aapt resource value: 0x7f02005c
 			public const int notification_tile_bg = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
 			public const int notify_panel_notification_icon_bg = 2130837597;
+			
+			// aapt resource value: 0x7f02005e
+			public const int xamarin = 2130837598;
 			
 			static Drawable()
 			{
@@ -1666,14 +1669,11 @@ namespace BluetoothAPP
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0a0056
-			public const int ProductImageView = 2131361878;
-			
 			// aapt resource value: 0x7f0a0057
 			public const int ProductNameTextView = 2131361879;
 			
-			// aapt resource value: 0x7f0a0073
-			public const int ProductPictureImageView = 2131361907;
+			// aapt resource value: 0x7f0a0056
+			public const int ProductPictureImageView = 2131361878;
 			
 			// aapt resource value: 0x7f0a005a
 			public const int ProductsListView = 2131361882;
