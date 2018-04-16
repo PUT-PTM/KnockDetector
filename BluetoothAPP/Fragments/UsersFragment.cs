@@ -26,8 +26,10 @@ namespace BluetoothAPP.Fragments
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+            var mainView = inflater.Inflate(Resource.Layout.UsersFragment, container, false);
 
-            return base.OnCreateView(inflater, container, savedInstanceState);
+
+            return mainView;
         }
     }
 }

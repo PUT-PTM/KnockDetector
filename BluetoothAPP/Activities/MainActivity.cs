@@ -5,6 +5,8 @@ using Android.Support.V7.App;
 using BluetoothAPP.Fragments;
 using Android.Content;
 using BluetoothAPP.Activities;
+using System;
+using Android.Views.InputMethods;
 
 namespace BluetoothAPP
 {
@@ -14,10 +16,10 @@ namespace BluetoothAPP
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Set our view from the "main" layout resource
+            
             SetContentView(Resource.Layout.MainActivity);
 
+            var layout = FindViewById<LinearLayout>(Resource.Id.loginLayout);
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             toolbar.Title = "Knock Detector";
             SetSupportActionBar(toolbar);
@@ -55,7 +57,15 @@ namespace BluetoothAPP
                     StartActivity(nextActivity);
                 }
             };
+
+            layout.Click += mRelativeLayout_Click;
+
             }
+        void mRelativeLayout_Click(object sender, EventArgs e)
+        {
+            InputMethodManager inputManager = (InputMethodManager)this.GetSystemService(Activity.InputMethodService);
+            inputManager.HideSoftInputFromWindow(this.CurrentFocus.WindowToken, HideSoftInputFlags.None);
+        }
     }
 }
 

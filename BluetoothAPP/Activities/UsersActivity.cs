@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using BluetoothAPP.Fragments;
 
 namespace BluetoothAPP.Activities
 {
@@ -30,8 +31,21 @@ namespace BluetoothAPP.Activities
                 OnBackPressed();
             };
 
+            FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
+            UsersFragment usersFragment = new UsersFragment();
+            fragmentTransaction.Add(Resource.Id.fragment_container, usersFragment, "USERS_FRAGMENT");
+            fragmentTransaction.Commit();
 
-            
+
+            FragmentManager.BackStackChanged += (s, e) =>
+            {
+               if (FragmentManager.BackStackEntryCount > 0)
+                  SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+               else SupportActionBar.SetDisplayHomeAsUpEnabled(false);
+
+            };
+
+
 
         }
     }
