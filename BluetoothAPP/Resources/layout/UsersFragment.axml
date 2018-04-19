@@ -5,9 +5,23 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
-    <Button
-        android:text="Button"
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1" />
+        android:layout_gravity="center"
+        android:id="@+id/txtStatus" />
+    <Button
+        android:text="Connect to STM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/connectBtn" />
+    <Button
+        android:text="Record"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/record" />
 </LinearLayout>

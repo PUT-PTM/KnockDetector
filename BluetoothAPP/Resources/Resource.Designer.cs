@@ -1753,9 +1753,6 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0022
 			public const int bottom = 2131361826;
 			
-			// aapt resource value: 0x7f0a0075
-			public const int button1 = 2131361909;
-			
 			// aapt resource value: 0x7f0a002e
 			public const int buttonPanel = 2131361838;
 			
@@ -1770,6 +1767,9 @@ namespace BluetoothAPP
 			
 			// aapt resource value: 0x7f0a001e
 			public const int collapseActionView = 2131361822;
+			
+			// aapt resource value: 0x7f0a0076
+			public const int connectBtn = 2131361910;
 			
 			// aapt resource value: 0x7f0a0031
 			public const int contentPanel = 2131361841;
@@ -1881,6 +1881,9 @@ namespace BluetoothAPP
 			
 			// aapt resource value: 0x7f0a0040
 			public const int radio = 2131361856;
+			
+			// aapt resource value: 0x7f0a0077
+			public const int record = 2131361911;
 			
 			// aapt resource value: 0x7f0a006a
 			public const int right_icon = 2131361898;
@@ -2007,6 +2010,9 @@ namespace BluetoothAPP
 			
 			// aapt resource value: 0x7f0a0039
 			public const int topPanel = 2131361849;
+			
+			// aapt resource value: 0x7f0a0075
+			public const int txtStatus = 2131361909;
 			
 			// aapt resource value: 0x7f0a0008
 			public const int up = 2131361800;

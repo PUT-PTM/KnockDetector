@@ -84,6 +84,7 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\UsersActivity.cs" />
     <Compile Include="Fragments\UsersFragment.cs" />
+    <Compile Include="Model\BluetoothManager.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
