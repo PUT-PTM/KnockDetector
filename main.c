@@ -67,7 +67,7 @@ void usart_rxtx(void)
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
 
     /* print welcome information */
-    UARTSend(welcome_str, sizeof(welcome_str));
+    //UARTSend(welcome_str, sizeof(welcome_str));
 }
 
 /*******************************************************************************
