@@ -12,7 +12,6 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using BluetoothAPP.Activities;
-using BluetoothAPP.Model;
 using Java.Util;
 
 namespace BluetoothAPP.Fragments
@@ -22,11 +21,10 @@ namespace BluetoothAPP.Fragments
         Activity activ = new UsersActivity();
         BluetoothDevice device;
         BluetoothAdapter adapter;
+        BluetoothSocket socket;
         Button btnConnect;
         Button record;
         TextView txtStatus;
-        BluetoothSocket socket;
-        private string data = null;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,34 +33,19 @@ namespace BluetoothAPP.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            //getting mainView layout
+            //Getting main fragment layout
             var mainView = inflater.Inflate(Resource.Layout.UsersFragment, container, false);
+            //Getting buttons and texts from layout
             record = mainView.FindViewById<Button>(Resource.Id.record);
             btnConnect = mainView.FindViewById<Button>(Resource.Id.connectBtn);
             txtStatus = mainView.FindViewById<TextView>(Resource.Id.txtStatus);
-            
-            /*
-            BluetoothManager bluetoothManager = new BluetoothManager();
-            bluetoothManager.getAllPairedDevices();
-
-            Thread thread = new Thread(() =>
-            {
-                while (true)
-                {
-                    data = bluetoothManager.getDataFromDevice();
-
-                }
-            });
-            thread.IsBackground = true;
-            thread.Start();
-            */
-
-
+           
+            //Event-Click handlers
             record.Click += BtnRecord_Click;
             btnConnect.Click += BtnConnect_Click;
 
+            //Enabling/Disabling button to press
             EnableOrDisableAllMainFunctions(false);
-
 
             return mainView;
         }
@@ -78,6 +61,7 @@ namespace BluetoothAPP.Fragments
         {
             try
             {
+                //Using default adapter of a phone
                 adapter = BluetoothAdapter.DefaultAdapter;
                 if (adapter == null)
                     throw new Exception("No Bluetooth adapter found.");
@@ -85,15 +69,17 @@ namespace BluetoothAPP.Fragments
                 if (!adapter.IsEnabled)
                     throw new Exception("Bluetooth adapter is not enabled.");
 
+                //Looking for HC-05 bluetooth adapter
                 device = (from bd in adapter.BondedDevices
                           where bd.Name == "HC-05"
                           select bd).FirstOrDefault();
 
                 if (device == null)
-                    throw new Exception("Raspberry Pi device not found.");
+                    throw new Exception("STM32 device not found.");
 
                 socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
                 await socket.ConnectAsync();
+                //Shows text on screen of app when STM connected
                 txtStatus.Text = "STM Connected";
                 EnableOrDisableAllMainFunctions(true);
                 btnConnect.Enabled = false;
@@ -108,13 +94,16 @@ namespace BluetoothAPP.Fragments
 
         void BtnRecord_Click(object sender, EventArgs e)
         {
+            //Sending 1 through bluetooth by Record Button
             RobotMainFunction("1");
         }
 
+        
         private async void RobotMainFunction(string strDirection)
         {
             try
             {
+                //Procedure that sends byte through socket
                 byte[] buffer = Encoding.ASCII.GetBytes(strDirection);
                 await socket.OutputStream.WriteAsync(buffer, 0, buffer.Length);
             }
