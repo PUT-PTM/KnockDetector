@@ -84,6 +84,7 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\UsersActivity.cs" />
     <Compile Include="Fragments\UsersFragment.cs" />
+    <Compile Include="Model\BluetoothManage.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -107,7 +108,6 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="Resources\mipmap-mdpi\mipmap-hdpi\" />
     <Folder Include="Resources\mipmap-xhdpi\" />
     <Folder Include="Resources\mipmap-xxhdpi\" />
