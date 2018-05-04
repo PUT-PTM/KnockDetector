@@ -259,3 +259,14 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+
+
+## Ignore STM32 temporary files, build results etc.
+
+*.exe
+*.o
+*.xml
+*.ld
+
+Debug/
