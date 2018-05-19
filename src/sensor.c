@@ -17,6 +17,14 @@
 #define Sensor_ADC_Channel ADC_Channel_0 //depends on GPIO pin
 
 
+uint16_t Sensor_GetSensorValue(void) {
+	while (ADC_GetFlagStatus(Sensor_ADC, ADC_FLAG_EOC) == RESET) {
+				 			;
+	}
+	return ADC_GetConversionValue(Sensor_ADC);
+}
+
+
 void Sensor_Configuration(void) {
 	Sensor_GPIO_Config();
 	Sensor_ADC_Config();
@@ -59,9 +67,3 @@ void Sensor_ADC_Config(void) {
 	ADC_SoftwareStartConv(Sensor_ADC);
 }
 
-uint16_t Sensor_GetSensorValue(void) {
-	while (ADC_GetFlagStatus(Sensor_ADC, ADC_FLAG_EOC) == RESET) {
-				 			;
-	}
-	return ADC_GetConversionValue(Sensor_ADC);
-}
