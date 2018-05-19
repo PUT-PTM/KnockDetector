@@ -8,6 +8,9 @@
 
 #include "sensor.h"
 
+static void Sensor_GPIO_Config(void);
+static void Sensor_ADC_Config(void);
+
 #define Sensor_GPIO_RCC RCC_AHB1Periph_GPIOA
 #define Sensor_GPIO_Port GPIOA
 #define Sensor_GPIO_Pin GPIO_Pin_0
@@ -15,6 +18,8 @@
 #define Sensor_ADC_RCC RCC_APB2Periph_ADC1
 #define Sensor_ADC ADC1
 #define Sensor_ADC_Channel ADC_Channel_0 //depends on GPIO pin
+
+
 
 
 uint16_t Sensor_GetSensorValue(void) {
@@ -30,7 +35,7 @@ void Sensor_Configuration(void) {
 	Sensor_ADC_Config();
 }
 
-void Sensor_GPIO_Config(void) {
+static void Sensor_GPIO_Config(void) {
 	RCC_AHB1PeriphClockCmd(Sensor_GPIO_RCC, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -40,7 +45,7 @@ void Sensor_GPIO_Config(void) {
 	GPIO_Init(Sensor_GPIO_Port, &GPIO_InitStructure);
 }
 
-void Sensor_ADC_Config(void) {
+static void Sensor_ADC_Config(void) {
 	RCC_APB2PeriphClockCmd(Sensor_ADC_RCC, ENABLE);
 
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
