@@ -8,7 +8,7 @@
 #ifndef MAINCONTROLLER_H_
 #define MAINCONTROLLER_H_
 
-
+#include "sensor.h"
 
 
 

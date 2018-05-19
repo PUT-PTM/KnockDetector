@@ -12,7 +12,7 @@
 
 uint16_t Sensor_GetSensorValue(void);
 void Sensor_Configuration(void);
-void Sensor_GPIO_Config(void);
-void Sensor_ADC_Config(void);
+static void Sensor_GPIO_Config(void);
+static void Sensor_ADC_Config(void);
 
 #endif /* SENSOR_H_ */
