@@ -171,7 +171,7 @@ void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
 
 
 
-int main(void) {
+int old_main(void) {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); // zegar dla modułu ADC1
 
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
