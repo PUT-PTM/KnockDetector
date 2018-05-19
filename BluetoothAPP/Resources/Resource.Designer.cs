@@ -1753,6 +1753,12 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0022
 			public const int bottom = 2131361826;
 			
+			// aapt resource value: 0x7f0a0079
+			public const int button1 = 2131361913;
+			
+			// aapt resource value: 0x7f0a007a
+			public const int button2 = 2131361914;
+			
 			// aapt resource value: 0x7f0a002e
 			public const int buttonPanel = 2131361838;
 			

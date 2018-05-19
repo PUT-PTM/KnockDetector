@@ -22,6 +22,8 @@ namespace BluetoothAPP.Fragments
         Activity activ = new UsersActivity();
         BluetoothManage bluetooth = new BluetoothManage();
 
+        Button btn1;
+        Button btn2;
         Button btnConnect;
         Button record;
         TextView txtStatus;
@@ -43,8 +45,8 @@ namespace BluetoothAPP.Fragments
             received = mainView.FindViewById<TextView>(Resource.Id.receivedText);
             string data = "";
             received.Text = "Didnt received anything yet!";
-         
-
+            btn1 = mainView.FindViewById<Button>(Resource.Id.button1);
+            btn2 = mainView.FindViewById<Button>(Resource.Id.button2);
 
 
 
@@ -52,13 +54,21 @@ namespace BluetoothAPP.Fragments
             record.Click += (s, e) =>
             {
                 bluetooth.BtnRecord_Click(s, e);
-                received.Text = bluetooth.getReceiver();
             };
             btnConnect.Click += (s, e) =>
             {
                 bluetooth.BtnConnect_Click(s, e, btnConnect, record, txtStatus);
             };
 
+            btn1.Click += (s, e) =>
+            {
+                bluetooth.Btn1_Click(s, e);
+            };
+
+            btn2.Click += (s, e) =>
+            {
+                received.Text = bluetooth.getReceiver();
+            };
 
             
             //Enabling/Disabling button to press

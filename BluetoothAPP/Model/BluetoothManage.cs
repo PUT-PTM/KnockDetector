@@ -79,8 +79,19 @@ namespace BluetoothAPP.Model
         public void BtnRecord_Click(object sender, EventArgs e)
         {
             //Sending 1 through bluetooth by Record Button
-            RobotMainFunction("1");
+            RobotMainFunction("2");
+        }
+
+
+        public void Btn1_Click(object sender, EventArgs e)
+        {
             Read();
+        }
+
+
+        public void Btn2_Click(object sender, EventArgs e)
+        {
+            
         }
 
 
@@ -101,12 +112,18 @@ namespace BluetoothAPP.Model
 
         public async void Read()
         {
+            //int i = 0;
             byte[] buffer = new byte[256];
             try
             {
-                //Procedure that reads bytes through socket
-                await socket.InputStream.ReadAsync(buffer, 0, 256);
-                receiver = System.Text.Encoding.ASCII.GetString(buffer);
+                while (socket.InputStream.IsDataAvailable())
+                {
+                    //Procedure that reads bytes through socket
+                    await socket.InputStream.ReadAsync(buffer, 0, 256);
+                    receiver += System.Text.Encoding.ASCII.GetString(buffer);
+                    //await reader.ReadAsync(System.Text.Encoding.ASCII.GetString(buffer).ToCharArray());
+                    //receiver = socket.InputStream..ReadLine();
+                }
             }
             catch (Exception ex)
             {
