@@ -41,7 +41,7 @@ void Sensor_GPIO_Config(void) {
 }
 
 void Sensor_ADC_Config(void) {
-	RCC_APB2PeriphClockCmd(Sensor_ADC_RCC, ENABLE); // zegar dla modułu ADC1
+	RCC_APB2PeriphClockCmd(Sensor_ADC_RCC, ENABLE);
 
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
