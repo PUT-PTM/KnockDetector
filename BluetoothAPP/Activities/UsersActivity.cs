@@ -39,13 +39,10 @@ namespace BluetoothAPP.Activities
 
             FragmentManager.BackStackChanged += (s, e) =>
             {
-               if (FragmentManager.BackStackEntryCount > 0)
-                  SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-               else SupportActionBar.SetDisplayHomeAsUpEnabled(false);
-
+                if (FragmentManager.BackStackEntryCount > 0)
+                    SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                else SupportActionBar.SetDisplayHomeAsUpEnabled(false);
             };
-
-
 
         }
     }

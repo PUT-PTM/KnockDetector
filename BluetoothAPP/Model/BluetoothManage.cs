@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Bluetooth;
 using Android.Content;
@@ -9,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Java.IO;
 using Java.Util;
 
 namespace BluetoothAPP.Model
@@ -19,7 +22,19 @@ namespace BluetoothAPP.Model
         BluetoothDevice device;
         BluetoothAdapter adapter;
         BluetoothSocket socket;
+        private BufferedReader reader;
+        private string receiver;
 
+        public string getReceiver()
+        {
+            return receiver;
+        }
+
+        public BluetoothManage()
+        {
+            this.reader = null;
+            this.receiver = "";
+        }
 
         public void EnableOrDisableAllMainFunctions(bool isEnabled, Button record)
         {
@@ -65,6 +80,7 @@ namespace BluetoothAPP.Model
         {
             //Sending 1 through bluetooth by Record Button
             RobotMainFunction("1");
+            Read();
         }
 
 
@@ -81,5 +97,53 @@ namespace BluetoothAPP.Model
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);
             }
         }
+
+
+        public async void Read()
+        {
+            byte[] buffer = new byte[256];
+            try
+            {
+                //Procedure that reads bytes through socket
+                await socket.InputStream.ReadAsync(buffer, 0, 256);
+                receiver = System.Text.Encoding.ASCII.GetString(buffer);
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(activ, ex.Message, ToastLength.Short);
+            }
+        }
+
+
+        public string getDataFromDevice()
+        {
+            try
+            {
+                return reader.ReadLine();
+            }
+            catch(NullReferenceException e)
+            {
+
+            }
+            return "";
+        }
+
+        /*
+        public static async Task<byte[]> ReadFromSocket()
+        {
+            using (var output = new MemoryStream())
+            {
+                var bytesCopied = await InputStream.CoAsync(socket.InputStream, output.AsOutputStream());
+                if (bytesCopied > 0)
+                    return output.ToArray();
+            }
+            return new byte[0];
+        }*/
+        /*
+        public static IAsyncOperationWithProgress<uint, uint> WriteToSocket(StreamSocket socket, byte[] bytes)
+        {
+            return socket.OutputStream.WriteAsync(bytes.AsBuffer());
+        }*/
+
     }
 }

@@ -1882,6 +1882,9 @@ namespace BluetoothAPP
 			// aapt resource value: 0x7f0a0040
 			public const int radio = 2131361856;
 			
+			// aapt resource value: 0x7f0a0078
+			public const int receivedText = 2131361912;
+			
 			// aapt resource value: 0x7f0a0077
 			public const int record = 2131361911;
 			
