@@ -10,4 +10,9 @@
 
 #include "stm32f4xx.h"
 
+uint16_t Sensor_GetSensorValue(void);
+void Sensor_Configuration(void);
+void Sensor_GPIO_Config(void);
+void Sensor_ADC_Config(void);
+
 #endif /* SENSOR_H_ */
