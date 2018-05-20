@@ -34,8 +34,10 @@ void Zaswiec(void) {
 
 int main(void)
 {
+	/* Only for tests */
 	Sensor_Configuration();
 	DiodesOnBoard_Config();
+
 	Zaswiec();
 	for(;;);
 }

@@ -9,7 +9,7 @@
 #define MAINCONTROLLER_H_
 
 #include "sensor.h"
-
+#include "sdmodule.h"
 
 
 #endif /* MAINCONTROLLER_H_ */
