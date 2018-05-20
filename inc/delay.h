@@ -1,5 +1,7 @@
 #ifndef _DELAY_H
 #define _DELAY_H
+#include "stm32f4xx.h"
+
 
 void delay_init( uint8_t SYSCLK );
 
