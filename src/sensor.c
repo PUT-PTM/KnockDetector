@@ -35,7 +35,8 @@ void Sensor_Configuration(void) {
 	Sensor_ADC_Config();
 }
 
-static void Sensor_GPIO_Config(void) {
+static
+void Sensor_GPIO_Config(void) {
 	RCC_AHB1PeriphClockCmd(Sensor_GPIO_RCC, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -45,7 +46,8 @@ static void Sensor_GPIO_Config(void) {
 	GPIO_Init(Sensor_GPIO_Port, &GPIO_InitStructure);
 }
 
-static void Sensor_ADC_Config(void) {
+static
+void Sensor_ADC_Config(void) {
 	RCC_APB2PeriphClockCmd(Sensor_ADC_RCC, ENABLE);
 
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
