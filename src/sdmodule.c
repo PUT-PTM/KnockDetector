@@ -28,9 +28,9 @@ void SDmodule_Configuration(void) {
 	SPI_SD_Init();
 }
 
-char* SDmodule_ReadFile(char* fileName) {
+char* SDmodule_ReadFile(char* fileName, UINT loadedBytes) {
 	FIL file;
-	UINT loadedBytes = 0;
+	loadedBytes = 0;
 	char * buffer;
 	fresult = f_mount(0, &fatfs);
 
