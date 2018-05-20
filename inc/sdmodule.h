@@ -17,4 +17,9 @@
 #define SDmodule_MaxFileSize Database_NumberOfUsers*Database_TupleSize
 #define SDmodule_EndOfFileSymbol '$'
 
+void SDmodule_Configuration(void);
+char* SDmodule_ReadFile(char* fileName, UINT loadedBytes);
+uint8_t SDmodule_WriteFile(char * fileName, char * fileContent);
+
+
 #endif /* SDMODULE_H_ */

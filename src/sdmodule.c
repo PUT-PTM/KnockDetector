@@ -18,6 +18,7 @@
 
 
 FATFS fatfs;
+FIL file;
 static FRESULT fresult;
 
 void SDmodule_Configuration(void) {
@@ -29,7 +30,6 @@ void SDmodule_Configuration(void) {
 }
 
 char* SDmodule_ReadFile(char* fileName, UINT loadedBytes) {
-	FIL file;
 	loadedBytes = 0;
 	char * buffer;
 	fresult = f_mount(0, &fatfs);
@@ -39,9 +39,9 @@ char* SDmodule_ReadFile(char* fileName, UINT loadedBytes) {
 
 		if (fresult == FR_OK) {
 			int fileSize = f_size(&file);
-			fresult = f_read(&file, buffer, fileSize, &loadedBytes);
+			fresult = f_read(&file, &buffer, 6, &loadedBytes);
 
-			buffer[fileSize] = SDmodule_EndOfFileSymbol; //end of file
+			/*buffer[fileSize] = SDmodule_EndOfFileSymbol; //end of file*/
 			fresult = f_close(&file);
 			return buffer;
 		} else {
@@ -52,10 +52,10 @@ char* SDmodule_ReadFile(char* fileName, UINT loadedBytes) {
 	else {
 		/* TO DO: ERROR CODE */
 	}
+	return(buffer);
 }
 
 uint8_t SDmodule_WriteFile(char * fileName, char * fileContent) {
-	FIL file;
 	unsigned int storedBytes;
 	int fileContentSize = SDmodule_MaxFileSize;
 

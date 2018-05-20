@@ -14,7 +14,7 @@
 
 #define DIODES_ON_BOARD  GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15
 
-char* filename = "20_05_2018.txt";
+char* filename = "testtt.txt";
 char* buffer= "123456789";
 
 void DiodesOnBoard_Config(void) {
@@ -39,8 +39,13 @@ int main(void) {
 	/* Only for tests */
 	Sensor_Configuration();
 	DiodesOnBoard_Config();
-	if(!SDmodule_WriteFile(filename, buffer)){
-		Zaswiec();
+	SDmodule_Configuration();
+	UINT loadedBytes=0;
+	char * dane = SDmodule_ReadFile(filename, loadedBytes);
+	char c2[10];
+	strcpy(c2, dane);
+	if (c2[0]=='1') {
+	Zaswiec();
 	}
 	for (;;)
 		;
