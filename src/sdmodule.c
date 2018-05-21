@@ -17,8 +17,8 @@
 
 
 
-FATFS fatfs;
-FIL file;
+static FATFS fatfs;
+static FIL file;
 static FRESULT fresult;
 
 void SDmodule_Configuration(void) {
