@@ -8,6 +8,7 @@
 #ifndef SDMODULE_H_
 #define SDMODULE_H_
 
+#include <string.h>
 #include "delay.h"
 #include "fpu.h"
 #include "spi_sd.h"
