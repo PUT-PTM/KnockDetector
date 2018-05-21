@@ -31,7 +31,7 @@ void SDmodule_Configuration(void) {
 
 uint8_t SDmodule_ReadFile(char* file_name, char * buffer, UINT * loaded_bytes) {
 	int file_size = 0;
-	UINT loaded_bytes_nonptr=0;
+	UINT loaded_bytes_nonptr=0; /* For copy to loaded_bytes */
 
 	fresult = f_mount(0, &fatfs);
 
@@ -42,7 +42,6 @@ uint8_t SDmodule_ReadFile(char* file_name, char * buffer, UINT * loaded_bytes) {
 			file_size = f_size(&file);
 			fresult = f_read(&file, &buffer[0], file_size, &loaded_bytes_nonptr);
 			*loaded_bytes=loaded_bytes_nonptr;
-			/*buffer[fileSize] = SDmodule_EndOfFileSymbol; //end of file*/
 			fresult = f_close(&file);
 		}
 	}
