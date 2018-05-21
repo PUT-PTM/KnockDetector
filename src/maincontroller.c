@@ -40,13 +40,12 @@ int main(void) {
 	Sensor_Configuration();
 	DiodesOnBoard_Config();
 	SDmodule_Configuration();
-	UINT loadedBytes=0;
-	char * dane = SDmodule_ReadFile(filename, loadedBytes);
-	char c2[10];
-	strcpy(c2, dane);
-	if (c2[0]=='1') {
+	UINT loadedBytes;
+	char dane[6];
+	SDmodule_ReadFile(filename, &dane, &loadedBytes);
+	/*if (c2[0]=='1') {
 	Zaswiec();
-	}
+	}*/
 	for (;;)
 		;
 }
