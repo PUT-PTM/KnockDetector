@@ -41,7 +41,7 @@ int main(void) {
 	DiodesOnBoard_Config();
 	SDmodule_Configuration();
 	UINT loadedBytes;
-	char dane[6];
+	char dane[3000];
 	SDmodule_ReadFile(filename, &dane, &loadedBytes);
 	/*if (c2[0]=='1') {
 	Zaswiec();
