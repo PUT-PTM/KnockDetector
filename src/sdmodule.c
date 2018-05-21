@@ -51,8 +51,8 @@ uint8_t SDmodule_ReadFile(char* file_name, char * buffer, UINT * loaded_bytes) {
 
 uint8_t SDmodule_WriteFile(char * file_name, char * file_content) {
 	unsigned int storedbytes;
-	int file_content_size = SDmodule_MaxFileSize;
-
+	int file_content_size;
+	file_content_size=strlen(file_content);
 	fresult = f_mount(0, &fatfs);
 
 	if (fresult == FR_OK) {
