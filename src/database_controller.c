@@ -23,9 +23,9 @@ DATABASE_Result Database_ChangeSecretCode(Database_USER_ID id, Database_USER_Sec
 		 * and Database_SaveChanges */
 }
 DATABASE_Result Database_GetDatabase(void) {
-	/* It is for bluetooth module */
+	/* It is for bluetooth module, just send structure, no SD loading */
 }
-DATABASE_Result Database_AddUser(Database_USER_DATA) {
+DATABASE_Result Database_AddUser(Database_USER_DATA usr) {
 
 }
 
