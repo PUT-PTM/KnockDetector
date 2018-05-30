@@ -10,7 +10,6 @@
 
 #include "stm32f4xx.h"
 
-#define Database_USER_ID_Size 20
 #define Database_USER_Name_Size 20
 #define Database_USER_CreationDate_Size 20
 #define Database_USER_SecretCode_Size 20
