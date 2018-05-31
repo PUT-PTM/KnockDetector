@@ -28,6 +28,9 @@ namespace BluetoothAPP.Fragments
         Button record;
         TextView txtStatus;
         TextView received;
+        ListView usersList;
+        List<string> users;
+
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,9 +39,27 @@ namespace BluetoothAPP.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            var mainView = inflater.Inflate(Resource.Layout.UsersList, container, false);
+            //usersList = mainView.FindViewById<ListView>(Resource.Id.allUsers);
+            users = new List<string>
+            {
+                "Szymon",
+                "Przemek",
+                "Jakub"
+            };
+
+            //ArrayAdapter<string> adapter = new ArrayAdapter<string>(mainView, Android.Resource.Layout.SimpleListItem1, users);
+            //usersList.Adapter = adapter;
+
+            return mainView;
+        }
+
+        public void storingCopy()
+        {
             //Getting main fragment layout
-            var mainView = inflater.Inflate(Resource.Layout.UsersFragment, container, false);
+            //var mainView = inflater.Inflate(Resource.Layout.UsersFragment, container, false);
             //Getting buttons and texts from layout
+            /*
             record = mainView.FindViewById<Button>(Resource.Id.record);
             btnConnect = mainView.FindViewById<Button>(Resource.Id.connectBtn);
             txtStatus = mainView.FindViewById<TextView>(Resource.Id.txtStatus);
@@ -55,6 +76,7 @@ namespace BluetoothAPP.Fragments
             {
                 bluetooth.BtnRecord_Click(s, e);
             };
+
             btnConnect.Click += (s, e) =>
             {
                 bluetooth.BtnConnect_Click(s, e, btnConnect, record, txtStatus);
@@ -70,12 +92,12 @@ namespace BluetoothAPP.Fragments
                 received.Text = bluetooth.getReceiver();
             };
 
-            
+
             //Enabling/Disabling button to press
             bluetooth.EnableOrDisableAllMainFunctions(false, record);
-            
 
-            return mainView;
+            */
+            //return mainView;
         }
     }
 }

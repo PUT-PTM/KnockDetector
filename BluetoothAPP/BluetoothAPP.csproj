@@ -83,8 +83,11 @@
   <ItemGroup>
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\UsersActivity.cs" />
+    <Compile Include="Adapters\UsersViewAdapter.cs" />
     <Compile Include="Fragments\UsersFragment.cs" />
     <Compile Include="Model\BluetoothManage.cs" />
+    <Compile Include="Model\DatabaseHolder.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,7 +100,7 @@
     <AndroidResource Include="Resources\layout\UsersActivity.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\UsersFragment.axml">
+    <AndroidResource Include="Resources\layout\UsersList.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

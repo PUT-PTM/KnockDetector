@@ -22,9 +22,14 @@ namespace BluetoothAPP.Model
         BluetoothDevice device;
         BluetoothAdapter adapter;
         BluetoothSocket socket;
-        private BufferedReader reader;
+        Boolean continuous;
         private string receiver;
 
+
+        public Boolean getContinuous()
+        {
+            return continuous;
+        }
         public string getReceiver()
         {
             return receiver;
@@ -32,8 +37,8 @@ namespace BluetoothAPP.Model
 
         public BluetoothManage()
         {
-            this.reader = null;
             this.receiver = "";
+            this.continuous = false;
         }
 
         public void EnableOrDisableAllMainFunctions(bool isEnabled, Button record)
@@ -41,10 +46,11 @@ namespace BluetoothAPP.Model
             record.Enabled = isEnabled;
         }
 
-        public async void BtnConnect_Click(object sender, EventArgs e, Button btnConnect, Button record, TextView txtStatus)
+        public async void BtnConnect_Click()
         {
             try
             {
+
                 //Using default adapter of a phone
                 adapter = BluetoothAdapter.DefaultAdapter;
                 if (adapter == null)
@@ -64,44 +70,43 @@ namespace BluetoothAPP.Model
                 socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
                 await socket.ConnectAsync();
                 //Shows text on screen of app when STM connected
-                txtStatus.Text = "STM Connected";
-                EnableOrDisableAllMainFunctions(true, record);
-                btnConnect.Enabled = false;
+                //txtStatus.Text = "STM Connected";
+                //EnableOrDisableAllMainFunctions(true, record);
+                //btnConnect.Enabled = false;
             }
             catch (Exception ex)
             {
-                txtStatus.Text = ex.Message;
+                //txtStatus.Text = ex.Message;
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);
             }
+            
         }
 
 
-        public void BtnRecord_Click(object sender, EventArgs e)
+        public void writingSignal()
         {
             //Sending 1 through bluetooth by Record Button
-            RobotMainFunction("2");
+            Write("2");
         }
 
 
-        public void Btn1_Click(object sender, EventArgs e)
+        public void readData()
         {
             Read();
         }
 
 
-        public void Btn2_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-
-        private async void RobotMainFunction(string strDirection)
+        public async void Write(string strDirection)
         {
             try
             {
-                //Procedure that sends byte through socket
-                byte[] buffer = Encoding.ASCII.GetBytes(strDirection);
-                await socket.OutputStream.WriteAsync(buffer, 0, buffer.Length);
+                while (socket.IsConnected == false) { }
+                if (socket.IsConnected)
+                {
+                    //Procedure that sends byte through socket
+                    byte[] buffer = Encoding.ASCII.GetBytes(strDirection);
+                    await socket.OutputStream.WriteAsync(buffer, 0, buffer.Length);
+                }
             }
             catch (Exception ex)
             {
@@ -112,55 +117,25 @@ namespace BluetoothAPP.Model
 
         public async void Read()
         {
-            //int i = 0;
             byte[] buffer = new byte[256];
             try
             {
-                while (socket.InputStream.IsDataAvailable())
-                {
-                    //Procedure that reads bytes through socket
-                    await socket.InputStream.ReadAsync(buffer, 0, 256);
-                    receiver += System.Text.Encoding.ASCII.GetString(buffer);
-                    //await reader.ReadAsync(System.Text.Encoding.ASCII.GetString(buffer).ToCharArray());
-                    //receiver = socket.InputStream..ReadLine();
-                }
-            }
+                //while (socket.IsConnected == false) { }
+
+                //if (socket.IsConnected)
+                //{
+                    while (socket.InputStream.IsDataAvailable())
+                    {
+                        //Procedure that reads bytes through socket
+                        await socket.InputStream.ReadAsync(buffer, 0, 256);
+                        DatabaseHolder.holdingString = System.Text.Encoding.ASCII.GetString(buffer).ToCharArray();
+                    }
+                //}
+            } 
             catch (Exception ex)
             {
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);
             }
         }
-
-
-        public string getDataFromDevice()
-        {
-            try
-            {
-                return reader.ReadLine();
-            }
-            catch(NullReferenceException e)
-            {
-
-            }
-            return "";
-        }
-
-        /*
-        public static async Task<byte[]> ReadFromSocket()
-        {
-            using (var output = new MemoryStream())
-            {
-                var bytesCopied = await InputStream.CoAsync(socket.InputStream, output.AsOutputStream());
-                if (bytesCopied > 0)
-                    return output.ToArray();
-            }
-            return new byte[0];
-        }*/
-        /*
-        public static IAsyncOperationWithProgress<uint, uint> WriteToSocket(StreamSocket socket, byte[] bytes)
-        {
-            return socket.OutputStream.WriteAsync(bytes.AsBuffer());
-        }*/
-
     }
 }
