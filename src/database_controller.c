@@ -22,8 +22,11 @@ Database_RESULT Database_ChangeName(Database_USER_ID id,
 	/* TO DO: Database_Users -> iteration, find, change,
 	 * and Database_SaveChanges */
 	int i;
-	for (i = 0; Database_Users[i].id != id; ++i)
-		;
+	for (i = 0; Database_Users[i].id != id; ++i) {
+		if (i >= Database_MaxNumberOfUsers) {
+			return UNKNOWN_ID;
+		}
+	}
 	memcpy(Database_Users[i].name, name, sizeof(Database_USER_Name));
 	Database_SaveChanges();
 	return DB_OK;
@@ -44,7 +47,8 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	for (i = 0; Database_Users[i].id != id; ++i) {
 
 	}
-	memcpy(Database_Users[i].secret_code, secretcode, sizeof(Database_USER_SecretCode));
+	memcpy(Database_Users[i].secret_code, secretcode,
+			sizeof(Database_USER_SecretCode));
 	Database_SaveChanges();
 	return DB_OK;
 }
@@ -83,7 +87,7 @@ static Database_RESULT Database_SaveChanges(void) {
 }
 
 static Database_RESULT Database_ReadDatabaseFromFile() {
-	char  buffer[Database_MaximumSize];
+	char buffer[Database_MaximumSize];
 	UINT loadedBytes = 0;
 	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
 	numberOfUsers = loadedBytes / Database_TupleSize;

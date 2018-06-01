@@ -15,6 +15,7 @@
 
 typedef enum {
 	DB_OK = 0,
+	UNKNOWN_ID = 1,
 	DB_SDERROR,
 } Database_RESULT;
 
