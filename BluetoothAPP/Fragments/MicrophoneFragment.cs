@@ -15,6 +15,8 @@ namespace BluetoothAPP.Fragments
 {
     public class MicrophoneFragment : Fragment
     {
+
+        Button record;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -24,9 +26,17 @@ namespace BluetoothAPP.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var mainView = inflater.Inflate(Resource.Layout.MicrophoneLayout, container, false);
+            var view = inflater.Inflate(Resource.Layout.MicrophoneLayout, container, false);
+            record = view.FindViewById<Button>(Resource.Id.recordButton);
 
-            return mainView;
+            record.Click += Record_Click;
+
+            return view;
+        }
+
+        private void Record_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

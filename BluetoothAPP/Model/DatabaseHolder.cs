@@ -43,6 +43,7 @@ namespace BluetoothAPP.Model
             return charsToInt(holdingString[start], holdingString[end]);
         }
         
+        
 
         public static int howManyUsers()
         {

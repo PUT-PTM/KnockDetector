@@ -41,23 +41,10 @@ namespace BluetoothAPP
             {
                OnBackPressed();
             };
-
-            //FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
-            //MainFragment mainFragment = new MainFragment();
-            //fragmentTransaction.Add(Resource.Id.fragment_container, mainFragment, "MAIN_FRAGMENT");
-            //fragmentTransaction.Commit();
-
-            //FragmentManager.BackStackChanged += (s, e) =>
-            //{
-            //   if (FragmentManager.BackStackEntryCount > 0)
-            //      SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            // else SupportActionBar.SetDisplayHomeAsUpEnabled(false);
-
-            //}
+            
 
             bluetoothMan.BtnConnect_Click();
             bluetoothMan.Write("2");
-            //bluetoothMan.Read();
 
 
 

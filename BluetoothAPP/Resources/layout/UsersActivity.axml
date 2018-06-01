@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
-    android:minWidth="25px"
-    android:minHeight="25px">
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/myListView" />
-</FrameLayout>
+    android:orientation="vertical">
+  <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/toolbar"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:fitsSystemWindows="true"
+      android:background="@android:color/holo_blue_light" />
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/container" />
+</LinearLayout>
