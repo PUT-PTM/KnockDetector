@@ -28,9 +28,9 @@ typedef struct {
 	Database_USER_SecretCode secret_code;
 } Database_USER_DATA;
 
-#define Database_NumberOfUsers 20
+#define Database_MaxNumberOfUsers 20
 #define Database_TupleSize sizeof(Database_USER_DATA)
-#define Database_MaximumSize Database_NumberOfUsers*Database_TupleSize
+#define Database_MaximumSize Database_MaxNumberOfUsers*Database_TupleSize
 
 #define Database_File "database.txt"
 

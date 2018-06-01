@@ -11,15 +11,17 @@
 #include "database_parameters.h"
 #include "sdmodule.h"
 
+
+
 typedef enum {
 	DB_OK = 0,
 	DB_SDERROR,
-} DATABASE_Result;
+} Database_RESULT;
 
-DATABASE_Result Database_ChangeName(Database_USER_ID id, Database_USER_Name name);
-DATABASE_Result Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode);
-DATABASE_Result Database_GetDatabase(void);
-DATABASE_Result Database_AddUser(Database_USER_DATA);
+Database_RESULT Database_ChangeName(Database_USER_ID id, Database_USER_Name name);
+Database_RESULT Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode);
+Database_RESULT Database_GetDatabase(void);
+Database_RESULT Database_AddUser(Database_USER_DATA);
 void Database_Configuration(void);
 
 

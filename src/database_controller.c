@@ -1,78 +1,103 @@
 /*
- * database_controller.c
+ * database_controller.h
  *
  *  Created on: 21.05.2018
  *      Author: HP 8560w
  */
 
 #include "database_controller.h"
+#include <stdlib.h>
 
-Database_USER_DATA Database_Users[Database_NumberOfUsers];
-static const char * Database_FilePath = Database_File;
+Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
+static char * Database_FilePath = Database_File;
 Database_USER_ID Database_LastID;
-DATABASE_Result error_code;
+Database_RESULT error_code;
+int numberOfUsers;
 
+static Database_RESULT Database_ReadDatabaseFromFile(void);
+static Database_RESULT Database_SaveChanges(void);
 
-
-DATABASE_Result Database_ChangeName(Database_USER_ID id, Database_USER_Name name) {
+Database_RESULT Database_ChangeName(Database_USER_ID id,
+		Database_USER_Name name) {
 	/* TO DO: Database_Users -> iteration, find, change,
 	 * and Database_SaveChanges */
+	int i;
+	for (i = 0; Database_Users[i].id != id; ++i)
+		;
+	memcpy(Database_Users[i].name, name, sizeof(Database_USER_Name));
+	Database_SaveChanges();
+	return DB_OK;
 }
-DATABASE_Result Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode) {
+
+uint16_t charsToInt16(char char1, char char2) {
+	uint16_t ret = 0;
+	ret |= char1 << 8;
+	ret |= char2;
+	return ret;
+}
+
+Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
+		Database_USER_SecretCode secretcode) {
 	/* TO DO: Database_Users -> iteration, find, change,
-		 * and Database_SaveChanges */
+	 * and Database_SaveChanges */
+	int i;
+	for (i = 0; Database_Users[i].id != id; ++i) {
+
+	}
+	memcpy(Database_Users[i].secret_code, secretcode, sizeof(Database_USER_SecretCode));
+	Database_SaveChanges();
+	return DB_OK;
 }
-DATABASE_Result Database_GetDatabase(void) {
+
+Database_RESULT Database_GetDatatabase(void) {
 	/* It is for bluetooth module, just send structure, no SD loading */
+	return DB_OK;
 }
-DATABASE_Result Database_AddUser(Database_USER_DATA usr) {
-
+Database_RESULT Database_AddUser(Database_USER_DATA usr) {
+	Database_Users[numberOfUsers] = usr;
+	++numberOfUsers;
+	return DB_OK;
 }
 
+Database_RESULT Database_DeleteUser(Database_USER_ID id) {
+	int index;
+	for (index = 0; Database_Users[index].id != id; ++index) {
+	}
+	--numberOfUsers;
+	for (; index < numberOfUsers; ++index) { //clean array after deleting
+		Database_Users[index] = Database_Users[index + 1];
+	}
+	return DB_OK;
+}
 
-void Database_Configuration(void){
+void Database_Configuration(void) {
 	SDmodule_Configuration();
 	Database_LoadDatabase();
 }
 
-static DATABASE_Result Database_SaveChanges(void) {
+static Database_RESULT Database_SaveChanges(void) {
 	Database_SaveDatabase();
 	Database_LoadDatabase();
 	/* TO DO: return of the code with higher value */
+	return DB_OK;
 }
 
-static DATABASE_Result Database_SaveDatabase(void) {
-	/* TO DO: Zapisanie struktury do tablicy charow */
-}
-
-
-static DATABASE_Result Database_LoadDatabase(void) {
-	char * database_data;
-	Database_ReadDatabaseFromFile(&database_data);
-	/* TO DO: Przetworzenie tablicy charow i zapisanie do tablicy uzytkownikow Database_Users */
-
-}
-
-
-static DATABASE_Result Database_ReadDatabaseFromFile(char * database_data) {
-	char * buffer[Database_MaximumSize];
-	UINT loadedBytes=0;
-	SDModule_ReadFile(Database_FilePath, &buffer, &loadedBytes);
+static Database_RESULT Database_ReadDatabaseFromFile() {
+	char  buffer[Database_MaximumSize];
+	UINT loadedBytes = 0;
+	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
+	numberOfUsers = loadedBytes / Database_TupleSize;
+	memcpy(Database_Users, &buffer[0], loadedBytes);
+	return DB_OK;
 	/* TO DO: Skrocenie buffer do loadedBytes i zapisanie do */
 
 }
 
-static DATABASE_Result Database_WriteDatabaseToFile(void) {
-
-	SDmodule_WriteFile(filename, char * file_content);
-
+static Database_RESULT Database_WriteDatabaseToFile(void) {
+	char *file_content = malloc(Database_TupleSize * numberOfUsers);
+	memcpy(file_content, Database_Users, Database_TupleSize * numberOfUsers);
+	SDmodule_WriteFile(Database_FilePath, file_content);
+	free(file_content);
+	return DB_OK;
 
 }
-
-
-
-
-
-
-
-
