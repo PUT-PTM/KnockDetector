@@ -23,20 +23,13 @@ Database_RESULT Database_ChangeName(Database_USER_ID id,
 	 * and Database_SaveChanges */
 	int i;
 	for (i = 0; Database_Users[i].id != id; ++i) {
-		if (i >= Database_MaxNumberOfUsers) {
+		/*if (i >= Database_MaxNumberOfUsers) {
 			return UNKNOWN_ID;
-		}
+		}*/
 	}
 	memcpy(Database_Users[i].name, name, sizeof(Database_USER_Name));
 	Database_SaveChanges();
 	return DB_OK;
-}
-
-uint16_t charsToInt16(char char1, char char2) {
-	uint16_t ret = 0;
-	ret |= char1 << 8;
-	ret |= char2;
-	return ret;
 }
 
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
