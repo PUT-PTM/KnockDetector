@@ -199,9 +199,7 @@ void ControlProgram(void) {
 			} else if (Detector_Current_Mode == RECORD) {
 				ResetRecordedCode();
 				CopyRegisteredCodeToRecordedCode();
-				/* Save sequence to concrete ID
-				 * Send ACK to bluetooth app*/
-				/* TO DO: Save sequence or wait for bluetooth app */
+				Detector_DisableRecordMode();
 			}
 
 		} else if (Detector_ThresholdExceeded_Flag == TRUE) {
