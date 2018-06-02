@@ -99,5 +99,7 @@ static Database_RESULT Database_WriteDatabaseToFile(void) {
 	SDmodule_WriteFile(Database_FilePath, file_content);
 	free(file_content);
 	return DB_OK;
-
 }
+
+
+
