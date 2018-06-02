@@ -36,7 +36,7 @@ uint16_t ExtractId(char ch0, char ch1) {
 
 void USART3_IRQHandler(void) {
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
-		if (input[inputIndex] = USART_ReceiveData(USART3)) {
+		if ((input[inputIndex] = USART_ReceiveData(USART3))!='\a') {
 
 		} else {
 			InterpretInput();
