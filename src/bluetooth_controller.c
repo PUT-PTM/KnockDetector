@@ -123,10 +123,23 @@ static void InterpretInput(void) {
 		Database_DeleteUser(id);
 	} else if (CheckCommand(input, "CHNCD")) {
 
+
+		//to-do get code using detector
+
+
+		Database_USER_SecretCode secret_code;
+		memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
+		Database_ChangeCode(secret_code);
 	} else if (CheckCommand(input, "RECCD")) {
 
-	} else if (CheckCommand(input, "GETDB")) {
 
+		//to-do get code using detector
+
+
+		Database_USER_SecretCode secret_code;
+		memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
+	} else if (CheckCommand(input, "GETDB")) {
+		Database_GetDatatabase();
 	} else if (CheckCommand(input, "CHNUD")) {
 
 	} else {
