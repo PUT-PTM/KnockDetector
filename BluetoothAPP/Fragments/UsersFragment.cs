@@ -85,12 +85,22 @@ namespace BluetoothAPP.Fragments
 
         private void DeleteBtn_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            alertDialogAndroid.Dismiss();
+            FragmentTransaction transaction = FragmentManager.BeginTransaction();
+            DeleteFragment deleteFragment = new DeleteFragment();
+            transaction.Replace(Resource.Id.container, deleteFragment, "DELETE_FRAGMENT");
+            transaction.AddToBackStack("DELETE_FRAGMENT");
+            transaction.Commit();
         }
 
         private void EditBtn_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            alertDialogAndroid.Dismiss();
+            FragmentTransaction transaction = FragmentManager.BeginTransaction();
+            EditFragment editFragment = new EditFragment();
+            transaction.Replace(Resource.Id.container, editFragment, "EDIT_FRAGMENT");
+            transaction.AddToBackStack("EDIT_FRAGMENT");
+            transaction.Commit();
         }
 
         void creatingUser(int i)

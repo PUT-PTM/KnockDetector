@@ -41,10 +41,12 @@ namespace BluetoothAPP
             {
                OnBackPressed();
             };
-            
 
-            bluetoothMan.BtnConnect_Click();
-            bluetoothMan.Write("2");
+
+            BluetoothHolder.bluetoothManage.BtnConnect_Click();
+            BluetoothHolder.bluetoothManage.Write("2");
+            //bluetoothMan.BtnConnect_Click();
+            //bluetoothMan.Write("2");
 
 
 
@@ -66,13 +68,16 @@ namespace BluetoothAPP
 
         public void btnLoginClick(object sender, EventArgs e, EditText username, EditText password)
         {
-            bluetoothMan.Read();
+            
             if (username.Text == "admin" && password.Text == "admin")
             {
-                
+                //bluetoothMan.Read();
+                BluetoothHolder.bluetoothManage.Read();
                 var nextActivity = new Intent(this, typeof(UsersActivity));
                 StartActivity(nextActivity);
-                
+                //BluetoothHolder.bluetoothManage.closingSocket();
+
+                //bluetoothMan.closingSocket();
             }
         }
     }

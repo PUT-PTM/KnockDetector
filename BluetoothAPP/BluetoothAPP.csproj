@@ -88,6 +88,7 @@
     <Compile Include="Fragments\EditFragment.cs" />
     <Compile Include="Fragments\MicrophoneFragment.cs" />
     <Compile Include="Fragments\UsersFragment.cs" />
+    <Compile Include="Model\BluetoothHolder.cs" />
     <Compile Include="Model\BluetoothManage.cs" />
     <Compile Include="Model\DatabaseHolder.cs" />
     <Compile Include="Model\DialogOptions.cs" />

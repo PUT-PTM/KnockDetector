@@ -20,6 +20,7 @@ namespace BluetoothAPP.Activities
     public class UsersActivity : AppCompatActivity
     {
 
+        public BluetoothManage bluetoothManage = new BluetoothManage();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);

@@ -25,6 +25,10 @@ namespace BluetoothAPP.Model
         Boolean continuous;
         private string receiver;
 
+        public BluetoothSocket getSocket()
+        {
+            return socket;
+        }
 
         public Boolean getContinuous()
         {
@@ -48,31 +52,31 @@ namespace BluetoothAPP.Model
 
         public async void BtnConnect_Click()
         {
+
             try
             {
+                if (socket == null)
+                {
 
-                //Using default adapter of a phone
-                adapter = BluetoothAdapter.DefaultAdapter;
-                if (adapter == null)
-                    throw new Exception("No Bluetooth adapter found.");
+                    //Using default adapter of a phone
+                    adapter = BluetoothAdapter.DefaultAdapter;
+                    if (adapter == null)
+                        throw new Exception("No Bluetooth adapter found.");
 
-                if (!adapter.IsEnabled)
-                    throw new Exception("Bluetooth adapter is not enabled.");
+                    if (!adapter.IsEnabled)
+                        throw new Exception("Bluetooth adapter is not enabled.");
 
-                //Looking for HC-05 bluetooth adapter
-                device = (from bd in adapter.BondedDevices
-                          where bd.Name == "HC-05"
-                          select bd).FirstOrDefault();
+                    //Looking for HC-05 bluetooth adapter
+                    device = (from bd in adapter.BondedDevices
+                              where bd.Name == "HC-05"
+                              select bd).FirstOrDefault();
 
-                if (device == null)
-                    throw new Exception("STM32 device not found.");
+                    if (device == null)
+                        throw new Exception("STM32 device not found.");
 
-                socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
-                await socket.ConnectAsync();
-                //Shows text on screen of app when STM connected
-                //txtStatus.Text = "STM Connected";
-                //EnableOrDisableAllMainFunctions(true, record);
-                //btnConnect.Enabled = false;
+                    socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
+                    await socket.ConnectAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -89,6 +93,21 @@ namespace BluetoothAPP.Model
             Write("2");
         }
 
+        public void closingSocket()
+        {
+            if (socket != null)
+            {
+                try
+                {
+                    socket.Close();
+                }
+                catch (System.IO.IOException e)
+                {
+                }
+                socket = null;
+            }
+        }
+
 
         public void readData()
         {
@@ -103,6 +122,7 @@ namespace BluetoothAPP.Model
                 while (socket.IsConnected == false) { }
                 if (socket.IsConnected)
                 {
+                    
                     //Procedure that sends byte through socket
                     byte[] buffer = Encoding.ASCII.GetBytes(strDirection);
                     await socket.OutputStream.WriteAsync(buffer, 0, buffer.Length);
@@ -115,7 +135,7 @@ namespace BluetoothAPP.Model
         }
 
 
-        public async void Read()
+        public void Read()
         {
             byte[] buffer = new byte[256];
             try
@@ -124,12 +144,18 @@ namespace BluetoothAPP.Model
 
                 //if (socket.IsConnected)
                 //{
-                    while (socket.InputStream.IsDataAvailable())
+
+                while (socket.InputStream.IsDataAvailable())
+                {
+                    lock (this)
                     {
+
                         //Procedure that reads bytes through socket
-                        await socket.InputStream.ReadAsync(buffer, 0, 256);
+                        socket.InputStream.Read(buffer, 0, 256);
                         DatabaseHolder.holdingString = System.Text.Encoding.ASCII.GetString(buffer).ToCharArray();
+
                     }
+                }
                 //}
             } 
             catch (Exception ex)
