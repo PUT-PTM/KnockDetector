@@ -18,7 +18,7 @@
 #define Detector_MaximumInterval Detector_MaximumIntervalSeconds*Detector_Sampling
 #define Detector_MaximumKnocks 20
 
-typedef enum {TRUE = 1, FALSE = 0} bool;
+static typedef enum {TRUE = 1, FALSE = 0} bool;
 typedef enum {RECORD = 1, LISTEN = 0} Detector_Mode;
 
 bool Detector_ThresholdExceeded_Flag = FALSE;
@@ -31,5 +31,7 @@ int Detector_Counter=0;
 
 void Detector_Configuration(void);
 void TIM3_IRQHandler(void);
+Database_USER_SecretCode * Detector_GetRecordedCode(void);
+void Detector_EnableRecordMode(void);
 
 #endif /* DETECTOR_CONTROLLER_H_ */
