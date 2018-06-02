@@ -31,9 +31,9 @@ static void ResetRegisteredCode(void);
 static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 
-static Database_USER_SecretCode Detector_RecordedCode[Detector_MaximumKnocks] = { 0, 0,
+static Database_USER_SecretCode Detector_RecordedCode = { 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-static Database_USER_SecretCode Detector_RegisteredCode[Detector_MaximumKnocks] = { 0,
+static Database_USER_SecretCode Detector_RegisteredCode = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static int Detector_CurrentKnock = 0;
 
