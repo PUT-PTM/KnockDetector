@@ -16,6 +16,7 @@ static int inputIndex = 0;
 static void Bluetooth_GPIO_Configuration(void);
 static void Bluetooth_USART_Configuration(void);
 static void Bluetooth_NVIC_Configuration(void);
+static void InterpretInput(void);
 
 int CheckCommand(char* in1, char* in2) {
 	for (int i = 0; i < 5; ++i) {
@@ -50,18 +51,18 @@ void Bluetooth_Configuration(void) {
 }
 
 static void Bluetooth_GPIO_Configuration(void) {
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	RCC_AHB1PeriphClockCmd(Bluetooth_GPIO_RCC, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Pin = Bluetooth_GPIO_TXD | Bluetooth_GPIO_RXD;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_USART3);
-	GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_USART3);
+	GPIO_Init(Bluetooth_GPIO_Port, &GPIO_InitStructure);
+	GPIO_PinAFConfig(Bluetooth_GPIO_Port, GPIO_PinSource10, GPIO_AF_USART3);
+	GPIO_PinAFConfig(Bluetooth_GPIO_Port, GPIO_PinSource11, GPIO_AF_USART3);
 
 }
 
@@ -107,7 +108,7 @@ void Bluetooth_Send(char data[], unsigned long n) {
 	}
 }
 
-void InterpretInput() {
+static void InterpretInput(void) {
 	if (CheckCommand(input, "ADDUS")) {
 
 	} else if (CheckCommand(input, "CHNGE")) {
