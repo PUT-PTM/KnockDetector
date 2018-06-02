@@ -19,6 +19,8 @@ typedef enum {
 	DB_SDERROR,
 } Database_RESULT;
 
+Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
+
 Database_RESULT Database_ChangeName(Database_USER_ID id, Database_USER_Name name);
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode);
 Database_RESULT Database_GetDatabase(void);

@@ -45,9 +45,28 @@ void USART3_IRQHandler(void) {
 
 		} else if (CompareStrings(buffer,"CHNID")) {
 
+<<<<<<< HEAD
 		}*/
 			GPIO_ToggleBits(GPIOD, GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15);
 
+=======
+<<<<<<< HEAD
+
+		received = USART_ReceiveData(USART3);
+		if (received == '1') {
+			GPIO_ToggleBits(GPIOD, GPIO_Pin_12);
+			//GPIO_WriteBit(GPIOA,GPIO_Pin_8,Bit_SET);        // Set '1' on PA8
+			//UARTSend("LED ON\r\n",sizeof("LED ON\r\n"));    // Send message to UART1
+		} else if (received == '2') {
+			//UARTSend2(c, 6);
+		} else {
+			GPIO_ToggleBits(GPIOD, GPIO_Pin_13);
+			//GPIO_WriteBit(GPIOA,GPIO_Pin_8,Bit_RESET);      // Set '0' on PA8
+			//UARTSend("LED OFF\r\n",sizeof("LED OFF\r\n"));
+=======
+>>>>>>> d5285b50013d8573b2b76d6ee60e8cb9edb3b185
+		}
+>>>>>>> 8e1e5ac0738cca8f9e5c2a308cd7003330356a75
 	}
 }
 

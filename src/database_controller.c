@@ -8,11 +8,13 @@
 #include "database_controller.h"
 #include <stdlib.h>
 
-Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
-static char * Database_FilePath = Database_File;
+
+
 Database_USER_ID Database_LastID;
 Database_RESULT error_code;
 int numberOfUsers;
+
+static char * Database_FilePath = Database_File;
 
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);
@@ -96,5 +98,7 @@ static Database_RESULT Database_WriteDatabaseToFile(void) {
 	SDmodule_WriteFile(Database_FilePath, file_content);
 	free(file_content);
 	return DB_OK;
-
 }
+
+
+

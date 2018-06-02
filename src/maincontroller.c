@@ -12,30 +12,16 @@
 #include "stm32f4_discovery.h"
 #include "maincontroller.h"
 
-#define DIODES_ON_BOARD  GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15
 
-char* filename = "testtt.txt";
-char* buffer= "123456789";
 
-void DiodesOnBoard_Config(void) {
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-	GPIO_InitTypeDef GPIO_InitStructure;
-	//DIODY
-	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
-	GPIO_InitStructure.GPIO_Pin = DIODES_ON_BOARD;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
-}
+
 
 void Zaswiec(void) {
-
-	GPIO_SetBits(GPIOD, DIODES_ON_BOARD);
+	GPIO_SetBits(GPIOD, DIODES_ONBOARD_PINS);
 }
 
 int main(void) {
+<<<<<<< HEAD
 	/* Only for tests */
 	Sensor_Configuration();
 	DiodesOnBoard_Config();
@@ -46,10 +32,29 @@ int main(void) {
 	/*if (c2[0]=='1') {
 	Zaswiec();
 	}*/
+=======
+	Controller_Configuration();
+
+>>>>>>> 8e1e5ac0738cca8f9e5c2a308cd7003330356a75
 	for (;;)
 		;
 }
 
 void Controller_Configuration(void) {
+	DiodesOnBoard_Config();
+	Bluetooth_Configuration();
+	Database_Configuration();
+}
 
+void DiodesOnBoard_Config(void) {
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	GPIO_InitTypeDef GPIO_InitStructure;
+	//DIODY
+	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
+	GPIO_InitStructure.GPIO_Pin = DIODES_ONBOARD_PINS;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(DIODES_ONBOARD_PORT, &GPIO_InitStructure);
 }
