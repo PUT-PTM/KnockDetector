@@ -29,15 +29,9 @@ typedef struct {
 
 #define Database_MaxNumberOfUsers 20
 #define Database_TupleSize sizeof(Database_USER_DATA)
+#define Database_ReducedTupleSize sizeof(Database_USER_ID)+sizeof(Database_USER_Name)+sizeof(Database_USER_CreationDate)
 #define Database_MaximumSize Database_MaxNumberOfUsers*Database_TupleSize
 
 #define Database_File "database.txt"
-
-
-
-
-
-
-
 
 #endif /* DATABASE_PARAMETERS_H_ */
