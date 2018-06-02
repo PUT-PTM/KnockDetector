@@ -40,9 +40,9 @@ int main(void) {
 	Sensor_Configuration();
 	DiodesOnBoard_Config();
 	SDmodule_Configuration();
-	UINT loadedBytes;
+	/*UINT loadedBytes;
 	char dane[3000];
-	SDmodule_ReadFile(filename, &dane, &loadedBytes);
+	SDmodule_ReadFile(filename, &dane, &loadedBytes);*/
 	/*if (c2[0]=='1') {
 	Zaswiec();
 	}*/
