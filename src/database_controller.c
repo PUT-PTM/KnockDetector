@@ -8,8 +8,6 @@
 #include "database_controller.h"
 #include <stdlib.h>
 
-
-
 Database_USER_ID Database_LastID;
 Database_RESULT error_code;
 int numberOfUsers;
@@ -27,8 +25,8 @@ Database_RESULT Database_ChangeName(Database_USER_ID id,
 	int i;
 	for (i = 0; Database_Users[i].id != id; ++i) {
 		/*if (i >= Database_MaxNumberOfUsers) {
-			return UNKNOWN_ID;
-		}*/
+		 return UNKNOWN_ID;
+		 }*/
 	}
 	memcpy(Database_Users[i].name, name, sizeof(Database_USER_Name));
 	Database_SaveChanges();
@@ -49,8 +47,12 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	return DB_OK;
 }
 
-Database_RESULT Database_GetDatatabase(void) {
+Database_RESULT Database_GetDatatabase(char* database) {
 	/* It is for bluetooth module, just send structure, no SD loading */
+	database = malloc(sizeof(Database_USER_DATA) * (numberOfUsers + 1));
+	for (int i = 0; i < numberOfUsers; ++i) {
+
+	}
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
@@ -100,6 +102,4 @@ static Database_RESULT Database_WriteDatabaseToFile(void) {
 	free(file_content);
 	return DB_OK;
 }
-
-
 
