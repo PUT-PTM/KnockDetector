@@ -21,21 +21,8 @@ void Zaswiec(void) {
 }
 
 int main(void) {
-<<<<<<< HEAD
-	/* Only for tests */
-	Sensor_Configuration();
-	DiodesOnBoard_Config();
-	SDmodule_Configuration();
-	/*UINT loadedBytes;
-	char dane[3000];
-	SDmodule_ReadFile(filename, &dane, &loadedBytes);*/
-	/*if (c2[0]=='1') {
-	Zaswiec();
-	}*/
-=======
 	Controller_Configuration();
 
->>>>>>> 8e1e5ac0738cca8f9e5c2a308cd7003330356a75
 	for (;;)
 		;
 }
