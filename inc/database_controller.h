@@ -11,8 +11,6 @@
 #include "database_parameters.h"
 #include "sdmodule.h"
 
-
-
 typedef enum {
 	DB_OK = 0,
 	UNKNOWN_ID = 1,
@@ -20,13 +18,13 @@ typedef enum {
 } Database_RESULT;
 
 Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
+int Database_NumberOfUsers;
 
 Database_RESULT Database_ChangeName(Database_USER_ID id, Database_USER_Name name);
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode);
 Database_RESULT Database_GetDatabase(void);
 Database_RESULT Database_AddUser(Database_USER_DATA);
 void Database_Configuration(void);
-
 
 
 #endif /* DATABASE_CONTROLLER_H_ */
