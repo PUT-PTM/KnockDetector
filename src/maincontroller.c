@@ -31,10 +31,11 @@ void Controller_Configuration(void) {
 	DiodesOnBoard_Config();
 	Bluetooth_Configuration();
 	Database_Configuration();
+	Detector_Configuration();
 }
 
 void DiodesOnBoard_Config(void) {
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_AHB1PeriphClockCmd(DIODES_ONBOARD_RCC, ENABLE);
 	GPIO_InitTypeDef GPIO_InitStructure;
 	//DIODY
 	/* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
