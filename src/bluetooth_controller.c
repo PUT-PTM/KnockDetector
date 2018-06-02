@@ -18,6 +18,7 @@ static void Bluetooth_NVIC_Configuration(void);
 void USART3_IRQHandler(void) {
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
 
+
 		received = USART_ReceiveData(USART3);
 		if (received == '1') {
 			GPIO_ToggleBits(GPIOD, GPIO_Pin_12);
