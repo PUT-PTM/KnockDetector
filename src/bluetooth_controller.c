@@ -6,7 +6,6 @@
  */
 
 #include "bluetooth_controller.h"
-#include <stdlib.h>
 
 #define Bluetooth_INPUT_SIZE 100
 
@@ -36,7 +35,7 @@ uint16_t ExtractId(char ch0, char ch1) {
 
 void USART3_IRQHandler(void) {
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
-		if ((input[inputIndex] = USART_ReceiveData(USART3))!='\a') {
+		if ((input[inputIndex] = USART_ReceiveData(USART3)) != '\a') {
 
 		} else {
 			InterpretInput();
@@ -110,9 +109,18 @@ void Bluetooth_Send(char data[], unsigned long n) {
 
 static void InterpretInput(void) {
 	if (CheckCommand(input, "ADDUS")) {
-
+		Database_USER_DATA user;
+		memcpy(user.id, &(input[5]), sizeof(Database_USER_ID));
+		memcpy(user.name, &(input[5+sizeof(Database_USER_ID)]),
+				sizeof(Database_USER_Name));
+		memcpy(user.creation_date,
+				&(input[5+sizeof(Database_USER_ID) + sizeof(Database_USER_Name)]),
+				sizeof(Database_USER_CreationDate));
+		Database_AddUser(user);
 	} else if (CheckCommand(input, "DELUS")) {
-
+		Database_USER_ID id;
+		memcpy(id, &(input[5]), sizeof(Database_USER_ID));
+		Database_DeleteUser(id);
 	} else if (CheckCommand(input, "CHNCD")) {
 
 	} else if (CheckCommand(input, "RECCD")) {
