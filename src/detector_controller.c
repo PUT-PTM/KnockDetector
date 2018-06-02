@@ -25,11 +25,12 @@ static void ControlProgram(void);
 static void CheckCurrentTimeInterval(void);
 static void CheckKnocksAmount(void);
 static void EndOfSequence(void);
-static void ValidateSecretCode(void);
+static int ValidateSecretCode(void);
 static void ResetRecordedCode(void);
 static void ResetRegisteredCode(void);
 static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
+static int CountCodeKnocks(Database_USER_SecretCode secretCode);
 
 static Database_USER_SecretCode Detector_RecordedCode = { 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -192,8 +193,12 @@ void ControlProgram(void) {
 		/* If Detector_ListenToSecretCode_Flag  is set to FALSE it means its time to validate/record knock*/
 		if (Detector_ListenToSecretCode_Flag == FALSE) {
 			if (Detector_Current_Mode == LISTEN) {
-				ValidateSecretCode();
-				/* TO DO: Validate */
+				if(ValidateSecretCode()) {
+					//UNLOCK
+				}
+				else {
+					//TURN ON RED DIODE
+				}
 			} else if (Detector_Current_Mode == RECORD) {
 				ResetRecordedCode();
 				CopyRegisteredCodeToRecordedCode();
@@ -238,12 +243,55 @@ void EndOfSequence(void) {
 }
 
 static
-void ValidateSecretCode(void) {
-	/*TO DO:
-	 * - get database structure
-	 * - iterate until it finds pattern, another function for validation two arrays
-	 *  */
+int ValidateSecretCode(void) {
+	if (Database_NumberOfUsers>0) {
+
+		int registeredCodeKnockCount;
+		registeredCodeKnockCount=CountCodeKnocks(Detector_RegisteredCode);
+
+		for (int i=0; i<Database_NumberOfUsers; i++) {
+			int totalTimeDifference=0;
+			int secretCodeKnockCount;
+			secretCodeKnockCount=CountCodeKnocks(Database_Users[i].secret_code);
+
+			if (registeredCodeKnockCount==secretCodeKnockCount) {
+				for (int j=0; j<Detector_MaximumKnocks; j++) {
+					int timeDifference;
+					timeDifference=abs(Database_Users[i].secret_code[j]-Detector_RegisteredCode[j]);
+					if (timeDifference>Detector_SingularErrorThreshold) {
+						return 0;
+					}
+					totalTimeDifference+=timeDifference;
+				}
+				if (totalTimeDifference>Detector_GlobalErrorThreshold) {
+					return 0;
+				}
+			}
+			else {
+				return 0;
+			}
+
+		}
+
+		return 1;
+	}
 }
+
+static
+int CountCodeKnocks(Database_USER_SecretCode secretCode) {
+	int codeKnockCount=0;
+
+	for (int i=0; i<Detector_MaximumKnocks; i++) {
+		if (secretCode[i]>0) {
+			codeKnockCount+=1;
+		}
+		else {
+			break;
+		}
+	}
+	return codeKnockCount;
+}
+
 
 static
 void ResetRecordedCode(void) {
