@@ -48,9 +48,35 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 
 Database_RESULT Database_GetDatatabase(char* database) {
 	/* It is for bluetooth module, just send structure, no SD loading */
-	database = malloc(sizeof(Database_USER_DATA) * (Database_NumberOfUsers + 1));
+	database = calloc(Database_ReducedTupleSize, Database_NumberOfUsers + 1);
 	for (int i = 0; i < Database_NumberOfUsers; ++i) {
-
+		memcpy(database + i * Database_ReducedTupleSize,
+				&(Database_Users[i]).id, sizeof(Database_USER_ID));
+		memcpy(
+				database + sizeof(Database_USER_ID)
+						+ i * Database_ReducedTupleSize,
+				&(Database_Users[i]).name, sizeof(Database_USER_Name));
+		memcpy(
+				database + sizeof(Database_USER_ID) + sizeof(Database_USER_Name)
+						+ i * Database_ReducedTupleSize,
+				&(Database_Users[i]).creation_date,
+				sizeof(Database_USER_CreationDate));
+		//adding information if user has recorded knock code
+		if (Database_Users[i].secret_code[0] == 0) {
+			memcpy(
+					database + sizeof(Database_USER_ID)
+							+ sizeof(Database_USER_Name)
+							+ sizeof(Database_USER_CreationDate)
+							+ i * Database_ReducedTupleSize, (char) 0, 1);
+		} else {
+			memcpy(
+					database + sizeof(Database_USER_ID)
+							+ sizeof(Database_USER_Name)
+							+ sizeof(Database_USER_CreationDate)
+							+ i * Database_ReducedTupleSize,
+							(char) 1,
+							1);
+		}
 	}
 	return DB_OK;
 }
@@ -96,7 +122,8 @@ static Database_RESULT Database_ReadDatabaseFromFile(void) {
 
 static Database_RESULT Database_WriteDatabaseToFile(void) {
 	char *file_content = malloc(Database_TupleSize * Database_NumberOfUsers);
-	memcpy(file_content, Database_Users, Database_TupleSize * Database_NumberOfUsers);
+	memcpy(file_content, Database_Users,
+	Database_TupleSize * Database_NumberOfUsers);
 	SDmodule_WriteFile(Database_FilePath, file_content);
 	free(file_content);
 	return DB_OK;
