@@ -31,16 +31,30 @@ static void ResetRegisteredCode(void);
 static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 
-Database_USER_SecretCode Detector_RecordedCode[Detector_MaximumKnocks] = { 0, 0,
+static typedef enum {TRUE = 1, FALSE = 0} bool;
+
+static Database_USER_SecretCode Detector_RecordedCode[Detector_MaximumKnocks] = { 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-Database_USER_SecretCode Detector_RegisteredCode[Detector_MaximumKnocks] = { 0,
+static Database_USER_SecretCode Detector_RegisteredCode[Detector_MaximumKnocks] = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-int Detector_CurrentKnock = 0;
+static int Detector_CurrentKnock = 0;
 
 void Detector_Configuration(void) {
 	Sensor_Configuration();
 	Detector_Timer_Config();
 	Detector_TimerNVIC_Config();
+}
+
+Database_USER_SecretCode * Detector_GetRecordedCode(void) {
+	return &Detector_RecordedCode;
+}
+
+void Detector_EnableRecordMode(void) {
+	Detector_Current_Mode=RECORD;
+}
+
+void Detector_DisableRecordMode(void) {
+	Detector_Current_Mode=LISTEN;
 }
 
 static
