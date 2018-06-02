@@ -1,5 +1,5 @@
 /*
- * database_controller.h
+ * database_controller.c
  *
  *  Created on: 21.05.2018
  *      Author: HP 8560w
