@@ -8,65 +8,38 @@
 #include "bluetooth_controller.h"
 #include <stdlib.h>
 
+#define Bluetooth_INPUT_SIZE 100
+
+static char input[Bluetooth_INPUT_SIZE];
+static int inputIndex = 0;
+
 static void Bluetooth_GPIO_Configuration(void);
 static void Bluetooth_USART_Configuration(void);
 static void Bluetooth_NVIC_Configuration(void);
-static void Bluetooth_Receive(char*, int);
 
-int CompareStrings(char* in1, char* in2) {
-	int i = 0;
-	while (in1[i] == in2[i]) {
-		if ((in1[i] && in2[i])==0) {
-			return 1;//returns 1 if strings are the same
+int CheckCommand(char* in1, char* in2) {
+	for (int i = 0; i < 5; ++i) {
+		if (in1[i] != in2[i]) {
+			return 1;
 		}
-		++i;
 	}
-	return 0;//returns 0 if strings are different
+	return 0;
 }
 
-uint16_t  ExtractId(char ch0, char ch1){
+uint16_t ExtractId(char ch0, char ch1) {
 	uint16_t ret = 0;
-	ret|=ch1<<8;
-	ret|=ch0;
+	ret |= ch1 << 8;
+	ret |= ch0;
 	return ret;
 }
 
 void USART3_IRQHandler(void) {
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
-		char* buffer;
-		Bluetooth_Receive(buffer, 6);
-		/*if (CompareStrings(buffer,"ADDUS")) {
+		if(input[inputIndex] = USART_ReceiveData(USART3)){
 
-		} else if (CompareStrings(buffer,"CHNGE")) {
-
-		} else */if (CompareStrings(buffer,"RECCD1")) {
-			GPIO_ToggleBits(GPIOD, GPIO_Pin_12);
-		} else /*if (CompareStrings(buffer,"GETDB")) {
-
-		} else if (CompareStrings(buffer,"CHNID")) {
-
-<<<<<<< HEAD
-		}*/
-			GPIO_ToggleBits(GPIOD, GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15);
-
-=======
-<<<<<<< HEAD
-
-		received = USART_ReceiveData(USART3);
-		if (received == '1') {
-			GPIO_ToggleBits(GPIOD, GPIO_Pin_12);
-			//GPIO_WriteBit(GPIOA,GPIO_Pin_8,Bit_SET);        // Set '1' on PA8
-			//UARTSend("LED ON\r\n",sizeof("LED ON\r\n"));    // Send message to UART1
-		} else if (received == '2') {
-			//UARTSend2(c, 6);
-		} else {
-			GPIO_ToggleBits(GPIOD, GPIO_Pin_13);
-			//GPIO_WriteBit(GPIOA,GPIO_Pin_8,Bit_RESET);      // Set '0' on PA8
-			//UARTSend("LED OFF\r\n",sizeof("LED OFF\r\n"));
-=======
->>>>>>> d5285b50013d8573b2b76d6ee60e8cb9edb3b185
+		}else{
+			InterpretInput();
 		}
->>>>>>> 8e1e5ac0738cca8f9e5c2a308cd7003330356a75
 	}
 }
 
@@ -97,7 +70,6 @@ static void Bluetooth_USART_Configuration(void) {
 
 	USART_InitTypeDef USART_InitStructure;
 
-	/* USART1 configuration ------------------------------------------------------*/
 	USART_InitStructure.USART_BaudRate = 9600;        // Baud Rate
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
@@ -117,7 +89,7 @@ static void Bluetooth_NVIC_Configuration(void) {
 
 	/* Enable the USARTx Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
@@ -135,9 +107,18 @@ void Bluetooth_Send(char data[], unsigned long n) {
 	}
 }
 
-void Bluetooth_Receive(char* buffer, int n) {
-	buffer = calloc(sizeof(char),n+1);
-	for (int i = 0; i < n; ++i) {
-		buffer[i] = USART_ReceiveData(USART3);
+void InterpretInput() {
+	if (CheckCommand(input, "ADDUS")) {
+
+	} else if (CheckCommand(input, "CHNGE")) {
+
+	} else if (CheckCommand(input, "RECCD")) {
+
+	} else if (CheckCommand(input, "GETDB")) {
+
+	} else if (CheckCommand(input, "CHNID")) {
+
+	} else {
+
 	}
 }
