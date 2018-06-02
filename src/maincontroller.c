@@ -29,8 +29,8 @@ int main(void) {
 
 void Controller_Configuration(void) {
 	DiodesOnBoard_Config();
-	Bluetooth_Configuration();
 	Database_Configuration();
+	Bluetooth_Configuration();
 	Detector_Configuration();
 }
 
