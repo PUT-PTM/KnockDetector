@@ -17,28 +17,37 @@ int CompareStrings(char* in1, char* in2) {
 	int i = 0;
 	while (in1[i] == in2[i]) {
 		if ((in1[i] && in2[i])==0) {
-			return 1;
+			return 1;//returns 1 if strings are the same
 		}
 		++i;
 	}
-	return 0;
+	return 0;//returns 0 if strings are different
+}
+
+uint16_t  ExtractId(char ch0, char ch1){
+	uint16_t ret = 0;
+	ret|=ch1<<8;
+	ret|=ch0;
+	return ret;
 }
 
 void USART3_IRQHandler(void) {
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
 		char* buffer;
-		Bluetooth_Receive(buffer, 5);
-		if (CompareStrings(buffer,"ADDUS")) {
+		Bluetooth_Receive(buffer, 6);
+		/*if (CompareStrings(buffer,"ADDUS")) {
 
 		} else if (CompareStrings(buffer,"CHNGE")) {
 
-		} else if (CompareStrings(buffer,"RECCD")) {
-
-		} else if (CompareStrings(buffer,"GETDB")) {
+		} else */if (CompareStrings(buffer,"RECCD1")) {
+			GPIO_ToggleBits(GPIOD, GPIO_Pin_12);
+		} else /*if (CompareStrings(buffer,"GETDB")) {
 
 		} else if (CompareStrings(buffer,"CHNID")) {
 
-		}
+		}*/
+			GPIO_ToggleBits(GPIOD, GPIO_Pin_13|GPIO_Pin_14|GPIO_Pin_15);
+
 	}
 }
 
@@ -46,12 +55,9 @@ void Bluetooth_Configuration(void) {
 	Bluetooth_NVIC_Configuration();
 	Bluetooth_GPIO_Configuration();
 	Bluetooth_USART_Configuration();
-	/* print welcome information */
-	//UARTSend(welcome_str, sizeof(welcome_str));
 }
 
 static void Bluetooth_GPIO_Configuration(void) {
-	// wlaczenie taktowania wybranego portu
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -62,7 +68,6 @@ static void Bluetooth_GPIO_Configuration(void) {
 
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-	// ustawienie funkcji alternatywnej dla pinów (USART)
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_USART3);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_USART3);
 
@@ -111,7 +116,7 @@ void Bluetooth_Send(char data[], unsigned long n) {
 	}
 }
 
-void BluetoothReceive(char* buffer, int n) {
+void Bluetooth_Receive(char* buffer, int n) {
 	buffer = calloc(sizeof(char),n+1);
 	for (int i = 0; i < n; ++i) {
 		buffer[i] = USART_ReceiveData(USART3);
