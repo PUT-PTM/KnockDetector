@@ -9,7 +9,7 @@
 #define DETECTOR_CONTROLLER_H_
 
 #include "sensor.h"
-/*#include "database._controller*/
+#include "database_controller.h"
 
 #define Detector_Sampling 20000
 #define Detector_Threshold 200
