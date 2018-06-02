@@ -18,6 +18,7 @@ static char * Database_FilePath = Database_File;
 
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);
+static Database_RESULT Database_WriteDatabaseToFile(void);
 
 Database_RESULT Database_ChangeName(Database_USER_ID id,
 		Database_USER_Name name) {
@@ -71,17 +72,17 @@ Database_RESULT Database_DeleteUser(Database_USER_ID id) {
 
 void Database_Configuration(void) {
 	SDmodule_Configuration();
-	Database_LoadDatabase();
+	Database_ReadDatabaseFromFile();
 }
 
 static Database_RESULT Database_SaveChanges(void) {
-	Database_SaveDatabase();
-	Database_LoadDatabase();
+	Database_WriteDatabaseToFile();
+	Database_ReadDatabaseFromFile();
 	/* TO DO: return of the code with higher value */
 	return DB_OK;
 }
 
-static Database_RESULT Database_ReadDatabaseFromFile() {
+static Database_RESULT Database_ReadDatabaseFromFile(void) {
 	char buffer[Database_MaximumSize];
 	UINT loadedBytes = 0;
 	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
