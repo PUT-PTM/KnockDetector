@@ -36,9 +36,9 @@ uint16_t ExtractId(char ch0, char ch1) {
 
 void USART3_IRQHandler(void) {
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
-		if(input[inputIndex] = USART_ReceiveData(USART3)){
+		if (input[inputIndex] = USART_ReceiveData(USART3)) {
 
-		}else{
+		} else {
 			InterpretInput();
 		}
 	}
@@ -111,13 +111,15 @@ void Bluetooth_Send(char data[], unsigned long n) {
 static void InterpretInput(void) {
 	if (CheckCommand(input, "ADDUS")) {
 
-	} else if (CheckCommand(input, "CHNGE")) {
+	} else if (CheckCommand(input, "DELUS")) {
+
+	} else if (CheckCommand(input, "CHNCD")) {
 
 	} else if (CheckCommand(input, "RECCD")) {
 
 	} else if (CheckCommand(input, "GETDB")) {
 
-	} else if (CheckCommand(input, "CHNID")) {
+	} else if (CheckCommand(input, "CHNUD")) {
 
 	} else {
 
