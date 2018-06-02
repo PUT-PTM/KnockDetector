@@ -31,10 +31,11 @@ static void ResetRegisteredCode(void);
 static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 
-
-int Detector_RecordedCode[Detector_MaximumKnocks] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-int Detector_RegisteredCode[Detector_MaximumKnocks] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-int Detector_CurrentKnock=0;
+Database_USER_SecretCode Detector_RecordedCode[Detector_MaximumKnocks] = { 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+Database_USER_SecretCode Detector_RegisteredCode[Detector_MaximumKnocks] = { 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+int Detector_CurrentKnock = 0;
 
 void Detector_Configuration(void) {
 	Sensor_Configuration();
@@ -49,10 +50,10 @@ void Detector_Timer_Config(void) {
 
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 
-	TIM_TimeBaseStructure.TIM_Period = 200-1;
-	TIM_TimeBaseStructure.TIM_Prescaler = 21-1;
+	TIM_TimeBaseStructure.TIM_Period = 200 - 1;
+	TIM_TimeBaseStructure.TIM_Prescaler = 21 - 1;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	TIM_TimeBaseStructure.TIM_CounterMode =  TIM_CounterMode_Up;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
 	TIM_Cmd(TIM3, ENABLE);
 }
@@ -98,25 +99,24 @@ void Detector_IRQHandler(void) {
 	CheckThresholdExceedion();
 	CountTime();
 	/* We do not call a function when debouncing is on */
-	if (Detector_Debouncing_Flag==FALSE){
+	if (Detector_Debouncing_Flag == FALSE) {
 		ControlProgram();
-	}
-	else {
+	} else {
 		DebouncingControl();
 	}
 }
 
 static
 void CheckThresholdExceedion(void) {
-	Detector_ThresholdExceeded_Flag=FALSE;
-	if (Sensor_GetSensorValue()<Detector_Threshold) {
-		Detector_ThresholdExceeded_Flag=TRUE;
-		}
+	Detector_ThresholdExceeded_Flag = FALSE;
+	if (Sensor_GetSensorValue() < Detector_Threshold) {
+		Detector_ThresholdExceeded_Flag = TRUE;
+	}
 }
 
 static
 void CountTime(void) {
-	if (Detector_CountTime_Flag==TRUE) {
+	if (Detector_CountTime_Flag == TRUE) {
 		Detector_Counter++;
 	}
 }
@@ -124,52 +124,52 @@ void CountTime(void) {
 static
 void StartCountTime(void) {
 	SetDebouncing();
-	Detector_CountTime_Flag=TRUE;
+	Detector_CountTime_Flag = TRUE;
 }
 
 static
-void StopCountTime(void){
-	Detector_CountTime_Flag=FALSE;
+void StopCountTime(void) {
+	Detector_CountTime_Flag = FALSE;
 	ResetTime();
 }
 
 static
 void ResetTime(void) {
-	Detector_Counter=0;
+	Detector_Counter = 0;
 }
 
 static
 void SetDebouncing(void) {
-	Detector_Debouncing_Flag=TRUE;
+	Detector_Debouncing_Flag = TRUE;
 }
 
 static
 void StopDebouncing(void) {
-	Detector_Debouncing_Flag=FALSE;
+	Detector_Debouncing_Flag = FALSE;
 }
 
 static
 void DebouncingControl(void) {
-	if (Detector_Counter==Detector_DebouncingTime) {
+	if (Detector_Counter == Detector_DebouncingTime) {
 		StopDebouncing();
 	}
 }
 
 static
 void StartListenToSecretCode(void) {
-	Detector_ListenToSecretCode_Flag=TRUE;
+	Detector_ListenToSecretCode_Flag = TRUE;
 }
 
 static
 void StopListenToSecretCode(void) {
-	Detector_ListenToSecretCode_Flag=FALSE;
+	Detector_ListenToSecretCode_Flag = FALSE;
 }
 
 static
 void ControlProgram(void) {
 	if (Detector_ListenToSecretCode_Flag == FALSE) {
 
-		if (Detector_ThresholdExceeded_Flag==TRUE) {
+		if (Detector_ThresholdExceeded_Flag == TRUE) {
 			ResetRegisteredCode();
 			StartCountTime();
 			StartListenToSecretCode();
@@ -182,8 +182,7 @@ void ControlProgram(void) {
 			if (Detector_Current_Mode == LISTEN) {
 				ValidateSecretCode();
 				/* TO DO: Validate */
-			}
-			else if (Detector_Current_Mode == RECORD) {
+			} else if (Detector_Current_Mode == RECORD) {
 				ResetRecordedCode();
 				CopyRegisteredCodeToRecordedCode();
 				/* Save sequence to concrete ID
@@ -191,10 +190,9 @@ void ControlProgram(void) {
 				/* TO DO: Save sequence or wait for bluetooth app */
 			}
 
-		}
-		else if (Detector_ThresholdExceeded_Flag==TRUE) {
+		} else if (Detector_ThresholdExceeded_Flag == TRUE) {
 			InsertIntervalIntoSequence();
-			}
+		}
 	}
 }
 
@@ -202,22 +200,22 @@ static
 void InsertIntervalIntoSequence(void) {
 	int interval;
 	interval = Detector_Counter;
-	Detector_RegisteredCode[Detector_CurrentKnock]=interval;
+	Detector_RegisteredCode[Detector_CurrentKnock] = interval;
 	StopCountTime();
 	StartCountTime();
-	Detector_CurrentKnock+=1;
+	Detector_CurrentKnock += 1;
 }
 
 static
 void CheckCurrentTimeInterval(void) {
-	if (Detector_Counter>=Detector_MaximumInterval) {
+	if (Detector_Counter >= Detector_MaximumInterval) {
 		EndOfSequence();
 	}
 }
 
 static
 void CheckKnocksAmount(void) {
-	if (Detector_CurrentKnock>=20) {
+	if (Detector_CurrentKnock >= 20) {
 		EndOfSequence();
 	}
 }
@@ -226,7 +224,7 @@ static
 void EndOfSequence(void) {
 	StopCountTime();
 	StopListenToSecretCode();
-	Detector_ThresholdExceeded_Flag=FALSE;
+	Detector_ThresholdExceeded_Flag = FALSE;
 }
 
 static
@@ -239,22 +237,22 @@ void ValidateSecretCode(void) {
 
 static
 void ResetRecordedCode(void) {
-	for (int i=0; i<Detector_MaximumKnocks; i++){
-		Detector_RecordedCode[i]=0;
+	for (int i = 0; i < Detector_MaximumKnocks; i++) {
+		Detector_RecordedCode[i] = 0;
 	}
 }
 
 static
 void ResetRegisteredCode(void) {
-	for (int i=0; i<Detector_MaximumKnocks; i++){
-		Detector_RegisteredCode[i]=0;
+	for (int i = 0; i < Detector_MaximumKnocks; i++) {
+		Detector_RegisteredCode[i] = 0;
 	}
-	Detector_CurrentKnock=0;
+	Detector_CurrentKnock = 0;
 }
 
 static
-void CopyRegisteredCodeToRecordedCode(void){
-	for (int i=0; i<Detector_MaximumKnocks; i++){
-		Detector_RecordedCode[i]=Detector_RegisteredCode[i];
+void CopyRegisteredCodeToRecordedCode(void) {
+	for (int i = 0; i < Detector_MaximumKnocks; i++) {
+		Detector_RecordedCode[i] = Detector_RegisteredCode[i];
 	}
 }
