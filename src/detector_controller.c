@@ -31,8 +31,6 @@ static void ResetRegisteredCode(void);
 static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 
-static typedef enum {TRUE = 1, FALSE = 0} bool;
-
 static Database_USER_SecretCode Detector_RecordedCode[Detector_MaximumKnocks] = { 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static Database_USER_SecretCode Detector_RegisteredCode[Detector_MaximumKnocks] = { 0,

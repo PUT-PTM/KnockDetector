@@ -10,6 +10,7 @@
 
 #include "sensor.h"
 #include "database_controller.h"
+#include "bool.h"
 
 #define Detector_Sampling 20000
 #define Detector_Threshold 200
@@ -18,7 +19,7 @@
 #define Detector_MaximumInterval Detector_MaximumIntervalSeconds*Detector_Sampling
 #define Detector_MaximumKnocks 20
 
-static typedef enum {TRUE = 1, FALSE = 0} bool;
+
 typedef enum {RECORD = 1, LISTEN = 0} Detector_Mode;
 
 bool Detector_ThresholdExceeded_Flag = FALSE;

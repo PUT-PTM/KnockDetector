@@ -32,7 +32,6 @@
 
 ---------------------------------------------------------------------------*/
 
-typedef enum { TRUE = 1, FALSE = 0 } bool;
 
 static volatile
 DSTATUS Stat = STA_NOINIT;    /* Disk status */

@@ -8,6 +8,7 @@
 #ifndef SPI_SD_H_
 #define SPI_SD_H_
 
+#include "bool.h"
 void SPI_SD_Init( void );
 
 #endif /* SPI_SD_H_ */
