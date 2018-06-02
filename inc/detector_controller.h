@@ -8,13 +8,17 @@
 #ifndef DETECTOR_CONTROLLER_H_
 #define DETECTOR_CONTROLLER_H_
 
+#include <stdlib.h>
 #include "sensor.h"
 #include "database_controller.h"
 #include "bool.h"
 
-#define Detector_Sampling 20000
-#define Detector_Threshold 200
-#define Detector_DebouncingTime 100
+
+#define Detector_Sampling 20000 //20000 in 1s
+#define Detector_Threshold 200 //Sensor value
+#define Detector_SingularErrorThreshold 500 //25ms
+#define Detector_GlobalErrorThreshold 500 //25ms
+#define Detector_DebouncingTime 3000 //3000 = 150ms
 #define Detector_MaximumIntervalSeconds 2
 #define Detector_MaximumInterval Detector_MaximumIntervalSeconds*Detector_Sampling
 #define Detector_MaximumKnocks 20
