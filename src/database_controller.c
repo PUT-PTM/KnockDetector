@@ -16,6 +16,7 @@ static char * Database_FilePath = Database_File;
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);
 static Database_RESULT Database_WriteDatabaseToFile(void);
+static void Database_SetGreatestId(void);
 
 Database_RESULT Database_ChangeName(Database_USER_ID id,
 		Database_USER_Name name) {
@@ -73,14 +74,13 @@ Database_RESULT Database_GetDatatabase(char* database) {
 					database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize,
-							(char) 1,
-							1);
+							+ i * Database_ReducedTupleSize, (char) 1, 1);
 		}
 	}
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
+	usr.id = ++Databsae_LastId;
 	Database_Users[Database_NumberOfUsers] = usr;
 	++Database_NumberOfUsers;
 	return DB_OK;
@@ -115,9 +115,18 @@ static Database_RESULT Database_ReadDatabaseFromFile(void) {
 	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
 	Database_NumberOfUsers = loadedBytes / Database_TupleSize;
 	memcpy(Database_Users, &buffer[0], loadedBytes);
+	Database_SetGreatestId();
 	return DB_OK;
-	/* TO DO: Skrocenie buffer do loadedBytes i zapisanie do */
 
+}
+
+static void Database_SetGreatestId(void) {
+	Databsae_LastId = 0;
+	for (int i = 0; i < Database_NumberOfUsers; ++i) {
+		if (Databsae_LastId < Database_Users[i].id) {
+			Databsae_LastId = Database_Users[i].id;
+		}
+	}
 }
 
 static Database_RESULT Database_WriteDatabaseToFile(void) {
