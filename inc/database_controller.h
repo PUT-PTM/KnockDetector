@@ -19,6 +19,7 @@ typedef enum {
 
 Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
 int Database_NumberOfUsers;
+Database_USER_ID Databsae_LastId;
 
 Database_RESULT Database_ChangeName(Database_USER_ID id, Database_USER_Name name);
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode);
