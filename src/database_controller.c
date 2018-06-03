@@ -6,7 +6,6 @@
  */
 
 #include "database_controller.h"
-#include <stdlib.h>
 
 Database_USER_ID Database_LastID;
 Database_RESULT error_code;
@@ -16,7 +15,7 @@ static char * Database_FilePath = Database_File;
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);
 static Database_RESULT Database_WriteDatabaseToFile(void);
-static void Database_SetGreatestId(void);
+static void Database_SetLastId(void);
 
 Database_RESULT Database_ChangeName(Database_USER_ID id,
 		Database_USER_Name name) {
@@ -115,12 +114,12 @@ static Database_RESULT Database_ReadDatabaseFromFile(void) {
 	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
 	Database_NumberOfUsers = loadedBytes / Database_TupleSize;
 	memcpy(Database_Users, &buffer[0], loadedBytes);
-	Database_SetGreatestId();
+	Database_SetLastId();
 	return DB_OK;
 
 }
 
-static void Database_SetGreatestId(void) {
+static void Database_SetLastId(void) {
 	Databsae_LastId = 0;
 	for (int i = 0; i < Database_NumberOfUsers; ++i) {
 		if (Databsae_LastId < Database_Users[i].id) {
