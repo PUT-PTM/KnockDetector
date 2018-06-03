@@ -46,10 +46,12 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	return DB_OK;
 }
 
-Database_RESULT Database_GetDatatabase(char** database) {
+Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 	/* It is for bluetooth module, just send structure, no SD loading */
-	*database = calloc(Database_ReducedTupleSize, Database_NumberOfUsers + 1);
-	for (int i = 0; i < Database_NumberOfUsers; ++i) {
+	*database = malloc(
+			Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1);
+	int i;
+	for (i = 0; i < Database_NumberOfUsers; ++i) {
 		memcpy(*database + i * Database_ReducedTupleSize,
 				&(Database_Users[i]).id, sizeof(Database_USER_ID));
 		memcpy(
@@ -57,7 +59,8 @@ Database_RESULT Database_GetDatatabase(char** database) {
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i]).name, sizeof(Database_USER_Name));
 		memcpy(
-				*database + sizeof(Database_USER_ID) + sizeof(Database_USER_Name)
+				*database + sizeof(Database_USER_ID)
+						+ sizeof(Database_USER_Name)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i]).creation_date,
 				sizeof(Database_USER_CreationDate));
@@ -67,15 +70,19 @@ Database_RESULT Database_GetDatatabase(char** database) {
 					*database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 0, 1);
+							+ i * Database_ReducedTupleSize, (char) 0,
+					sizeof(char));
 		} else {
 			memcpy(
 					*database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 1, 1);
+							+ i * Database_ReducedTupleSize, (char) 1,
+					sizeof(char));
 		}
 	}
+	memcpy(*database + i * Database_ReducedTupleSize), (char) '\a', sizeof(char);
+	numberOfBytes=Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1;
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
