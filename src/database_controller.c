@@ -47,31 +47,31 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	return DB_OK;
 }
 
-Database_RESULT Database_GetDatatabase(char* database) {
+Database_RESULT Database_GetDatatabase(char** database) {
 	/* It is for bluetooth module, just send structure, no SD loading */
-	database = calloc(Database_ReducedTupleSize, Database_NumberOfUsers + 1);
+	*database = calloc(Database_ReducedTupleSize, Database_NumberOfUsers + 1);
 	for (int i = 0; i < Database_NumberOfUsers; ++i) {
-		memcpy(database + i * Database_ReducedTupleSize,
+		memcpy(*database + i * Database_ReducedTupleSize,
 				&(Database_Users[i]).id, sizeof(Database_USER_ID));
 		memcpy(
-				database + sizeof(Database_USER_ID)
+				*database + sizeof(Database_USER_ID)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i]).name, sizeof(Database_USER_Name));
 		memcpy(
-				database + sizeof(Database_USER_ID) + sizeof(Database_USER_Name)
+				*database + sizeof(Database_USER_ID) + sizeof(Database_USER_Name)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i]).creation_date,
 				sizeof(Database_USER_CreationDate));
 		//adding information if user has recorded knock code
 		if (Database_Users[i].secret_code[0] == 0) {
 			memcpy(
-					database + sizeof(Database_USER_ID)
+					*database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
 							+ i * Database_ReducedTupleSize, (char) 0, 1);
 		} else {
 			memcpy(
-					database + sizeof(Database_USER_ID)
+					*database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
 							+ i * Database_ReducedTupleSize, (char) 1, 1);
