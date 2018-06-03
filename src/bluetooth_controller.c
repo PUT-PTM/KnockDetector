@@ -17,6 +17,12 @@ static void Bluetooth_USART_Configuration(void);
 static void Bluetooth_NVIC_Configuration(void);
 static void InterpretInput(void);
 
+static void AddUser(void);
+static void DeleteUser(void);
+static void ChangeCode();
+static void RecordCode(void);
+static void GetDatabase(void);
+
 int CheckCommand(char* in1, char* in2) {
 	for (int i = 0; i < 5; ++i) {
 		if (in1[i] != in2[i]) {
@@ -109,40 +115,61 @@ void Bluetooth_Send(char data[], unsigned long n) {
 
 static void InterpretInput(void) {
 	if (CheckCommand(input, "ADDUS")) {
-		Database_USER_DATA user;
-		memcpy(user.id, &(input[5]), sizeof(Database_USER_ID));
-		memcpy(user.name, &(input[5+sizeof(Database_USER_ID)]),
-				sizeof(Database_USER_Name));
-		memcpy(user.creation_date,
-				&(input[5+sizeof(Database_USER_ID) + sizeof(Database_USER_Name)]),
-				sizeof(Database_USER_CreationDate));
-		Database_AddUser(user);
+		AddUser();
+		GetDatabase();
 	} else if (CheckCommand(input, "DELUS")) {
-		Database_USER_ID id;
-		memcpy(id, &(input[5]), sizeof(Database_USER_ID));
-		Database_DeleteUser(id);
+		DeleteUser();
+		GetDatabase();
 	} else if (CheckCommand(input, "CHNCD")) {
-
-
-		//to-do get code using detector
-
-
-		Database_USER_SecretCode secret_code;
-		memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
-		Database_ChangeCode(secret_code);
+		ChangeCode();
 	} else if (CheckCommand(input, "RECCD")) {
-
-
-		//to-do get code using detector
-
-
-		Database_USER_SecretCode secret_code;
-		memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
+		RecordCode();
 	} else if (CheckCommand(input, "GETDB")) {
-		Database_GetDatatabase();
+		GetDatabase();
 	} else if (CheckCommand(input, "CHNUD")) {
 
 	} else {
 
 	}
+}
+
+static void AddUser(void) {
+	Database_USER_DATA user;
+	memcpy(user.id, &(input[5]), sizeof(Database_USER_ID));
+	memcpy(user.name, &(input[5 + sizeof(Database_USER_ID)]),
+			sizeof(Database_USER_Name));
+	memcpy(user.creation_date,
+			&(input[5 + sizeof(Database_USER_ID) + sizeof(Database_USER_Name)]),
+			sizeof(Database_USER_CreationDate));
+	Database_AddUser(user);
+}
+
+static void DeleteUser(void){
+	Database_USER_ID id = 0;
+	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
+	Database_DeleteUser(id);
+}
+
+static void ChangeCode(){
+
+	//to-do get code using detector
+
+	Database_USER_SecretCode secret_code;
+	memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
+	Database_ChangeSecretCode(secret_code);
+}
+
+static void RecordCode(void){
+
+	//to-do get code using detector
+
+	Database_USER_SecretCode secret_code;
+	memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
+}
+
+static void GetDatabase(void){
+	char** database = malloc(1);
+	int* numberOfBytes = 0;
+	Database_GetDatatabase(database, numberOfBytes);
+	Bluetooth_Send(*database, numberOfBytes);
 }
