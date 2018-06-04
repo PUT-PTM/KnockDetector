@@ -23,6 +23,10 @@ static void ChangeCode();
 static void RecordCode(void);
 static void GetDatabase(void);
 static void ChangeName(void);
+static void SendOK(void);
+static void SendError(void);
+static void SendEndOfCommand(void);
+
 
 int CheckCommand(char* in1, char* in2) {
 	for (int i = 0; i < 5; ++i) {
@@ -168,7 +172,7 @@ static void RecordCode(void) {
 	Detector_EnableRecordMode();
 	while(Detector_Current_Mode==RECORD);
 
-	/*TO DO: SEND OK */
+	SendOK();
 }
 
 static void GetDatabase(void) {
