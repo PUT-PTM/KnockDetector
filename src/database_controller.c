@@ -7,10 +7,12 @@
 
 #include "database_controller.h"
 
-Database_USER_ID Database_LastID;
 Database_RESULT error_code;
 
 static char * Database_FilePath = Database_File;
+Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
+int Database_NumberOfUsers;
+Database_USER_ID Database_LastId;
 
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);
@@ -84,7 +86,7 @@ Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
-	usr.id = ++Databsae_LastId;
+	usr.id = ++Database_LastId;
 	Database_Users[Database_NumberOfUsers] = usr;
 	++Database_NumberOfUsers;
 	return DB_OK;
@@ -125,10 +127,10 @@ static Database_RESULT Database_ReadDatabaseFromFile(void) {
 }
 
 static void Database_SetLastId(void) {
-	Databsae_LastId = 0;
+	Database_LastId = 0;
 	for (int i = 0; i < Database_NumberOfUsers; ++i) {
-		if (Databsae_LastId < Database_Users[i].id) {
-			Databsae_LastId = Database_Users[i].id;
+		if (Database_LastId < Database_Users[i].id) {
+			Database_LastId = Database_Users[i].id;
 		}
 	}
 }
