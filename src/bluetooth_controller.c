@@ -45,18 +45,28 @@ uint16_t ExtractId(char ch0, char ch1) {
 }
 
 void USART3_IRQHandler(void) {
+	GPIO_SetBits(GPIOD, GPIO_Pin_12);
+	for (int i = 0; i < 5000000; ++i)
+		;
+	GPIO_ResetBits(GPIOD, GPIO_Pin_12);
+
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
 		if ((input[inputIndex] = USART_ReceiveData(USART3)) != '\a') {
 
 		} else {
+			inputIndex=0;
 			InterpretInput();
 		}
 	}
 }
 
 void Bluetooth_Configuration(void) {
-	Bluetooth_GPIO_Configuration();
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	Bluetooth_NVIC_Configuration();
+	Bluetooth_GPIO_Configuration();
 	Bluetooth_USART_Configuration();
 }
 
