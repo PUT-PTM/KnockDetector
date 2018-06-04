@@ -26,7 +26,12 @@
 
 typedef enum {RECORD = 1, LISTEN = 0} Detector_Mode;
 
-
+Database_USER_SecretCode Detector_RecordedCode;
+bool Detector_ThresholdExceeded_Flag;
+bool Detector_ListenToSecretCode_Flag;
+bool Detector_Debouncing_Flag;
+bool Detector_CountTime_Flag;
+Detector_Mode Detector_Current_Mode;
 
 void Detector_Configuration(void);
 void TIM3_IRQHandler(void);

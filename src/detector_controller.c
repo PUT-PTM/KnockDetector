@@ -32,7 +32,8 @@ static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 static int CountCodeKnocks(Database_USER_SecretCode secretCode);
 
-Database_USER_SecretCode Detector_RecordedCode;
+Database_USER_SecretCode Detector_RecordedCode = { 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static Database_USER_SecretCode Detector_RegisteredCode = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static int Detector_CurrentKnock = 0;
