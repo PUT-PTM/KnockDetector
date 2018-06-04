@@ -128,8 +128,9 @@ static void InterpretInput(void) {
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
 	} else {
-		Bluetooth_Send("ER\a", 3);
+		SendError();
 	}
+	SendEndOfCommand();
 }
 
 static void AddUser(void) {
@@ -138,9 +139,9 @@ static void AddUser(void) {
 	memcpy(user.creation_date, &(input[5 + sizeof(Database_USER_Name)]),
 			sizeof(Database_USER_CreationDate));
 	if (Database_AddUser(user) == DB_OK) {
-		Bluetooth_Send("OK\a", 3);
+		SendOK();
 	} else {
-		Bluetooth_Send("ER\a", 3);
+		SendError();
 	}
 }
 
@@ -148,9 +149,9 @@ static void DeleteUser(void) {
 	Database_USER_ID id = 0;
 	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
 	if (Database_DeleteUser(id) == DB_OK) {
-		Bluetooth_Send("OK\a", 3);
+		SendOK();
 	} else {
-		Bluetooth_Send("ER\a", 3);
+		SendError();
 	}
 }
 
@@ -174,10 +175,10 @@ static void GetDatabase(void) {
 	char** database = malloc(1);
 	int* numberOfBytes = 0;
 	if (Database_GetDatatabase(database, numberOfBytes) == DB_OK) {
-		Bluetooth_Send("OK", 2);
+		SendOK();
 		Bluetooth_Send(*database, numberOfBytes);
 	} else {
-		Bluetooth_Send("ER\a", 3);
+		SendError();
 	}
 	free(database);
 }
@@ -188,8 +189,20 @@ static void ChangeName(void){
 	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
 	memcpy(name, &(input[5 + sizeof(Database_USER_Name)]), sizeof(Database_USER_Name));
 	if (Database_ChangeName(id, name) == DB_OK) {
-		Bluetooth_Send("OK\a", 3);
+		SendOK();
+
 	} else {
-		Bluetooth_Send("ER\a", 3);
+		SendError();
 	}
+}
+
+static void SendOK(void) {
+	Bluetooth_Send("OK", 2);
+}
+
+static void SendError(void) {
+	Bluetooth_Send("ER", 2);
+}
+static void SendEndOfCommand(void) {
+	Bluetooth_Send("\a", 1);
 }
