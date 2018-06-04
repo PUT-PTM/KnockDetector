@@ -19,8 +19,6 @@ static void Database_SetLastId(void);
 
 Database_RESULT Database_ChangeName(Database_USER_ID id,
 		Database_USER_Name name) {
-	/* TO DO: Database_Users -> iteration, find, change,
-	 * and Database_SaveChanges */
 	int i;
 	for (i = 0; Database_Users[i].id != id; ++i) {
 		/*if (i >= Database_MaxNumberOfUsers) {
@@ -34,8 +32,6 @@ Database_RESULT Database_ChangeName(Database_USER_ID id,
 
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 		Database_USER_SecretCode secretcode) {
-	/* TO DO: Database_Users -> iteration, find, change,
-	 * and Database_SaveChanges */
 	int i;
 	for (i = 0; Database_Users[i].id != id; ++i) {
 
@@ -49,7 +45,7 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 	/* It is for bluetooth module, just send structure, no SD loading */
 	*database = malloc(
-			Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1);
+	Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1);
 	int i;
 	for (i = 0; i < Database_NumberOfUsers; ++i) {
 		memcpy(*database + i * Database_ReducedTupleSize,
@@ -81,8 +77,10 @@ Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 					sizeof(char));
 		}
 	}
-	memcpy((*database + i * Database_ReducedTupleSize), (char) '\a', sizeof(char));
-	numberOfBytes=Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1;
+	memcpy((*database + i * Database_ReducedTupleSize), (char) '\a',
+			sizeof(char));
+	numberOfBytes = Database_ReducedTupleSize * (Database_NumberOfUsers + 1)
+			+ 1;
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
