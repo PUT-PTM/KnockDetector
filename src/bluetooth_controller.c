@@ -31,10 +31,10 @@ static void SendEndOfCommand(void);
 int CheckCommand(char* in1, char* in2) {
 	for (int i = 0; i < 5; ++i) {
 		if (in1[i] != in2[i]) {
-			return 1;
+			return 0;
 		}
 	}
-	return 0;
+	return 1;
 }
 
 uint16_t ExtractId(char ch0, char ch1) {
@@ -46,12 +46,12 @@ uint16_t ExtractId(char ch0, char ch1) {
 
 void USART3_IRQHandler(void) {
 	GPIO_SetBits(GPIOD, GPIO_Pin_12);
-	for (int i = 0; i < 5000000; ++i)
+	for (int i = 0; i < 10000000; ++i)
 		;
 	GPIO_ResetBits(GPIOD, GPIO_Pin_12);
 
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
-		if ((input[inputIndex] = USART_ReceiveData(USART3)) != '\a') {
+		if ((input[inputIndex++] = USART_ReceiveData(USART3)) != '\a') {
 
 		} else {
 			inputIndex=0;
@@ -129,6 +129,10 @@ void Bluetooth_Send(char data[], unsigned long n) {
 }
 
 static void InterpretInput(void) {
+	GPIO_SetBits(GPIOD, GPIO_Pin_13);
+	for (int i = 0; i < 5000000; ++i)
+		;
+	GPIO_ResetBits(GPIOD, GPIO_Pin_13);
 	if (CheckCommand(input, "ADDUS")) {
 		AddUser();
 	} else if (CheckCommand(input, "DELUS")) {
@@ -161,7 +165,7 @@ static void AddUser(void) {
 
 static void DeleteUser(void) {
 	Database_USER_ID id = 0;
-	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
+	memcpy(&id, &(input[5]), sizeof(Database_USER_ID));
 	if (Database_DeleteUser(id) == DB_OK) {
 		SendOK();
 	} else {
@@ -171,7 +175,7 @@ static void DeleteUser(void) {
 
 static void ChangeCode(void) {
 	Database_USER_ID id = 0;
-	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
+	memcpy(&id, &(input[5]), sizeof(Database_USER_ID));
 	Database_USER_SecretCode secret_code;
 	memcpy(secret_code, &Detector_RecordedCode, sizeof(Database_USER_SecretCode));
 	if (Database_ChangeSecretCode(id, secret_code) == DB_OK) {
@@ -200,7 +204,7 @@ static void GetDatabase(void) {
 	int* numberOfBytes = 0;
 	if (Database_GetDatatabase(database, numberOfBytes) == DB_OK) {
 		SendOK();
-		Bluetooth_Send(*database, numberOfBytes);
+		Bluetooth_Send(*database, *numberOfBytes);
 	} else {
 		SendError();
 	}
@@ -208,9 +212,9 @@ static void GetDatabase(void) {
 }
 
 static void ChangeName(void){
-	Database_USER_ID id;
+	Database_USER_ID id = 0;
 	Database_USER_Name name;
-	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
+	memcpy(&id, &(input[5]), sizeof(Database_USER_ID));
 	memcpy(name, &(input[5 + sizeof(Database_USER_Name)]), sizeof(Database_USER_Name));
 	if (Database_ChangeName(id, name) == DB_OK) {
 		SendOK();
