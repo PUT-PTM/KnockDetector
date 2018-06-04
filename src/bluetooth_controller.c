@@ -162,7 +162,7 @@ static void DeleteUser(void) {
 static void ChangeCode(void) {
 	Database_USER_ID id = 0;
 	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
-	if (Database_ChangeSecretCode(id, Detector_RecordedCode == DB_OK) {
+	if (Database_ChangeSecretCode(id, Detector_RecordedCode) == DB_OK) {
 		SendOK();
 	}
 	else {
