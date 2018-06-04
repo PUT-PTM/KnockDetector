@@ -17,7 +17,7 @@ namespace BluetoothAPP.Model
         public char[] Name { get; set; }
         public int Id { get; set; }
         public char[] Creation_date { get; set; }
-        public bool Secret_code { get; set; }
+        public int Secret_code { get; set; }
 
         public User()
         {
@@ -45,6 +45,15 @@ namespace BluetoothAPP.Model
                 str += Creation_date[i];
             }
             return str;
+        }
+        
+        public void flushArrays()
+        {
+            for(int i =0; i < 20; i++)
+            {
+                Creation_date[i] = '\0';
+                Name[i] = '\0';
+            }
         }
     }
 }

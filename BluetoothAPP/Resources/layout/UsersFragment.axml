@@ -3,8 +3,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <ListView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/myListView" />
-</LinearLayout> 
+    <ImageView
+        android:src="@drawable/pplus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addUser"
+        android:clickable="true"
+        android:layout_marginTop="400dp" />
+</LinearLayout>

@@ -22,33 +22,12 @@ namespace BluetoothAPP.Model
         BluetoothDevice device;
         BluetoothAdapter adapter;
         BluetoothSocket socket;
-        Boolean continuous;
-        private string receiver;
 
         public BluetoothSocket getSocket()
         {
             return socket;
         }
-
-        public Boolean getContinuous()
-        {
-            return continuous;
-        }
-        public string getReceiver()
-        {
-            return receiver;
-        }
-
-        public BluetoothManage()
-        {
-            this.receiver = "";
-            this.continuous = false;
-        }
-
-        public void EnableOrDisableAllMainFunctions(bool isEnabled, Button record)
-        {
-            record.Enabled = isEnabled;
-        }
+        
 
         public async void BtnConnect_Click()
         {
@@ -80,18 +59,11 @@ namespace BluetoothAPP.Model
             }
             catch (Exception ex)
             {
-                //txtStatus.Text = ex.Message;
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);
             }
             
         }
-
-
-        public void writingSignal()
-        {
-            //Sending 1 through bluetooth by Record Button
-            Write("2");
-        }
+        
 
         public void closingSocket()
         {
@@ -106,12 +78,6 @@ namespace BluetoothAPP.Model
                 }
                 socket = null;
             }
-        }
-
-
-        public void readData()
-        {
-            Read();
         }
 
 
@@ -140,23 +106,17 @@ namespace BluetoothAPP.Model
             byte[] buffer = new byte[256];
             try
             {
-                //while (socket.IsConnected == false) { }
-
-                //if (socket.IsConnected)
-                //{
-
                 while (socket.InputStream.IsDataAvailable())
                 {
                     lock (this)
                     {
-
                         //Procedure that reads bytes through socket
                         socket.InputStream.Read(buffer, 0, 256);
-                        DatabaseHolder.holdingString = System.Text.Encoding.ASCII.GetString(buffer).ToCharArray();
-
+                        DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
+                        socket.InputStream.Flush();
+                        //DatabaseHolder.holdingString = DatabaseHolder.receiver;
                     }
                 }
-                //}
             } 
             catch (Exception ex)
             {

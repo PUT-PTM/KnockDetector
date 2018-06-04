@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-  <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
-      android:id="@+id/toolbar"
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:fitsSystemWindows="true"
-      android:background="@android:color/holo_blue_light" />
-  <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/container" />
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@android:color/holo_blue_light" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container" />
 </LinearLayout>

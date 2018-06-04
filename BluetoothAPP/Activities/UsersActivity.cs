@@ -19,8 +19,6 @@ namespace BluetoothAPP.Activities
     [Activity(Label = "KnockDetector", Theme = "@style/Theme.AppCompat.NoActionBar")]
     public class UsersActivity : AppCompatActivity
     {
-
-        public BluetoothManage bluetoothManage = new BluetoothManage();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);

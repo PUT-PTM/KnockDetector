@@ -15,19 +15,32 @@ namespace BluetoothAPP.Fragments
 {
     public class DeleteFragment : Fragment
     {
+        ListView usersToDelete;
+        IList<string> listOfUsers;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+            var view = inflater.Inflate(Resource.Layout.DeleteLayout, container, false);
+            usersToDelete = view.FindViewById<ListView>(Resource.Id.usersToDelete);
 
-            return base.OnCreateView(inflater, container, savedInstanceState);
+            Bundle bundle = this.Arguments;
+            listOfUsers = bundle.GetStringArrayList("LIST");
+            
+            ArrayAdapter<string> arrayAdapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, listOfUsers);
+            usersToDelete.Adapter = arrayAdapter;
+
+            usersToDelete.Click += UsersToDelete_Click;
+
+            return view;
+        }
+
+        private void UsersToDelete_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -18,12 +18,9 @@ namespace BluetoothAPP.Fragments
     {
 
         Button record;
-        Activity activity;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -31,7 +28,6 @@ namespace BluetoothAPP.Fragments
             var view = inflater.Inflate(Resource.Layout.MicrophoneLayout, container, false);
             record = view.FindViewById<Button>(Resource.Id.recordButton);
 
-            
             record.Click += Record_Click;
 
             return view;
@@ -40,7 +36,9 @@ namespace BluetoothAPP.Fragments
 
         private void Record_Click(object sender, EventArgs e)
         {
-            BluetoothHolder.bluetoothManage.Write("1");
+            Bundle bundle = this.Arguments;
+            string msg = "RECCD" + " " + bundle.GetString("ID");
+            BluetoothHolder.bluetoothManage.Write(msg);
         }
     }
 }

@@ -13,18 +13,21 @@ using Android.Widget;
 
 namespace BluetoothAPP.Fragments
 {
-    public class EditFragment : Fragment
+    public class AddUserFragment : Fragment
     {
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view = inflater.Inflate(Resource.Layout.EditLayout, container, false);
-            
-            return view;
+            // Use this to return your custom view for this Fragment
+            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+
+            return base.OnCreateView(inflater, container, savedInstanceState);
         }
     }
 }

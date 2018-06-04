@@ -14,15 +14,14 @@ namespace BluetoothAPP
     [Activity(Label = "BluetoothAPP", MainLauncher = true, Icon = "@drawable/Lock")]
     public class MainActivity : AppCompatActivity
     {
-
-        BluetoothManage bluetoothMan = new BluetoothManage();
+        
         Button login;
         EditText username;
         EditText password;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
+             
             SetContentView(Resource.Layout.MainActivity);
 
             var layout = FindViewById<LinearLayout>(Resource.Id.loginLayout);
@@ -41,14 +40,9 @@ namespace BluetoothAPP
             {
                OnBackPressed();
             };
-
-
+            
             BluetoothHolder.bluetoothManage.BtnConnect_Click();
-            BluetoothHolder.bluetoothManage.Write("2");
-            //bluetoothMan.BtnConnect_Click();
-            //bluetoothMan.Write("2");
-
-
+            BluetoothHolder.bluetoothManage.Write(DatabaseHolder.GETDB);
 
 
             login.Click += (s, e) =>
@@ -71,13 +65,10 @@ namespace BluetoothAPP
             
             if (username.Text == "admin" && password.Text == "admin")
             {
-                //bluetoothMan.Read();
                 BluetoothHolder.bluetoothManage.Read();
                 var nextActivity = new Intent(this, typeof(UsersActivity));
                 StartActivity(nextActivity);
-                //BluetoothHolder.bluetoothManage.closingSocket();
-
-                //bluetoothMan.closingSocket();
+                
             }
         }
     }
