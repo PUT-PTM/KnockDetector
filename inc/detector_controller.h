@@ -26,13 +26,7 @@
 
 typedef enum {RECORD = 1, LISTEN = 0} Detector_Mode;
 
-bool Detector_ThresholdExceeded_Flag = FALSE;
-bool Detector_ListenToSecretCode_Flag = FALSE;
-bool Detector_Debouncing_Flag = FALSE;
-bool Detector_CountTime_Flag = FALSE;
-Detector_Mode Detector_Current_Mode = LISTEN;
 
-int Detector_Counter=0;
 
 void Detector_Configuration(void);
 void TIM3_IRQHandler(void);

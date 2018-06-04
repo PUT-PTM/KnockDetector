@@ -38,6 +38,14 @@ static Database_USER_SecretCode Detector_RegisteredCode = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static int Detector_CurrentKnock = 0;
 
+bool Detector_ThresholdExceeded_Flag = FALSE;
+bool Detector_ListenToSecretCode_Flag = FALSE;
+bool Detector_Debouncing_Flag = FALSE;
+bool Detector_CountTime_Flag = FALSE;
+Detector_Mode Detector_Current_Mode = LISTEN;
+
+int Detector_Counter=0;
+
 void Detector_Configuration(void) {
 	Sensor_Configuration();
 	Detector_Timer_Config();
