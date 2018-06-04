@@ -24,7 +24,7 @@ Database_USER_ID Databsae_LastId;
 
 Database_RESULT Database_ChangeName(Database_USER_ID id, Database_USER_Name name);
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id, Database_USER_SecretCode secretcode);
-Database_RESULT Database_GetDatatabase(char** database);
+Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes);
 Database_RESULT Database_AddUser(Database_USER_DATA);
 Database_RESULT Database_DeleteUser(Database_USER_ID id);
 void Database_Configuration(void);
