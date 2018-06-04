@@ -81,7 +81,7 @@ Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 					sizeof(char));
 		}
 	}
-	memcpy(*database + i * Database_ReducedTupleSize), (char) '\a', sizeof(char);
+	memcpy((*database + i * Database_ReducedTupleSize), (char) '\a', sizeof(char));
 	numberOfBytes=Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1;
 	return DB_OK;
 }
