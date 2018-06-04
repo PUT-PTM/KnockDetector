@@ -6,7 +6,6 @@
  */
 
 #include "database_controller.h"
-#include <stdlib.h>
 
 Database_USER_ID Database_LastID;
 Database_RESULT error_code;
@@ -16,6 +15,7 @@ static char * Database_FilePath = Database_File;
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);
 static Database_RESULT Database_WriteDatabaseToFile(void);
+static void Database_SetLastId(void);
 
 Database_RESULT Database_ChangeName(Database_USER_ID id,
 		Database_USER_Name name) {
@@ -46,41 +46,47 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	return DB_OK;
 }
 
-Database_RESULT Database_GetDatatabase(char* database) {
+Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 	/* It is for bluetooth module, just send structure, no SD loading */
-	database = calloc(Database_ReducedTupleSize, Database_NumberOfUsers + 1);
-	for (int i = 0; i < Database_NumberOfUsers; ++i) {
-		memcpy(database + i * Database_ReducedTupleSize,
+	*database = malloc(
+			Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1);
+	int i;
+	for (i = 0; i < Database_NumberOfUsers; ++i) {
+		memcpy(*database + i * Database_ReducedTupleSize,
 				&(Database_Users[i]).id, sizeof(Database_USER_ID));
 		memcpy(
-				database + sizeof(Database_USER_ID)
+				*database + sizeof(Database_USER_ID)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i]).name, sizeof(Database_USER_Name));
 		memcpy(
-				database + sizeof(Database_USER_ID) + sizeof(Database_USER_Name)
+				*database + sizeof(Database_USER_ID)
+						+ sizeof(Database_USER_Name)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i]).creation_date,
 				sizeof(Database_USER_CreationDate));
 		//adding information if user has recorded knock code
 		if (Database_Users[i].secret_code[0] == 0) {
 			memcpy(
-					database + sizeof(Database_USER_ID)
+					*database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 0, 1);
+							+ i * Database_ReducedTupleSize, (char) 0,
+					sizeof(char));
 		} else {
 			memcpy(
-					database + sizeof(Database_USER_ID)
+					*database + sizeof(Database_USER_ID)
 							+ sizeof(Database_USER_Name)
 							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize,
-							(char) 1,
-							1);
+							+ i * Database_ReducedTupleSize, (char) 1,
+					sizeof(char));
 		}
 	}
+	memcpy((*database + i * Database_ReducedTupleSize), (char) '\a', sizeof(char));
+	numberOfBytes=Database_ReducedTupleSize * (Database_NumberOfUsers + 1) + 1;
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
+	usr.id = ++Databsae_LastId;
 	Database_Users[Database_NumberOfUsers] = usr;
 	++Database_NumberOfUsers;
 	return DB_OK;
@@ -115,9 +121,18 @@ static Database_RESULT Database_ReadDatabaseFromFile(void) {
 	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
 	Database_NumberOfUsers = loadedBytes / Database_TupleSize;
 	memcpy(Database_Users, &buffer[0], loadedBytes);
+	Database_SetLastId();
 	return DB_OK;
-	/* TO DO: Skrocenie buffer do loadedBytes i zapisanie do */
 
+}
+
+static void Database_SetLastId(void) {
+	Databsae_LastId = 0;
+	for (int i = 0; i < Database_NumberOfUsers; ++i) {
+		if (Databsae_LastId < Database_Users[i].id) {
+			Databsae_LastId = Database_Users[i].id;
+		}
+	}
 }
 
 static Database_RESULT Database_WriteDatabaseToFile(void) {
