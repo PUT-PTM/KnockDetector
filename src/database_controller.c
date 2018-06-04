@@ -9,10 +9,7 @@
 
 Database_RESULT error_code;
 
-static char * Database_FilePath = Database_File;
-Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
-int Database_NumberOfUsers;
-Database_USER_ID Database_LastId;
+
 
 static Database_RESULT Database_ReadDatabaseFromFile(void);
 static Database_RESULT Database_SaveChanges(void);

@@ -26,5 +26,10 @@ Database_RESULT Database_AddUser(Database_USER_DATA);
 Database_RESULT Database_DeleteUser(Database_USER_ID id);
 void Database_Configuration(void);
 
+static char * Database_FilePath = Database_File;
+Database_USER_DATA Database_Users[Database_MaxNumberOfUsers];
+int Database_NumberOfUsers;
+Database_USER_ID Database_LastId;
+
 
 #endif /* DATABASE_CONTROLLER_H_ */
