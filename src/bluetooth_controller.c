@@ -19,7 +19,7 @@ static void InterpretInput(void);
 
 static void AddUser(void);
 static void DeleteUser(void);
-static void ChangeCode();
+static void ChangeCode(void);
 static void RecordCode(void);
 static void GetDatabase(void);
 static void ChangeName(void);
@@ -159,7 +159,15 @@ static void DeleteUser(void) {
 	}
 }
 
-static void ChangeCode() {
+static void ChangeCode(void) {
+	Database_USER_ID id = 0;
+	memcpy(id, &(input[5]), sizeof(Database_USER_ID));
+	if (Database_ChangeSecretCode(id, Detector_RecordedCode == DB_OK) {
+		SendOK();
+	}
+	else {
+		SendError();
+	}
 
 	//to-do get code using detector
 
