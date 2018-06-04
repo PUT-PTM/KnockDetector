@@ -164,11 +164,10 @@ static void ChangeCode() {
 }
 
 static void RecordCode(void) {
+	Detector_EnableRecordMode();
+	while(Detector_Current_Mode==RECORD);
 
-	//to-do get code using detector
-
-	Database_USER_SecretCode secret_code;
-	memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
+	/*TO DO: SEND OK */
 }
 
 static void GetDatabase(void) {
