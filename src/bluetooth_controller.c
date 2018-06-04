@@ -55,8 +55,8 @@ void USART3_IRQHandler(void) {
 }
 
 void Bluetooth_Configuration(void) {
-	Bluetooth_NVIC_Configuration();
 	Bluetooth_GPIO_Configuration();
+	Bluetooth_NVIC_Configuration();
 	Bluetooth_USART_Configuration();
 }
 
