@@ -9,8 +9,8 @@
 #define BLUETOOTH_CONTROLLER_H_
 
 #include "stm32f4xx.h"
-#include "database_controller.h"
 #include "detector_controller.h"
+#include "database_controller.h"
 
 
 #define Bluetooth_GPIO_RXD GPIO_Pin_11

@@ -32,8 +32,7 @@ static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 static int CountCodeKnocks(Database_USER_SecretCode secretCode);
 
-static Database_USER_SecretCode Detector_RecordedCode = { 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+Database_USER_SecretCode Detector_RecordedCode;
 static Database_USER_SecretCode Detector_RegisteredCode = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static int Detector_CurrentKnock = 0;
@@ -50,6 +49,7 @@ void Detector_Configuration(void) {
 	Sensor_Configuration();
 	Detector_Timer_Config();
 	Detector_TimerNVIC_Config();
+	ResetRecordedCode();
 }
 
 Database_USER_SecretCode * Detector_GetRecordedCode(void) {
