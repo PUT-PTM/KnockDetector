@@ -46,9 +46,6 @@ uint16_t ExtractId(char ch0, char ch1) {
 
 void USART3_IRQHandler(void) {
 	GPIO_SetBits(GPIOD, GPIO_Pin_12);
-	for (int i = 0; i < 10000000; ++i)
-		;
-	GPIO_ResetBits(GPIOD, GPIO_Pin_12);
 
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
 		if ((input[inputIndex++] = USART_ReceiveData(USART3)) != '\a') {
@@ -103,6 +100,7 @@ static void Bluetooth_USART_Configuration(void) {
 
 	/* Enable USART1 */
 	USART_Cmd(USART3, ENABLE);
+	USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
 }
 
 static void Bluetooth_NVIC_Configuration(void) {
@@ -116,7 +114,6 @@ static void Bluetooth_NVIC_Configuration(void) {
 	NVIC_Init(&NVIC_InitStructure);
 	/* Enable the USART3 Receive interrupt: this interrupt is generated when the
 	 USART3 receive data register is not empty */
-	USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
 }
 
 void Bluetooth_Send(char data[], unsigned long n) {
@@ -142,7 +139,8 @@ static void InterpretInput(void) {
 	} else if (CheckCommand(input, "RECCD")) {
 		RecordCode();
 	} else if (CheckCommand(input, "GETDB")) {
-		GetDatabase();
+		//GetDatabase();
+		Bluetooth_Send("OK",2);
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
 	} else {
