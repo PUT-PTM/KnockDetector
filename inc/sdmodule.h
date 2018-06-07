@@ -18,7 +18,7 @@
 
 void SDmodule_Configuration(void);
 uint8_t SDmodule_ReadFile(char* file_name, char * buffer, UINT * loaded_bytes);
-uint8_t SDmodule_WriteFile(char * file_name, char * file_content);
+uint8_t SDmodule_WriteFile(char * file_name, char * file_content, UINT file_content_size);
 
 
 #endif /* SDMODULE_H_ */
