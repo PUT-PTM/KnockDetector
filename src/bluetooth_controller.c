@@ -54,10 +54,6 @@ void USART3_IRQHandler(void) {
 }
 
 void Bluetooth_Configuration(void) {
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	Bluetooth_NVIC_Configuration();
 	Bluetooth_GPIO_Configuration();
 	Bluetooth_USART_Configuration();
@@ -122,9 +118,7 @@ void Bluetooth_Send(char data[], unsigned long n) {
 }
 
 static void InterpretInput(void) {
-
 	if (CheckCommand(input, "ADDUS")) {
-		GPIO_SetBits(GPIOD, GPIO_Pin_13);
 		AddUser();
 	} else if (CheckCommand(input, "DELUS")) {
 		DeleteUser();
@@ -133,9 +127,7 @@ static void InterpretInput(void) {
 	} else if (CheckCommand(input, "RECCD")) {
 		RecordCode();
 	} else if (CheckCommand(input, "GETDB")) {
-		GPIO_SetBits(GPIOD, GPIO_Pin_14 | GPIO_Pin_15);
 		GetDatabase();
-		/*SendOK();*/
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
 	} else {
