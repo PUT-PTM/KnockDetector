@@ -53,6 +53,7 @@ uint8_t SDmodule_WriteFile(char * file_name, char * file_content, UINT file_cont
 	fresult = f_mount(0, &fatfs);
 
 	if (fresult == FR_OK) {
+		f_unlink(file_name);
 		fresult = f_open(&file, file_name, FA_OPEN_ALWAYS | FA_WRITE);
 
 		if (fresult == FR_OK) {
