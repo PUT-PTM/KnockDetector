@@ -84,7 +84,6 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\UsersActivity.cs" />
     <Compile Include="Adapters\UsersViewAdapter.cs" />
-    <Compile Include="Fragments\AddUserFragment.cs" />
     <Compile Include="Fragments\DeleteFragment.cs" />
     <Compile Include="Fragments\EditFragment.cs" />
     <Compile Include="Fragments\MicrophoneFragment.cs" />

@@ -42,10 +42,10 @@ namespace BluetoothAPP.Adapters
             idText.Text = users[position].Id.ToString();
 
             TextView nameText = row.FindViewById<TextView>(Resource.Id.name);
-            nameText.Text = users[position].nameToString();
+            nameText.Text = users[position].NameToString();
 
             TextView creationText = row.FindViewById<TextView>(Resource.Id.creationDate);
-            creationText.Text = users[position].creationDateToString();
+            creationText.Text = users[position].CreationDateToString();
 
             TextView codeText = row.FindViewById<TextView>(Resource.Id.hasCode);
             codeText.Text = "False";

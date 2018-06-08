@@ -10,9 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/justTextAdd1" />
-    <Button
-        android:text="OK"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/OKButton" />
+        android:orientation="horizontal">
+      <Button
+            android:text="Accept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/AccButton" />
+      <Button
+            android:text="Ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/OkButton" />
+    </LinearLayout>
 </LinearLayout>

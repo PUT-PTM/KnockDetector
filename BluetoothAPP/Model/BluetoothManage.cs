@@ -1,27 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Bluetooth;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using Java.IO;
 using Java.Util;
 
 namespace BluetoothAPP.Model
 {
     public class BluetoothManage
     {
-        Activity activ = null;
+        Activity activ;
         BluetoothDevice device;
         BluetoothAdapter adapter;
         BluetoothSocket socket;
+
+        public BluetoothManage(Activity activity)
+        {
+            this.activ = activity;
+        }
 
         public BluetoothSocket getSocket()
         {
@@ -40,10 +39,10 @@ namespace BluetoothAPP.Model
                     //Using default adapter of a phone
                     adapter = BluetoothAdapter.DefaultAdapter;
                     if (adapter == null)
-                        throw new Exception("No Bluetooth adapter found.");
+                        Toast.MakeText(activ, "No Bluetooth adaapter found!", ToastLength.Long).Show();
 
                     if (!adapter.IsEnabled)
-                        throw new Exception("Bluetooth adapter is not enabled.");
+                        Toast.MakeText(activ, "Bluetooth adapter is not enabled!", ToastLength.Long).Show();
 
                     //Looking for HC-05 bluetooth adapter
                     device = (from bd in adapter.BondedDevices
@@ -51,10 +50,11 @@ namespace BluetoothAPP.Model
                               select bd).FirstOrDefault();
 
                     if (device == null)
-                        throw new Exception("STM32 device not found.");
+                        Toast.MakeText(activ, "Device STM32 not found!", ToastLength.Long).Show();
 
                     socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
                     await socket.ConnectAsync();
+                    //beginListenForData();
                 }
             }
             catch (Exception ex)
@@ -62,6 +62,7 @@ namespace BluetoothAPP.Model
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);
             }
             
+
         }
         
 
@@ -103,7 +104,7 @@ namespace BluetoothAPP.Model
 
         public void Read()
         {
-            byte[] buffer = new byte[256];
+            byte[] buffer = new byte[920];
             try
             {
                 while (socket.InputStream.IsDataAvailable())
@@ -113,7 +114,9 @@ namespace BluetoothAPP.Model
                         //Procedure that reads bytes through socket
                         socket.InputStream.Read(buffer, 0, 256);
                         DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
-                        socket.InputStream.Flush();
+
+                        if (DatabaseHolder.receiver != null)
+                            socket.InputStream.Flush();
                         //DatabaseHolder.holdingString = DatabaseHolder.receiver;
                     }
                 }
@@ -122,6 +125,40 @@ namespace BluetoothAPP.Model
             {
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);
             }
+        }
+        public void beginListenForData()
+        {
+            Task.Factory.StartNew(() => {
+
+                byte[] buffer = new byte[1024];
+
+                int bytes;
+                while (true)
+                {
+                    try
+                    {
+                        //DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
+                        bytes = socket.InputStream.Read(buffer, 0, buffer.Length);
+                       
+                        if (bytes > 0)
+                        {
+                            //DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
+                            activ.RunOnUiThread(() => Receiving(buffer));
+                        }
+                    }
+                    catch (Java.IO.IOException)
+                    {
+                        activ.RunOnUiThread(() => {
+                            
+                        });
+                        break;
+                    }
+                }
+            });
+        }
+        void Receiving(byte[] buffer)
+        { 
+            DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
         }
     }
 }

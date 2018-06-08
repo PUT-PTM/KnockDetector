@@ -27,7 +27,7 @@ namespace BluetoothAPP.Model
         
 
 
-        public string nameToString()
+        public string NameToString()
         {
             string str = "";
             for (int i = 0; i < 20; i++)
@@ -37,7 +37,7 @@ namespace BluetoothAPP.Model
             return str;
         }
 
-        public string creationDateToString()
+        public string CreationDateToString()
         {
             string str = "";
             for (int i = 0; i < 20; i++)
@@ -47,7 +47,7 @@ namespace BluetoothAPP.Model
             return str;
         }
         
-        public void flushArrays()
+        public void FlushArrays()
         {
             for(int i =0; i < 20; i++)
             {

@@ -25,6 +25,7 @@ namespace BluetoothAPP.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            BluetoothHolder.activity = this.Activity;
             var view = inflater.Inflate(Resource.Layout.MicrophoneLayout, container, false);
             record = view.FindViewById<Button>(Resource.Id.recordButton);
 

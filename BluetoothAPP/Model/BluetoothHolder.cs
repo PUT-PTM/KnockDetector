@@ -14,6 +14,7 @@ namespace BluetoothAPP.Model
 {
     class BluetoothHolder
     {
-        public static BluetoothManage bluetoothManage = new BluetoothManage();
+        public static Activity activity;
+        public static BluetoothManage bluetoothManage = new BluetoothManage(activity);
     }
 }

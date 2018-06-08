@@ -10,13 +10,16 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using BluetoothAPP.Model;
+using Java.Lang;
 
 namespace BluetoothAPP.Fragments
 {
     public class DeleteFragment : Fragment
     {
         ListView usersToDelete;
-        IList<string> listOfUsers;
+        IList<string> namesOfUsers;
+        IList<Integer> idsOfUsers;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -24,23 +27,26 @@ namespace BluetoothAPP.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            BluetoothHolder.activity = this.Activity;
             var view = inflater.Inflate(Resource.Layout.DeleteLayout, container, false);
             usersToDelete = view.FindViewById<ListView>(Resource.Id.usersToDelete);
 
             Bundle bundle = this.Arguments;
-            listOfUsers = bundle.GetStringArrayList("LIST");
+            namesOfUsers = bundle.GetStringArrayList("STRINGLIST");
+            idsOfUsers = bundle.GetIntegerArrayList("INTLIST");
             
-            ArrayAdapter<string> arrayAdapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, listOfUsers);
+            ArrayAdapter<string> arrayAdapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, namesOfUsers);
             usersToDelete.Adapter = arrayAdapter;
 
-            usersToDelete.Click += UsersToDelete_Click;
+            usersToDelete.ItemClick += UsersToDelete_ItemClick;
 
             return view;
         }
 
-        private void UsersToDelete_Click(object sender, EventArgs e)
+        private void UsersToDelete_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-
+            
         }
+        
     }
 }
