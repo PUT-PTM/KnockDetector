@@ -45,7 +45,6 @@ uint16_t ExtractId(char ch0, char ch1) {
 }
 
 void USART3_IRQHandler(void) {
-	GPIO_SetBits(GPIOD, GPIO_Pin_12);
 
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16) RESET) {
 		if ((input[inputIndex++] = USART_ReceiveData(USART3)) != '\a') {
@@ -117,6 +116,12 @@ static void Bluetooth_NVIC_Configuration(void) {
 }
 
 void Bluetooth_Send(char data[], unsigned long n) {
+	char a1=data[0];
+	char a2=data[1];
+	char a3=data[2];
+	char a4=data[3];
+	char a5=data[4];
+	char a6=data[5];
 	for (int j = 0; j < n; ++j) {
 		USART_SendData(USART3, (uint16_t) data[j]);
 		//Loop until the end of transmission
@@ -126,11 +131,9 @@ void Bluetooth_Send(char data[], unsigned long n) {
 }
 
 static void InterpretInput(void) {
-	GPIO_SetBits(GPIOD, GPIO_Pin_13);
-	for (int i = 0; i < 5000000; ++i)
-		;
-	GPIO_ResetBits(GPIOD, GPIO_Pin_13);
+
 	if (CheckCommand(input, "ADDUS")) {
+		GPIO_SetBits(GPIOD, GPIO_Pin_13);
 		AddUser();
 	} else if (CheckCommand(input, "DELUS")) {
 		DeleteUser();
@@ -139,8 +142,9 @@ static void InterpretInput(void) {
 	} else if (CheckCommand(input, "RECCD")) {
 		RecordCode();
 	} else if (CheckCommand(input, "GETDB")) {
-		//GetDatabase();
-		Bluetooth_Send("OK",2);
+		GPIO_SetBits(GPIOD, GPIO_Pin_14 | GPIO_Pin_15);
+		GetDatabase();
+		/*SendOK();*/
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
 	} else {
@@ -201,6 +205,10 @@ static void GetDatabase(void) {
 	char** database = malloc(1);
 	int* numberOfBytes = 0;
 	if (Database_GetDatatabase(database, numberOfBytes) == DB_OK) {
+		char a1 = database[0];
+		char a2 = database[1];
+		char a3 = database[2];
+		char a4 = database[3];
 		SendOK();
 		Bluetooth_Send(*database, *numberOfBytes);
 	} else {
