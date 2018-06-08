@@ -28,8 +28,8 @@ typedef struct {
 } Database_USER_DATA;
 
 #define Database_MaxNumberOfUsers 20
-#define Database_TupleSize sizeof(Database_USER_DATA)
-#define Database_ReducedTupleSize sizeof(Database_USER_ID)+sizeof(Database_USER_Name)+sizeof(Database_USER_CreationDate)+1
+#define Database_TupleSize 122
+#define Database_ReducedTupleSize 43
 #define Database_MaximumSize Database_MaxNumberOfUsers*Database_TupleSize
 
 #define Database_File "database.txt"

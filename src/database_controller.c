@@ -41,23 +41,74 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	return DB_OK;
 }
 
-Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
+Database_RESULT Database_GetDatabase2(char * database, int* numberOfBytes) {
+/*
+	numberOfBytes = Database_ReducedTupleSize * Database_NumberOfUsers;*/
+	int size = Database_ReducedTupleSize * Database_NumberOfUsers;
+	/*char *database = malloc(
+			numberOfBytes);*/
+	/*char * database = (char*)malloc(*numberOfBytes+1);*/
+	/*int a =database;*/
+	/*memcpy(c,&(Database_Users[0].id),sizeof(c));*/
+
+	for (int i = 0; i < Database_NumberOfUsers; ++i) {
+		memcpy(database + i * Database_ReducedTupleSize,
+				&(Database_Users[i].id), sizeof(Database_USER_ID));
+		memcpy(
+				database + sizeof(Database_USER_ID)
+						+ i * Database_ReducedTupleSize,
+				&(Database_Users[i].name), sizeof(Database_USER_Name));
+		/*memcpy(
+				database + sizeof(Database_USER_ID)
+						+ sizeof(Database_USER_Name)
+						+ i * Database_ReducedTupleSize,
+				&(Database_Users[i].creation_date),
+				sizeof(Database_USER_CreationDate));*/
+		//adding information if user has recorded knock code
+		/*if (Database_Users[i].secret_code[0] == 0) {
+			memcpy(
+					database + sizeof(Database_USER_ID)
+							+ sizeof(Database_USER_Name)
+							+ sizeof(Database_USER_CreationDate)
+							+ i * Database_ReducedTupleSize, (char) 0,
+					sizeof(char));
+		} else {
+			memcpy(
+					database + sizeof(Database_USER_ID)
+							+ sizeof(Database_USER_Name)
+							+ sizeof(Database_USER_CreationDate)
+							+ i * Database_ReducedTupleSize, (char) 1,
+					sizeof(char));
+		}*/
+	}
+	char a1 = database[0];
+	char a2 = database[1];
+	char a3 = database[2];
+	char a4 = database[3];
+	char a5 = database[4];
+	char a6 = database[5];
+	char a7 = database[6];
+ 	char a8 = database[7];
+	return DB_OK;
+}
+
+Database_RESULT Database_GetDatabase(char** database, int* numberOfBytes) {
 	/* It is for bluetooth module, just send structure, no SD loading */
 	*database = malloc(
 	Database_ReducedTupleSize * Database_NumberOfUsers);
-	int i;
-	for (i = 0; i < Database_NumberOfUsers; ++i) {
+
+	for (int i = 0; i < Database_NumberOfUsers; ++i) {
 		memcpy(*database + i * Database_ReducedTupleSize,
-				&(Database_Users[i]).id, sizeof(Database_USER_ID));
+				&(Database_Users[i].id), sizeof(Database_USER_ID));
 		memcpy(
 				*database + sizeof(Database_USER_ID)
 						+ i * Database_ReducedTupleSize,
-				&(Database_Users[i]).name, sizeof(Database_USER_Name));
+				&(Database_Users[i].name), sizeof(Database_USER_Name));
 		memcpy(
 				*database + sizeof(Database_USER_ID)
 						+ sizeof(Database_USER_Name)
 						+ i * Database_ReducedTupleSize,
-				&(Database_Users[i]).creation_date,
+				&(Database_Users[i].creation_date),
 				sizeof(Database_USER_CreationDate));
 		//adding information if user has recorded knock code
 		if (Database_Users[i].secret_code[0] == 0) {
@@ -76,6 +127,10 @@ Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 					sizeof(char));
 		}
 	}
+	char a1 = database[0];
+			char a2 = database[1];
+			char a3 = database[2];
+			char a4 = database[3];
 	numberOfBytes = Database_ReducedTupleSize * Database_NumberOfUsers;
 	return DB_OK;
 }
@@ -107,6 +162,7 @@ Database_RESULT Database_DeleteUser(Database_USER_ID id) {
 void Database_Configuration(void) {
 	SDmodule_Configuration();
 	Database_ReadDatabaseFromFile();
+
 }
 
 static Database_RESULT Database_SaveChanges(void) {
@@ -119,7 +175,7 @@ static Database_RESULT Database_SaveChanges(void) {
 static Database_RESULT Database_ReadDatabaseFromFile(void) {
 	char buffer[Database_MaximumSize];
 	UINT loadedBytes = 0;
-	SDmodule_ReadFile(Database_FilePath, &buffer, loadedBytes);
+	SDmodule_ReadFile(Database_FilePath, &buffer, &loadedBytes);
 	Database_NumberOfUsers = loadedBytes / Database_TupleSize;
 	memcpy(Database_Users, &buffer[0], loadedBytes);
 	Database_SetLastId();

@@ -22,6 +22,7 @@ static void DeleteUser(void);
 static void ChangeCode(void);
 static void RecordCode(void);
 static void GetDatabase(void);
+static void GetDatabase2(void);
 static void ChangeName(void);
 static void SendOK(void);
 static void SendError(void);
@@ -57,13 +58,14 @@ void USART3_IRQHandler(void) {
 }
 
 void Bluetooth_Configuration(void) {
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	/*RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	Bluetooth_NVIC_Configuration();
 	Bluetooth_GPIO_Configuration();
-	Bluetooth_USART_Configuration();
+	Bluetooth_USART_Configuration();*/
+	GetDatabase2();
 }
 
 static void Bluetooth_GPIO_Configuration(void) {
@@ -143,7 +145,7 @@ static void InterpretInput(void) {
 		RecordCode();
 	} else if (CheckCommand(input, "GETDB")) {
 		GPIO_SetBits(GPIOD, GPIO_Pin_14 | GPIO_Pin_15);
-		GetDatabase();
+		GetDatabase2();
 		/*SendOK();*/
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
@@ -201,16 +203,27 @@ static void RecordCode(void) {
 	SendOK();
 }
 
+static void GetDatabase2(void) {
+	char database[Database_ReducedTupleSize*Database_NumberOfUsers];
+	int numberOfBytes = 0;
+	if (Database_GetDatabase2(&database, &numberOfBytes) == DB_OK) {
+		SendOK();
+		Bluetooth_Send(database, numberOfBytes);
+	} else {
+		SendError();
+	}
+}
+
 static void GetDatabase(void) {
 	char** database = malloc(1);
-	int* numberOfBytes = 0;
-	if (Database_GetDatatabase(database, numberOfBytes) == DB_OK) {
+	int numberOfBytes = 0;
+	if (Database_GetDatabase(&database, &numberOfBytes) == DB_OK) {
 		char a1 = database[0];
 		char a2 = database[1];
 		char a3 = database[2];
 		char a4 = database[3];
 		SendOK();
-		Bluetooth_Send(*database, *numberOfBytes);
+		Bluetooth_Send(*database, &numberOfBytes);
 	} else {
 		SendError();
 	}
