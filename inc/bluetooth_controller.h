@@ -18,6 +18,8 @@
 #define Bluetooth_GPIO_Port GPIOC
 #define Bluetooth_GPIO_RCC RCC_AHB1Periph_GPIOC
 
+#define Bluetooth_INPUT_SIZE 100
+
 void Bluetooth_Configuration(void);
 void USART3_IRQHandler(void);
 //void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount);

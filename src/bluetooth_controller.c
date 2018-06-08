@@ -7,26 +7,22 @@
 
 #include "bluetooth_controller.h"
 
-#define Bluetooth_INPUT_SIZE 100
-
-static char input[Bluetooth_INPUT_SIZE];
-static int inputIndex = 0;
-
 static void Bluetooth_GPIO_Configuration(void);
 static void Bluetooth_USART_Configuration(void);
 static void Bluetooth_NVIC_Configuration(void);
 static void InterpretInput(void);
-
 static void AddUser(void);
 static void DeleteUser(void);
 static void ChangeCode(void);
 static void RecordCode(void);
 static void GetDatabase(void);
-static void GetDatabase2(void);
 static void ChangeName(void);
 static void SendOK(void);
 static void SendError(void);
 static void SendEndOfCommand(void);
+
+static char input[Bluetooth_INPUT_SIZE];
+static int inputIndex = 0;
 
 
 int CheckCommand(char* in1, char* in2) {
@@ -58,14 +54,13 @@ void USART3_IRQHandler(void) {
 }
 
 void Bluetooth_Configuration(void) {
-	/*RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 	Bluetooth_NVIC_Configuration();
 	Bluetooth_GPIO_Configuration();
-	Bluetooth_USART_Configuration();*/
-	GetDatabase2();
+	Bluetooth_USART_Configuration();
 }
 
 static void Bluetooth_GPIO_Configuration(void) {
@@ -118,12 +113,6 @@ static void Bluetooth_NVIC_Configuration(void) {
 }
 
 void Bluetooth_Send(char data[], unsigned long n) {
-	char a1=data[0];
-	char a2=data[1];
-	char a3=data[2];
-	char a4=data[3];
-	char a5=data[4];
-	char a6=data[5];
 	for (int j = 0; j < n; ++j) {
 		USART_SendData(USART3, (uint16_t) data[j]);
 		//Loop until the end of transmission
@@ -145,7 +134,7 @@ static void InterpretInput(void) {
 		RecordCode();
 	} else if (CheckCommand(input, "GETDB")) {
 		GPIO_SetBits(GPIOD, GPIO_Pin_14 | GPIO_Pin_15);
-		GetDatabase2();
+		GetDatabase();
 		/*SendOK();*/
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
@@ -188,12 +177,6 @@ static void ChangeCode(void) {
 	else {
 		SendError();
 	}
-
-	//to-do get code using detector
-
-	/*Database_USER_SecretCode secret_code;
-	memcpy(secret_code, &(input[5]), sizeof(Database_USER_SecretCode));
-	Database_ChangeSecretCode(secret_code);*/
 }
 
 static void RecordCode(void) {
@@ -203,32 +186,17 @@ static void RecordCode(void) {
 	SendOK();
 }
 
-static void GetDatabase2(void) {
-	char database[Database_ReducedTupleSize*Database_NumberOfUsers];
-	int numberOfBytes = 0;
-	if (Database_GetDatabase2(&database, &numberOfBytes) == DB_OK) {
+static void GetDatabase(void) {
+	int database_size=Database_ReducedTupleSize*Database_NumberOfUsers;
+	char database[database_size];
+	if (Database_GetDatabase(&database) == DB_OK) {
 		SendOK();
-		Bluetooth_Send(database, numberOfBytes);
+		Bluetooth_Send(database, database_size);
 	} else {
 		SendError();
 	}
 }
 
-static void GetDatabase(void) {
-	char** database = malloc(1);
-	int numberOfBytes = 0;
-	if (Database_GetDatabase(&database, &numberOfBytes) == DB_OK) {
-		char a1 = database[0];
-		char a2 = database[1];
-		char a3 = database[2];
-		char a4 = database[3];
-		SendOK();
-		Bluetooth_Send(*database, &numberOfBytes);
-	} else {
-		SendError();
-	}
-	free(database);
-}
 
 static void ChangeName(void){
 	Database_USER_ID id = 0;
