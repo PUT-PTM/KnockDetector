@@ -44,7 +44,7 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 	/* It is for bluetooth module, just send structure, no SD loading */
 	*database = malloc(
-	Database_ReducedTupleSize * (Database_NumberOfUsers + 1));
+	Database_ReducedTupleSize * Database_NumberOfUsers);
 	int i;
 	for (i = 0; i < Database_NumberOfUsers; ++i) {
 		memcpy(*database + i * Database_ReducedTupleSize,
@@ -76,13 +76,19 @@ Database_RESULT Database_GetDatatabase(char** database, int* numberOfBytes) {
 					sizeof(char));
 		}
 	}
-	numberOfBytes = Database_ReducedTupleSize * (Database_NumberOfUsers + 1);
+	numberOfBytes = Database_ReducedTupleSize * Database_NumberOfUsers;
 	return DB_OK;
 }
 Database_RESULT Database_AddUser(Database_USER_DATA usr) {
 	usr.id = ++Database_LastId;
+	/* reset secret code */
+	for (int i=0; i<Database_USER_SecretCode_Size; i++) {
+		usr.secret_code[i]=0;
+	}
+
 	Database_Users[Database_NumberOfUsers] = usr;
 	++Database_NumberOfUsers;
+	Database_SaveChanges();
 	return DB_OK;
 }
 
@@ -94,6 +100,7 @@ Database_RESULT Database_DeleteUser(Database_USER_ID id) {
 	for (; index < Database_NumberOfUsers; ++index) { //clean array after deleting
 		Database_Users[index] = Database_Users[index + 1];
 	}
+	Database_SaveChanges();
 	return DB_OK;
 }
 
@@ -130,10 +137,12 @@ static void Database_SetLastId(void) {
 }
 
 static Database_RESULT Database_WriteDatabaseToFile(void) {
-	char *file_content = malloc(Database_TupleSize * Database_NumberOfUsers);
+	UINT file_content_size = Database_TupleSize * Database_NumberOfUsers;
+	char *file_content = malloc(file_content_size);
 	memcpy(file_content, Database_Users,
 	Database_TupleSize * Database_NumberOfUsers);
-	SDmodule_WriteFile(Database_FilePath, file_content);
+
+	SDmodule_WriteFile(Database_FilePath, file_content,file_content_size);
 	free(file_content);
 	return DB_OK;
 }
