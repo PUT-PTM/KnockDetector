@@ -103,10 +103,11 @@ Database_RESULT Database_DeleteUser(Database_USER_ID id) {
 			return UNKNOWN_ID;
 		}
 	}
-	--Database_NumberOfUsers;
-	for (; index < Database_NumberOfUsers; ++index) { //clean array after deleting
+	Database_NumberOfUsers-=1;
+	for (; index < Database_NumberOfUsers-1; ++index) { //clean array after deleting
 		Database_Users[index] = Database_Users[index + 1];
 	}
+	int a=Database_NumberOfUsers;
 	Database_SaveChanges();
 	return DB_OK;
 }
@@ -148,7 +149,7 @@ static Database_RESULT Database_WriteDatabaseToFile(void) {
 	UINT file_content_size = Database_TupleSize * Database_NumberOfUsers;
 	char *file_content = malloc(file_content_size);
 	memcpy(file_content, Database_Users,
-	Database_TupleSize * Database_NumberOfUsers);
+			file_content_size);
 
 	SDmodule_WriteFile(Database_FilePath, file_content,file_content_size);
 	free(file_content);
