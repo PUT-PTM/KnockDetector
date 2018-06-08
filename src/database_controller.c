@@ -20,9 +20,9 @@ Database_RESULT Database_ChangeName(Database_USER_ID id,
 		Database_USER_Name name) {
 	int i;
 	for (i = 0; Database_Users[i].id != id; ++i) {
-		/*if (i >= Database_MaxNumberOfUsers) {
+		if (i >= Database_MaxNumberOfUsers) {
 		 return UNKNOWN_ID;
-		 }*/
+		 }
 	}
 	memcpy(Database_Users[i].name, name, sizeof(Database_USER_Name));
 	Database_SaveChanges();
@@ -33,123 +33,75 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 		Database_USER_SecretCode secretcode) {
 	int i;
 	for (i = 0; Database_Users[i].id != id; ++i) {
-
+		if (i==Database_MaxNumberOfUsers){
+			return UNKNOWN_ID;
+		}
 	}
 	memcpy(Database_Users[i].secret_code, secretcode,
 			sizeof(Database_USER_SecretCode));
 	Database_SaveChanges();
 	return DB_OK;
+
 }
 
-Database_RESULT Database_GetDatabase2(char * database, int* numberOfBytes) {
-/*
-	numberOfBytes = Database_ReducedTupleSize * Database_NumberOfUsers;*/
-	int size = Database_ReducedTupleSize * Database_NumberOfUsers;
-	/*char *database = malloc(
-			numberOfBytes);*/
-	/*char * database = (char*)malloc(*numberOfBytes+1);*/
-	/*int a =database;*/
-	/*memcpy(c,&(Database_Users[0].id),sizeof(c));*/
-
+Database_RESULT Database_GetDatabase(char * database) {
 	for (int i = 0; i < Database_NumberOfUsers; ++i) {
 		memcpy(database + i * Database_ReducedTupleSize,
 				&(Database_Users[i].id), sizeof(Database_USER_ID));
-		memcpy(
-				database + sizeof(Database_USER_ID)
+		memcpy(database + sizeof(Database_USER_ID)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i].name), sizeof(Database_USER_Name));
-		/*memcpy(
-				database + sizeof(Database_USER_ID)
-						+ sizeof(Database_USER_Name)
-						+ i * Database_ReducedTupleSize,
-				&(Database_Users[i].creation_date),
-				sizeof(Database_USER_CreationDate));*/
-		//adding information if user has recorded knock code
-		/*if (Database_Users[i].secret_code[0] == 0) {
-			memcpy(
-					database + sizeof(Database_USER_ID)
-							+ sizeof(Database_USER_Name)
-							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 0,
-					sizeof(char));
-		} else {
-			memcpy(
-					database + sizeof(Database_USER_ID)
-							+ sizeof(Database_USER_Name)
-							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 1,
-					sizeof(char));
-		}*/
-	}
-	char a1 = database[0];
-	char a2 = database[1];
-	char a3 = database[2];
-	char a4 = database[3];
-	char a5 = database[4];
-	char a6 = database[5];
-	char a7 = database[6];
- 	char a8 = database[7];
-	return DB_OK;
-}
-
-Database_RESULT Database_GetDatabase(char** database, int* numberOfBytes) {
-	/* It is for bluetooth module, just send structure, no SD loading */
-	*database = malloc(
-	Database_ReducedTupleSize * Database_NumberOfUsers);
-
-	for (int i = 0; i < Database_NumberOfUsers; ++i) {
-		memcpy(*database + i * Database_ReducedTupleSize,
-				&(Database_Users[i].id), sizeof(Database_USER_ID));
-		memcpy(
-				*database + sizeof(Database_USER_ID)
-						+ i * Database_ReducedTupleSize,
-				&(Database_Users[i].name), sizeof(Database_USER_Name));
-		memcpy(
-				*database + sizeof(Database_USER_ID)
+		memcpy(database + sizeof(Database_USER_ID)
 						+ sizeof(Database_USER_Name)
 						+ i * Database_ReducedTupleSize,
 				&(Database_Users[i].creation_date),
 				sizeof(Database_USER_CreationDate));
 		//adding information if user has recorded knock code
-		if (Database_Users[i].secret_code[0] == 0) {
-			memcpy(
-					*database + sizeof(Database_USER_ID)
-							+ sizeof(Database_USER_Name)
-							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 0,
-					sizeof(char));
-		} else {
-			memcpy(
-					*database + sizeof(Database_USER_ID)
-							+ sizeof(Database_USER_Name)
-							+ sizeof(Database_USER_CreationDate)
-							+ i * Database_ReducedTupleSize, (char) 1,
-					sizeof(char));
+		char isRecorded=0;
+		if (Database_Users[i].secret_code[0] != 0) {
+			isRecorded=1;
 		}
+			memcpy(
+					database + sizeof(Database_USER_ID)
+							+ sizeof(Database_USER_Name)
+							+ sizeof(Database_USER_CreationDate)
+							+ i * Database_ReducedTupleSize, &isRecorded,
+					sizeof(char));
+
+			memcpy(
+					database + sizeof(Database_USER_ID)
+							+ sizeof(Database_USER_Name)
+							+ sizeof(Database_USER_CreationDate)
+							+ i * Database_ReducedTupleSize, &isRecorded,
+					sizeof(char));
 	}
-	char a1 = database[0];
-			char a2 = database[1];
-			char a3 = database[2];
-			char a4 = database[3];
-	numberOfBytes = Database_ReducedTupleSize * Database_NumberOfUsers;
 	return DB_OK;
 }
-Database_RESULT Database_AddUser(Database_USER_DATA usr) {
-	usr.id = ++Database_LastId;
-	/* reset secret code */
-	for (int i=0; i<Database_USER_SecretCode_Size; i++) {
-		usr.secret_code[i]=0;
-	}
 
-	Database_Users[Database_NumberOfUsers] = usr;
-	++Database_NumberOfUsers;
-	Database_SaveChanges();
-	return DB_OK;
+Database_RESULT Database_AddUser(Database_USER_DATA usr) {
+	if (Database_NumberOfUsers<=Database_MaxNumberOfUsers) {
+		usr.id = ++Database_LastId;
+		/* reset secret code */
+		for (int i=0; i<Database_USER_SecretCode_Size; i++) {
+			usr.secret_code[i]=0;
+		}
+
+		Database_Users[Database_NumberOfUsers] = usr;
+		++Database_NumberOfUsers;
+		Database_SaveChanges();
+		return DB_OK;
+	}
+	else {
+		return DB_FULL;
+	}
 }
 
 Database_RESULT Database_DeleteUser(Database_USER_ID id) {
 	int index;
 	for (index = 0; Database_Users[index].id != id; ++index) {
+		if (index==Database_MaxNumberOfUsers) {
+			return UNKNOWN_ID;
+		}
 	}
 	--Database_NumberOfUsers;
 	for (; index < Database_NumberOfUsers; ++index) { //clean array after deleting
