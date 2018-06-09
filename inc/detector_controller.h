@@ -16,10 +16,10 @@
 
 #define Detector_Sampling 20000 //20000 in 1s
 #define Detector_Threshold 200 //Sensor value
-#define Detector_SingularErrorThreshold 500 //25ms
-#define Detector_GlobalErrorThreshold 500 //25ms
+#define Detector_SingularErrorThreshold 25 //25ms
+#define Detector_GlobalErrorThreshold 15 //25ms
 #define Detector_DebouncingTime 3000 //3000 = 150ms
-#define Detector_MaximumIntervalSeconds 2
+#define Detector_MaximumIntervalSeconds 3
 #define Detector_MaximumInterval Detector_MaximumIntervalSeconds*Detector_Sampling
 #define Detector_MaximumKnocks 20
 
@@ -37,5 +37,6 @@ void Detector_Configuration(void);
 void TIM3_IRQHandler(void);
 Database_USER_SecretCode * Detector_GetRecordedCode(void);
 void Detector_EnableRecordMode(void);
+int map(int x, int in_min, int in_max, int out_min, int out_max);
 
 #endif /* DETECTOR_CONTROLLER_H_ */

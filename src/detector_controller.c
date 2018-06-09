@@ -8,6 +8,38 @@
 
 #include "detector_controller.h"
 
+void Zaswiec(void) {
+	GPIO_SetBits(GPIOD, GPIO_Pin_12 | GPIO_Pin_13);
+}
+
+void NieSwiec(void) {
+	GPIO_ResetBits(GPIOD, GPIO_Pin_12 | GPIO_Pin_13);
+}
+
+void ZaswiecGood(void) {
+	GPIO_SetBits(GPIOD, GPIO_Pin_13);
+}
+
+void NieSwiecGood(void) {
+	GPIO_ResetBits(GPIOD, GPIO_Pin_13);
+}
+
+void ZaswiecDebounce(void) {
+	GPIO_SetBits(GPIOD,GPIO_Pin_15);
+}
+
+void NieSwiecDebounce(void) {
+	GPIO_ResetBits(GPIOD,GPIO_Pin_15);
+}
+
+void ZaswiecKoniec(void) {
+	GPIO_SetBits(GPIOD,GPIO_Pin_14);
+}
+
+void NieSwiecKoniec(void) {
+	GPIO_ResetBits(GPIOD,GPIO_Pin_14);
+}
+
 static void Detector_Timer_Config(void);
 static void Detector_TimerNVIC_Config(void);
 static void Detector_IRQHandler(void);
@@ -31,12 +63,14 @@ static void ResetRegisteredCode(void);
 static void CopyRegisteredCodeToRecordedCode(void);
 static void InsertIntervalIntoSequence(void);
 static int CountCodeKnocks(Database_USER_SecretCode secretCode);
+static void SequenceMapping(void);
 
 Database_USER_SecretCode Detector_RecordedCode = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static Database_USER_SecretCode Detector_RegisteredCode = { 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static int Detector_CurrentKnock = 0;
+static int MaxKnockInterval=0;
 
 bool Detector_ThresholdExceeded_Flag = FALSE;
 bool Detector_ListenToSecretCode_Flag = FALSE;
@@ -64,6 +98,11 @@ void Detector_EnableRecordMode(void) {
 void Detector_DisableRecordMode(void) {
 	Detector_Current_Mode=LISTEN;
 }
+
+int map(int x, int in_min, int in_max, int out_min, int out_max)
+	{
+	  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
 
 static
 void Detector_Timer_Config(void) {
@@ -168,12 +207,15 @@ void SetDebouncing(void) {
 static
 void StopDebouncing(void) {
 	Detector_Debouncing_Flag = FALSE;
+	NieSwiecDebounce();
 }
 
 static
 void DebouncingControl(void) {
 	if (Detector_Counter == Detector_DebouncingTime) {
 		StopDebouncing();
+	} else {
+		ZaswiecDebounce();
 	}
 }
 
@@ -195,12 +237,15 @@ void ControlProgram(void) {
 			ResetRegisteredCode();
 			StartCountTime();
 			StartListenToSecretCode();
+
+			NieSwiecKoniec();
 		}
 	} else {
 		CheckCurrentTimeInterval();
 		CheckKnocksAmount();
 		/* If Detector_ListenToSecretCode_Flag  is set to FALSE it means its time to validate/record knock*/
 		if (Detector_ListenToSecretCode_Flag == FALSE) {
+			SequenceMapping();
 			if (Detector_Current_Mode == LISTEN) {
 				if(ValidateSecretCode()) {
 					//UNLOCK
@@ -214,6 +259,8 @@ void ControlProgram(void) {
 				Detector_DisableRecordMode();
 			}
 
+			ZaswiecKoniec();
+
 		} else if (Detector_ThresholdExceeded_Flag == TRUE) {
 			InsertIntervalIntoSequence();
 		}
@@ -225,6 +272,10 @@ void InsertIntervalIntoSequence(void) {
 	int interval;
 	interval = Detector_Counter;
 	Detector_RegisteredCode[Detector_CurrentKnock] = interval;
+	if(interval>MaxKnockInterval) {
+			MaxKnockInterval=interval;
+		}
+
 	StopCountTime();
 	StartCountTime();
 	Detector_CurrentKnock += 1;
@@ -270,8 +321,9 @@ int ValidateSecretCode(void) {
 					if (timeDifference>Detector_SingularErrorThreshold) {
 						return 0;
 					}
-					totalTimeDifference+=timeDifference;
+					totalTimeDifference=totalTimeDifference+timeDifference;
 				}
+				totalTimeDifference=totalTimeDifference/secretCodeKnockCount;
 				if (totalTimeDifference>Detector_GlobalErrorThreshold) {
 					return 0;
 				}
@@ -284,6 +336,7 @@ int ValidateSecretCode(void) {
 
 		return 1;
 	}
+	return 0;
 }
 
 static
@@ -323,3 +376,13 @@ void CopyRegisteredCodeToRecordedCode(void) {
 		Detector_RecordedCode[i] = Detector_RegisteredCode[i];
 	}
 }
+
+static
+void SequenceMapping(void) {
+	for (int i=0; i<Detector_MaximumKnocks; i++) {
+
+		Detector_RegisteredCode[i]=map(Detector_RegisteredCode[i],0,MaxKnockInterval,0,100);
+	}
+}
+
+
