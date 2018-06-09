@@ -38,6 +38,7 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	}
 	memcpy(Database_Users[i].secret_code, secretcode,
 			sizeof(Database_USER_SecretCode));
+
 	return Database_SaveChanges();
 
 
