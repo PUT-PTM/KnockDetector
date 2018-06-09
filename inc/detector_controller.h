@@ -25,6 +25,7 @@
 
 
 typedef enum {RECORD = 1, LISTEN = 0} Detector_Mode;
+typedef enum {GOOD = 1, WRONG = 0} Detector_Verdict;
 
 Database_USER_SecretCode Detector_RecordedCode;
 bool Detector_ThresholdExceeded_Flag;

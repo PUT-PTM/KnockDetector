@@ -247,10 +247,12 @@ void ControlProgram(void) {
 		if (Detector_ListenToSecretCode_Flag == FALSE) {
 			SequenceMapping();
 			if (Detector_Current_Mode == LISTEN) {
-				if(ValidateSecretCode()) {
+				if(ValidateSecretCode() == GOOD) {
 					//UNLOCK
+					ZaswiecGood();
 				}
 				else {
+					NieSwiecGood();
 					//TURN ON RED DIODE
 				}
 			} else if (Detector_Current_Mode == RECORD) {
@@ -308,35 +310,36 @@ int ValidateSecretCode(void) {
 
 		int registeredCodeKnockCount;
 		registeredCodeKnockCount=CountCodeKnocks(Detector_RegisteredCode);
+		Detector_Verdict verdict=WRONG;
 
 		for (int i=0; i<Database_NumberOfUsers; i++) {
 			int totalTimeDifference=0;
 			int secretCodeKnockCount;
 			secretCodeKnockCount=CountCodeKnocks(Database_Users[i].secret_code);
-
 			if (registeredCodeKnockCount==secretCodeKnockCount) {
+				verdict=GOOD;
 				for (int j=0; j<Detector_MaximumKnocks; j++) {
 					int timeDifference;
 					timeDifference=abs(Database_Users[i].secret_code[j]-Detector_RegisteredCode[j]);
 					if (timeDifference>Detector_SingularErrorThreshold) {
-						return 0;
+						verdict=WRONG;
 					}
 					totalTimeDifference=totalTimeDifference+timeDifference;
 				}
 				totalTimeDifference=totalTimeDifference/secretCodeKnockCount;
 				if (totalTimeDifference>Detector_GlobalErrorThreshold) {
-					return 0;
+					verdict=WRONG;
 				}
 			}
 			else {
-				return 0;
+				verdict=WRONG;
 			}
-
+			if (verdict==GOOD) {
+				return GOOD;
+			}
 		}
-
-		return 1;
 	}
-	return 0;
+	return WRONG;
 }
 
 static
