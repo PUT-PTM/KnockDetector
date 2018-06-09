@@ -25,8 +25,7 @@ Database_RESULT Database_ChangeName(Database_USER_ID id,
 		 }
 	}
 	memcpy(Database_Users[i].name, name, sizeof(Database_USER_Name));
-	Database_SaveChanges();
-	return DB_OK;
+	return Database_SaveChanges();
 }
 
 Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
@@ -39,8 +38,8 @@ Database_RESULT Database_ChangeSecretCode(Database_USER_ID id,
 	}
 	memcpy(Database_Users[i].secret_code, secretcode,
 			sizeof(Database_USER_SecretCode));
-	Database_SaveChanges();
-	return DB_OK;
+	return Database_SaveChanges();
+
 
 }
 
@@ -88,8 +87,8 @@ Database_RESULT Database_AddUser(Database_USER_DATA usr) {
 
 		Database_Users[Database_NumberOfUsers] = usr;
 		++Database_NumberOfUsers;
-		Database_SaveChanges();
-		return DB_OK;
+		return Database_SaveChanges();
+
 	}
 	else {
 		return DB_FULL;
@@ -104,12 +103,12 @@ Database_RESULT Database_DeleteUser(Database_USER_ID id) {
 		}
 	}
 	Database_NumberOfUsers-=1;
-	for (; index < Database_NumberOfUsers-1; ++index) { //clean array after deleting
+	for (; index < Database_NumberOfUsers; ++index) { //clean array after deleting
 		Database_Users[index] = Database_Users[index + 1];
 	}
-	int a=Database_NumberOfUsers;
-	Database_SaveChanges();
-	return DB_OK;
+
+	return Database_SaveChanges();
+
 }
 
 void Database_Configuration(void) {
@@ -119,16 +118,16 @@ void Database_Configuration(void) {
 }
 
 static Database_RESULT Database_SaveChanges(void) {
-	Database_WriteDatabaseToFile();
-	Database_ReadDatabaseFromFile();
-	/* TO DO: return of the code with higher value */
-	return DB_OK;
+	return Database_WriteDatabaseToFile();
 }
 
 static Database_RESULT Database_ReadDatabaseFromFile(void) {
 	char buffer[Database_MaximumSize];
 	UINT loadedBytes = 0;
-	SDmodule_ReadFile(Database_FilePath, &buffer, &loadedBytes);
+	if (SDmodule_ReadFile(Database_FilePath, &buffer, &loadedBytes))
+	{
+		return DB_SDERROR;
+	}
 	Database_NumberOfUsers = loadedBytes / Database_TupleSize;
 	memcpy(Database_Users, &buffer[0], loadedBytes);
 	Database_SetLastId();
@@ -151,7 +150,9 @@ static Database_RESULT Database_WriteDatabaseToFile(void) {
 	memcpy(file_content, Database_Users,
 			file_content_size);
 
-	SDmodule_WriteFile(Database_FilePath, file_content,file_content_size);
+	if(SDmodule_WriteFile(Database_FilePath, file_content,file_content_size)) {
+		return DB_SDERROR;
+	}
 	free(file_content);
 	return DB_OK;
 }
