@@ -16,9 +16,6 @@
 
 
 
-void Zaswiec(void) {
-	GPIO_SetBits(GPIOD, DIODES_ONBOARD_PINS);
-}
 
 int main(void) {
 	Controller_Configuration();
