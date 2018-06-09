@@ -20,6 +20,7 @@ static void ChangeName(void);
 static void SendOK(void);
 static void SendError(void);
 static void SendEndOfCommand(void);
+static void LockDoor(void);
 
 static char input[Bluetooth_INPUT_SIZE];
 static int inputIndex = 0;
@@ -133,7 +134,7 @@ static void InterpretInput(void) {
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
 	} else if (CheckCommand(input, "LOCKD")) {
-			ChangeName();
+			LockDoor();
 	} else {
 		SendError();
 	}
@@ -209,7 +210,8 @@ static void ChangeName(void){
 }
 
 static void LockDoor(void) {
-
+	GPIO_SetBits(GPIOD,GPIO_Pin_12);
+	SendOK();
 }
 
 static void SendOK(void) {
