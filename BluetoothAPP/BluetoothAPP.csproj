@@ -84,14 +84,10 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\UsersActivity.cs" />
     <Compile Include="Adapters\UsersViewAdapter.cs" />
-    <Compile Include="Fragments\DeleteFragment.cs" />
-    <Compile Include="Fragments\EditFragment.cs" />
-    <Compile Include="Fragments\MicrophoneFragment.cs" />
     <Compile Include="Fragments\UsersFragment.cs" />
     <Compile Include="Model\BluetoothHolder.cs" />
     <Compile Include="Model\BluetoothManage.cs" />
     <Compile Include="Model\DatabaseHolder.cs" />
-    <Compile Include="Model\DialogOptions.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,16 +107,7 @@
     <AndroidResource Include="Resources\layout\Dialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\MicrophoneLayout.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\UsersFragment.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\EditLayout.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\DeleteLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\AddDialog.axml">
@@ -129,10 +116,10 @@
     <AndroidResource Include="Resources\layout\OKDialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\deleteUser.axml">
+    <AndroidResource Include="Resources\layout\UploadDialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\UploadDialog.axml">
+    <AndroidResource Include="Resources\layout\CloseDoorDialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -177,6 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\pplus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\padlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

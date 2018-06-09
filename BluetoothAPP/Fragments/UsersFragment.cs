@@ -18,6 +18,7 @@ namespace BluetoothAPP.Fragments
         ImageButton microphoneBtn;
         ImageButton editBtn;
         ImageButton deleteBtn;
+        ImageView padlockBtn;
         ImageView addUser;
         EditText newUserName;
         Button acceptBtn;
@@ -25,6 +26,7 @@ namespace BluetoothAPP.Fragments
         Button AccBtn;
         Button uploadBtn;
         Button uploadBtnOK;
+        Button doorClosedBtnOK;
 
         Android.Support.V7.App.AlertDialog alertDialogAndroid;
         Android.Support.V7.App.AlertDialog.Builder alertDialogBuilder;
@@ -36,7 +38,6 @@ namespace BluetoothAPP.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-
             var view = inflater.Inflate(Resource.Layout.UsersFragment, container, false);
             OnCreateViewConfig(view);
             return view;
@@ -47,7 +48,9 @@ namespace BluetoothAPP.Fragments
             LayoutInflater layoutInflater = LayoutInflater.From(this.Activity);
             var view = layoutInflater.Inflate(Resource.Layout.AddDialog, null);
             AddUser_ClickConfig(view);
-            acceptBtn.Click += AcceptBtn_Click;
+
+            if (!acceptBtn.HasOnClickListeners)
+                acceptBtn.Click += AcceptBtn_Click;
         }
 
         private void AcceptBtn_Click(object sender, EventArgs p)
@@ -94,8 +97,7 @@ namespace BluetoothAPP.Fragments
             UsersList_ItemClickConfig(view); 
             
             actualUsername.Text = users[e.Position].NameToString();
-
-            editBtn.Click += EditBtn_Click;
+            
             deleteBtn.Click += (s, p) =>
             {
                 DeleteBtn_Click(s, p, e);
@@ -142,12 +144,10 @@ namespace BluetoothAPP.Fragments
         private void OKBtn_Click1(object sender, EventArgs e)
         {
             BluetoothHolder.bluetoothManage.Read();
-            if (DatabaseHolder.CODE() == "OK")
-            {
-                Toast.MakeText(this.Activity, "Received: " + DatabaseHolder.receiver, ToastLength.Long).Show();
-                DatabaseHolder.receiver = "";
-            }
-            else Toast.MakeText(this.Activity, "Received: " + DatabaseHolder.receiver, ToastLength.Long).Show();
+            if (DatabaseHolder.CODE() == "OK") { }
+            else if (DatabaseHolder.CODE() == "ER")
+                Toast.MakeText(this.Activity, "Error while recording a code!", ToastLength.Long).Show();
+            else Toast.MakeText(this.Activity, "Unknown error!", ToastLength.Long).Show();
             alertDialogAndroid.Dismiss();
         }
 
@@ -165,13 +165,6 @@ namespace BluetoothAPP.Fragments
                 ar = DatabaseHolder.IntToCharArr(users[p.Position].Id);
                 DatabaseHolder.receiver = "";
                 BluetoothHolder.bluetoothManage.Write(DatabaseHolder.CHNCD + ar[0] + ar[1] + '\a');
-
-                //while (DatabaseHolder.receiver.Length < 3)
-                    //BluetoothHolder.bluetoothManage.Read();
-                //Toast.MakeText(this.Activity, "Received: " + DatabaseHolder.receiver, ToastLength.Long).Show();
-                //DatabaseHolder.receiver = "";
-                //BluetoothHolder.bluetoothManage.Write(DatabaseHolder.GETDB);
-                
             }
             else if (DatabaseHolder.CODE() == "ER")
                 Toast.MakeText(this.Activity, "There was an error while uploading a database!", ToastLength.Long).Show();
@@ -184,28 +177,13 @@ namespace BluetoothAPP.Fragments
             OKBtn.Enabled = true;
             AccBtn.Enabled = false;
 
-            if (DatabaseHolder.CODE() == "OK")
-            {
-                Toast.MakeText(this.Activity, "Received: " + DatabaseHolder.receiver, ToastLength.Long).Show();
-
-                DatabaseHolder.receiver = "";
-                //BluetoothHolder.bluetoothManage.Write(DatabaseHolder.GETDB);
-            }
+            if (DatabaseHolder.CODE() == "OK") { }
             else if (DatabaseHolder.CODE() == "ER")
                 Toast.MakeText(this.Activity, "There was an error while uploading a database!", ToastLength.Long).Show();
             else Toast.MakeText(this.Activity, "UNKNOWN ERROR - RECEIVED MSG:'" + DatabaseHolder.receiver + "'", ToastLength.Long).Show();
             alertDialogAndroid.Dismiss();
         }
-
-        private void EditBtn_Click(object sender, EventArgs e)
-        {
-            alertDialogAndroid.Dismiss();
-            FragmentTransaction transaction = FragmentManager.BeginTransaction();
-            EditFragment editFragment = new EditFragment();
-            transaction.Replace(Resource.Id.container, editFragment, "EDIT_FRAGMENT");
-            transaction.AddToBackStack("EDIT_FRAGMENT");
-            transaction.Commit();
-        }
+        
 
         private void CreatingUser(int i)
         {
@@ -227,8 +205,7 @@ namespace BluetoothAPP.Fragments
             users.Clear();
             if (DatabaseHolder.HowManyUsers() == 0)
                 return false;
-
-            //DatabaseHolder.ReceiverToHoldingString();
+            
             for (int i = 0; i < DatabaseHolder.HowManyUsers(); i++)
             {
                 CreatingUser(i);
@@ -241,7 +218,7 @@ namespace BluetoothAPP.Fragments
             BluetoothHolder.bluetoothManage.Read();
             if (DatabaseHolder.CODE() == null)
             {
-                Toast.MakeText(this.Activity, "ERROR, RECEIVED MESSAGE HAS WRONG FORMAT", ToastLength.Long).Show();
+                Toast.MakeText(this.Activity, "Error, received message has wrong format!", ToastLength.Long).Show();
             }
             else if (DatabaseHolder.CODE() == "OK")
             {
@@ -252,7 +229,7 @@ namespace BluetoothAPP.Fragments
                 }
             }
             else if (DatabaseHolder.CODE() == "ER")
-                Toast.MakeText(this.Activity, "ERROR WHILE UPLOADING A DATABASE!", ToastLength.Long).Show();
+                Toast.MakeText(this.Activity, "Error while uploading a database!", ToastLength.Long).Show();
         }
 
 
@@ -275,8 +252,9 @@ namespace BluetoothAPP.Fragments
                     var vieww = layoutInflaterr.Inflate(Resource.Layout.OKDialog, null);
 
                     AccBtn_ClickConfig(vieww);
-                    AccBtn.Click += AccBtn_Click;
-                    //OKBtn.Click += OKBtn_Click;
+
+                    if (!AccBtn.HasOnClickListeners)
+                        AccBtn.Click += AccBtn_Click;
                 }
                 else if (newUserName.Text.Length > 20)
                 {
@@ -316,38 +294,54 @@ namespace BluetoothAPP.Fragments
             return DatabaseHolder.ADDUS + name + date + '\a';
         }
 
-        private IList<Integer> PutIdsList()
-        {
-            IList<Integer> list = new List<Integer>();
-            for(int i =0; i < users.Count; i++)
-            {
-                list.Add((Integer)users[i].Id);
-            }
-            return list;
-        }
-
         private void OnCreateViewConfig(View view)
         {
             BluetoothHolder.activity = this.Activity;
             usersList = view.FindViewById<ListView>(Resource.Id.myListView);
             addUser = view.FindViewById<ImageView>(Resource.Id.addUser);
+            padlockBtn = view.FindViewById<ImageView>(Resource.Id.padlockButton);
             uploadBtn = view.FindViewById<Button>(Resource.Id.uploadButton);
-
+            
             if (!addUser.HasOnClickListeners)
-            {
                 addUser.Click += AddUser_Click;
-            }
 
             if (!usersList.HasOnClickListeners)
-            {
                 usersList.ItemClick += UsersList_ItemClick;
-            }
 
             if (!uploadBtn.HasOnClickListeners)
-            {
                 uploadBtn.Click += UploadBtn_Click;
-            }
 
+            if(!padlockBtn.HasOnClickListeners)
+                padlockBtn.Click += PadlockBtn_Click;
+        }
+
+        private void PadlockBtn_Click(object sender, EventArgs e)
+        {
+            DatabaseHolder.receiver = "";
+            BluetoothHolder.bluetoothManage.Write(DatabaseHolder.LOCKD);
+
+            LayoutInflater layoutInflaterr = LayoutInflater.From(this.Activity);
+            var vieww = layoutInflaterr.Inflate(Resource.Layout.CloseDoorDialog, null);
+            doorClosedBtnOK = vieww.FindViewById<Button>(Resource.Id.DoorClosedButtonOK);
+
+            alertDialogBuilder = new Android.Support.V7.App.AlertDialog.Builder(this.Activity);
+            alertDialogBuilder.SetView(vieww);
+
+            alertDialogAndroid = alertDialogBuilder.Create();
+            alertDialogAndroid.Show();
+
+            if(!doorClosedBtnOK.HasOnClickListeners)
+                doorClosedBtnOK.Click += DoorClosedBtnOK_Click;
+        }
+
+        private void DoorClosedBtnOK_Click(object sender, EventArgs e)
+        {
+            BluetoothHolder.bluetoothManage.Read();
+            if (DatabaseHolder.CODE() == "OK") { }
+            else if (DatabaseHolder.CODE() == "ER")
+                Toast.MakeText(this.Activity, "Error while closing door!", ToastLength.Long).Show();
+            else Toast.MakeText(this.Activity, "Unknown error!", ToastLength.Long).Show();
+            alertDialogAndroid.Dismiss();
         }
 
         private void UploadBtn_Click(object sender, EventArgs e)

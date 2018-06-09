@@ -117,7 +117,6 @@ namespace BluetoothAPP.Model
 
                         if (DatabaseHolder.receiver != null)
                             socket.InputStream.Flush();
-                        //DatabaseHolder.holdingString = DatabaseHolder.receiver;
                     }
                 }
             } 

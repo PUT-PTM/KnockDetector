@@ -17,11 +17,13 @@ namespace BluetoothAPP.Model
     {
         public static string receiver = "";
         public static string GETDB = "GETDB\a";
+        public static string LOCKD = "LOCKD\a";
+        public static string RECCD = "RECCD\a";
         public static string ADDUS = "ADDUS";
         public static string CHNCD = "CHNCD";
         public static string CHNUS = "CHNUS";
-        public static string RECCD = "RECCD\a";
         public static string DELUS = "DELUS";
+        
         
         public static string CODE()
         {

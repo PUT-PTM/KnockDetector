@@ -26,7 +26,6 @@ namespace BluetoothAPP
             OnCreateConfig();
             
             BluetoothHolder.bluetoothManage.BtnConnect_Click();
-            //BluetoothHolder.bluetoothManage.Write(DatabaseHolder.GETDB);
             
             toolbar.NavigationClick += (s, e) =>
             {
@@ -65,7 +64,6 @@ namespace BluetoothAPP
 
         public void btnLoginClick(object sender, EventArgs e, EditText username, EditText password)
         {
-            //BluetoothHolder.bluetoothManage.Read();
             if (username.Text == "admin" && password.Text == "admin")
             {
                 var nextActivity = new Intent(this, typeof(UsersActivity));
