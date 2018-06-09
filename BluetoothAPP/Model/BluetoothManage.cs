@@ -112,7 +112,7 @@ namespace BluetoothAPP.Model
                     lock (this)
                     {
                         //Procedure that reads bytes through socket
-                        socket.InputStream.Read(buffer, 0, 256);
+                        socket.InputStream.Read(buffer, 0, 920);
                         DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
 
                         if (DatabaseHolder.receiver != null)
@@ -121,6 +121,30 @@ namespace BluetoothAPP.Model
                     }
                 }
             } 
+            catch (Exception ex)
+            {
+                Toast.MakeText(activ, ex.Message, ToastLength.Short);
+            }
+        }
+
+        public void Read1()
+        {
+            byte[] buffer = new byte[920];
+            try
+            {
+                if (socket.InputStream.IsDataAvailable())
+                {
+
+                    //Procedure that reads bytes through socket
+                    socket.InputStream.Read(buffer, 0, 920);
+                    DatabaseHolder.receiver = System.Text.Encoding.ASCII.GetString(buffer);
+
+                    if (DatabaseHolder.receiver != null)
+                        socket.InputStream.Flush();
+                    //DatabaseHolder.holdingString = DatabaseHolder.receiver;
+
+                }
+            }
             catch (Exception ex)
             {
                 Toast.MakeText(activ, ex.Message, ToastLength.Short);

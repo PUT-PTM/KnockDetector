@@ -13,5 +13,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/addUser"
         android:clickable="true"
-        android:layout_marginTop="400dp" />
+        android:layout_marginTop="10dp" />
+    <Button
+        android:text="Upload Database"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/uploadButton" />
 </LinearLayout>

@@ -15,29 +15,14 @@ namespace BluetoothAPP.Model
 {
     public class DatabaseHolder
     {
-        public static char[] holdingString = new char[920];
         public static string receiver = "";
         public static string GETDB = "GETDB\a";
         public static string ADDUS = "ADDUS";
         public static string CHNCD = "CHNCD";
         public static string CHNUS = "CHNUS";
-        public static string RECCD = "RECCD";
+        public static string RECCD = "RECCD\a";
         public static string DELUS = "DELUS";
         
-
-        public static void ReceiverToHoldingString()
-        {
-            int i = 0;
-            while(true)
-            {
-                holdingString[i] = receiver[i];
-                i++;
-                if (receiver[i - 1] == '\a')
-                    break;
-            }
-        }
-        
-
         public static string CODE()
         {
             if (receiver.Length < 2)
@@ -52,25 +37,33 @@ namespace BluetoothAPP.Model
             ret |= ch0;
             return ret;
         }
-        
+
+        public static char[] IntToCharArr(int x)
+        {
+            char[] arr = new char[2];
+            arr[0] = (arr[1] = (char)0);
+            arr[0] |= (char)x;
+            arr[1] |= (char)(x >> 8);
+            return arr;
+        }
 
         public static char[] ParsingChars(int start)
         {
-            char[] x = new char[20];
+            char[] arr = new char[20];
             int i = 0;
             int j = start;
             while(!receiver[j].Equals('#'))
             {
-                x[i] = receiver[j];
+                arr[i] = receiver[j];
                 j++;
                 i++;
             }
-            return x;
+            return arr;
         }
 
         public static int ParsingId(int start, int end)
         {
-            return CharsToInt(holdingString[start], holdingString[end]);
+            return CharsToInt(receiver[start], receiver[end]);
         }
         
 
@@ -78,7 +71,7 @@ namespace BluetoothAPP.Model
         {
             for(int i =0; i < 20; i++)
             {
-                if (receiver[i * 43 + 2].Equals('\a'))
+                if (receiver[i * 43 + 2].Equals('\0'))
                     return i;
             }
             return 0;

@@ -48,7 +48,9 @@ namespace BluetoothAPP.Adapters
             creationText.Text = users[position].CreationDateToString();
 
             TextView codeText = row.FindViewById<TextView>(Resource.Id.hasCode);
-            codeText.Text = "False";
+            if (users[position].Secret_code[0] == 0)
+                codeText.Text = "No code";
+            else codeText.Text = "Code recorded";
 
             return row;
         }

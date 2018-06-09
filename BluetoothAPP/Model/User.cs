@@ -17,12 +17,13 @@ namespace BluetoothAPP.Model
         public char[] Name { get; set; }
         public int Id { get; set; }
         public char[] Creation_date { get; set; }
-        public int Secret_code { get; set; }
+        public char[] Secret_code { get; set; }
 
         public User()
         {
             Name = new char[20];
             Creation_date = new char[20];
+            Secret_code = new char[1];
         }
         
 
