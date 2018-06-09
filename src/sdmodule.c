@@ -18,7 +18,6 @@
 
 
 static FATFS fatfs;
-static FIL file;
 static FRESULT fresult;
 
 void SDmodule_Configuration(void) {
@@ -31,6 +30,7 @@ void SDmodule_Configuration(void) {
 }
 
 uint8_t SDmodule_ReadFile(char* file_name, char * buffer, UINT * loaded_bytes) {
+	FIL file;
 	int file_size = 0;
 	UINT loaded_bytes_nonptr=0; /* For copy to loaded_bytes */
 
@@ -47,12 +47,13 @@ uint8_t SDmodule_ReadFile(char* file_name, char * buffer, UINT * loaded_bytes) {
 }
 
 uint8_t SDmodule_WriteFile(char * file_name, char * file_content, UINT file_content_size) {
+	FIL file;
 	unsigned int storedbytes;
-	fresult = f_open(&file, file_name, FA_OPEN_ALWAYS | FA_WRITE);
+	fresult = f_open(&file, file_name, FA_CREATE_ALWAYS | FA_OPEN_ALWAYS | FA_WRITE);
 	if (fresult == FR_OK) {
 		fresult = f_write(&file, file_content, file_content_size, &storedbytes);
 
-		int b = f_truncate(&file);
+		/*f_truncate(&file);*/
 
 	}
 	f_close(&file);
