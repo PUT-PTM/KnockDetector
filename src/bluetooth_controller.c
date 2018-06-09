@@ -132,6 +132,8 @@ static void InterpretInput(void) {
 		GetDatabase();
 	} else if (CheckCommand(input, "CHNNA")) {
 		ChangeName();
+	} else if (CheckCommand(input, "LOCKD")) {
+			ChangeName();
 	} else {
 		SendError();
 	}
@@ -189,6 +191,7 @@ static void GetDatabase(void) {
 	} else {
 		SendError();
 	}
+
 }
 
 
@@ -205,6 +208,10 @@ static void ChangeName(void){
 	}
 }
 
+static void LockDoor(void) {
+
+}
+
 static void SendOK(void) {
 	Bluetooth_Send("OK", 2);
 }
@@ -213,5 +220,5 @@ static void SendError(void) {
 	Bluetooth_Send("ER", 2);
 }
 static void SendEndOfCommand(void) {
-	Bluetooth_Send("\a", 1);
+	Bluetooth_Send("\0", 1);
 }
