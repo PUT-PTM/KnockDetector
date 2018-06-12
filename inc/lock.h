@@ -11,6 +11,8 @@
 #include "stm32f4xx.h"
 #include "stm32f4_discovery.h"
 
-void lock_init(void);
+void Lock_Configuration(void);
+void Lock_Unlock(void);
+void Lock_Clock(void);
 
 #endif /* LOCK_H_ */
