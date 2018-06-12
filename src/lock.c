@@ -7,7 +7,9 @@
 
 #include "lock.h"
 
-void lock_init() {
+static void Lock_TimerConfig(void);
+
+void Lock_Configuration(void) {
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -19,4 +21,25 @@ void lock_init() {
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
+static
+void Lock_TimerConfig(void) {
 
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+
+	TIM_TimeBaseStructure.TIM_Period = 8399;
+	TIM_TimeBaseStructure.TIM_Prescaler = 9999;
+	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
+	TIM_Cmd(TIM4, ENABLE);
+}
+
+void Lock_Unlock(void) {
+
+}
+
+void Lock_Lock(void) {
+
+}
