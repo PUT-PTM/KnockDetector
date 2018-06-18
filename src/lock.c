@@ -7,9 +7,18 @@
 
 #include "lock.h"
 
+static void Lock_GPIO_Config(void);
 static void Lock_TimerConfig(void);
+static void Lock_TimerNVIC_Config(void);
 
-void Lock_Configuration(void) {
+void Lock_Configuration(){
+	Lock_GPIO_Config();
+	Lock_TimerConfig();
+	Lock_TimerNVIC_Config();
+}
+
+static
+void Lock_GPIO_Config(void) {
 	RCC_AHB1PeriphClockCmd(Engine_RCC, ENABLE);
 
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -38,10 +47,8 @@ void Lock_TimerConfig(void) {
 
 static
 void Lock_TimerNVIC_Config(void) {
-	//Doprowadzenie zasilania do systemu przerwan
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);    //EXTI,NVIC
 
-	// ustawienie trybu pracy priorytetów przerwañ
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	NVIC_InitTypeDef NVIC_InitStructure;
 
@@ -61,7 +68,7 @@ void TIM4_IRQHandler(void) {
 		TIM_Cmd(TIM4, DISABLE);
 
 		// clear interrupt flag
-		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 	}
 }
 
