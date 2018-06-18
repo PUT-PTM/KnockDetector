@@ -11,6 +11,7 @@
 #include "stm32f4xx.h"
 #include "detector_controller.h"
 #include "database_controller.h"
+#include "lock.h"
 
 
 #define Bluetooth_GPIO_RXD GPIO_Pin_11

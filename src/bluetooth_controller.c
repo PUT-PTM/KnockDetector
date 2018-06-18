@@ -210,7 +210,7 @@ static void ChangeName(void){
 }
 
 static void LockDoor(void) {
-	GPIO_SetBits(GPIOD,GPIO_Pin_12);
+	Lock_Lock();
 	SendOK();
 }
 
