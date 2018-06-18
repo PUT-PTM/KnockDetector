@@ -29,6 +29,7 @@ void Controller_Configuration(void) {
 	Database_Configuration();
 	Bluetooth_Configuration();
 	Detector_Configuration();
+	Lock_Configuration();
 }
 
 void DiodesOnBoard_Config(void) {
