@@ -9,7 +9,12 @@
 #define LOCK_H_
 
 #include "stm32f4xx.h"
-#include "stm32f4_discovery.h"
+#include "bool.h"
+
+#define Engine_IN1 GPIO_Pin_1
+#define Engine_IN2 GPIO_Pin_2
+#define Engine_Port GPIOA
+#define Engine_RCC RCC_AHB1Periph_GPIOA
 
 void Lock_Configuration(void);
 void Lock_Unlock(void);
