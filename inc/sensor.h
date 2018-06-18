@@ -14,8 +14,8 @@
 #define Sensor_GPIO_Port GPIOA
 #define Sensor_GPIO_Pin GPIO_Pin_0
 
-#define Sensor_ADC_RCC RCC_APB2Periph_ADC1
-#define Sensor_ADC ADC1
+#define Sensor_ADC_RCC RCC_APB2Periph_ADC2
+#define Sensor_ADC ADC2
 #define Sensor_ADC_Channel ADC_Channel_0 //depends on GPIO pin
 
 uint16_t Sensor_GetSensorValue(void);
