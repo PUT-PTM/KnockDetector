@@ -121,28 +121,18 @@ void Detector_Timer_Config(void) {
 
 static
 void Detector_TimerNVIC_Config(void) {
-	//Doprowadzenie zasilania do systemu przerwan
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);    //EXTI,NVIC
 
-	// ustawienie trybu pracy priorytetów przerwañ
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	NVIC_InitTypeDef NVIC_InitStructure;
 
-	//Konfiguracja przerwania TIM3
-	// numer przerwania
 	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
-	// priorytet g³ówny
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
-	// subpriorytet
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
-	// uruchom dany kana³
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	// zapisz wype³nion¹ strukturê do rejestrów
 	NVIC_Init(&NVIC_InitStructure);
 
-	// wyczyszczenie przerwania od timera 3 (wyst¹pi³o przy konfiguracji timera)
 	TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
-	// zezwolenie na przerwania od przepe³nienia dla timera 3
 	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
 }
 
@@ -248,6 +238,7 @@ void ControlProgram(void) {
 			SequenceMapping();
 			if (Detector_Current_Mode == LISTEN) {
 				if(ValidateSecretCode() == GOOD) {
+					Lock_Unlock();
 					//UNLOCK
 					ZaswiecGood();
 				}
