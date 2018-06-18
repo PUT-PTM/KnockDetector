@@ -7,8 +7,6 @@
 
 #include "lock.h"
 
-bool Lock_state;
-
 static void Lock_TimerConfig(void);
 
 void Lock_Configuration(void) {
@@ -30,18 +28,49 @@ void Lock_TimerConfig(void) {
 
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 
-	TIM_TimeBaseStructure.TIM_Period = 8399;
-	TIM_TimeBaseStructure.TIM_Prescaler = 9999;
+	TIM_TimeBaseStructure.TIM_Period = 8400 - 1;
+	TIM_TimeBaseStructure.TIM_Prescaler = 10000 - 1;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
-	TIM_Cmd(TIM4, ENABLE);
+	TIM_Cmd(TIM4, DISABLE);
+}
+
+static
+void Lock_TimerNVIC_Config(void) {
+	//Doprowadzenie zasilania do systemu przerwan
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);    //EXTI,NVIC
+
+	// ustawienie trybu pracy priorytetów przerwañ
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	NVIC_InitTypeDef NVIC_InitStructure;
+
+	NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+}
+
+void TIM4_IRQHandler(void) {
+	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) {
+		GPIO_ResetBits(Engine_Port, Engine_IN1 | Engine_IN2);
+		TIM_Cmd(TIM4, DISABLE);
+
+		// clear interrupt flag
+		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+	}
 }
 
 void Lock_Unlock(void) {
-
+	TIM_Cmd(TIM4, ENABLE);
+	GPIO_SetBits(Engine_Port, Engine_IN1);
 }
 
 void Lock_Lock(void) {
-
+	TIM_Cmd(TIM4, ENABLE);
+	GPIO_SetBits(Engine_Port, Engine_IN2);
 }
