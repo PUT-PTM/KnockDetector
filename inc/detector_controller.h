@@ -17,7 +17,7 @@
 
 
 #define Detector_Sampling 20000 //20000 in 1s
-#define Detector_Threshold 200 //Sensor value
+#define Detector_Threshold 60 //Sensor value
 #define Detector_SingularErrorThreshold 25 //25ms
 #define Detector_GlobalErrorThreshold 15 //25ms
 #define Detector_DebouncingTime 3000 //3000 = 150ms
