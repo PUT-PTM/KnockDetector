@@ -17,6 +17,6 @@
 
 void Lock_Configuration(void);
 void Lock_Unlock(void);
-void Lock_Lock(void);
+void Lock_Clock(void);
 
 #endif /* LOCK_H_ */
