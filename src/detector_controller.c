@@ -162,6 +162,7 @@ void CheckThresholdExceedion(void) {
 	Detector_ThresholdExceeded_Flag = FALSE;
 	if (Sensor_GetSensorValue() < Detector_Threshold) {
 		Detector_ThresholdExceeded_Flag = TRUE;
+		LED_RedOff();
 	}
 }
 
@@ -197,7 +198,7 @@ void SetDebouncing(void) {
 static
 void StopDebouncing(void) {
 	Detector_Debouncing_Flag = FALSE;
-	NieSwiecDebounce();
+	LED_RedOff();
 }
 
 static
@@ -205,7 +206,7 @@ void DebouncingControl(void) {
 	if (Detector_Counter == Detector_DebouncingTime) {
 		StopDebouncing();
 	} else {
-		ZaswiecDebounce();
+		LED_RedOn();
 	}
 }
 
@@ -228,7 +229,7 @@ void ControlProgram(void) {
 			StartCountTime();
 			StartListenToSecretCode();
 
-			NieSwiecKoniec();
+
 		}
 	} else {
 		CheckCurrentTimeInterval();
@@ -239,11 +240,10 @@ void ControlProgram(void) {
 			if (Detector_Current_Mode == LISTEN) {
 				if(ValidateSecretCode() == GOOD) {
 					Lock_Unlock();
-					//UNLOCK
-					ZaswiecGood();
+
 				}
 				else {
-					NieSwiecGood();
+					LED_RedOn();
 					//TURN ON RED DIODE
 				}
 			} else if (Detector_Current_Mode == RECORD) {
@@ -252,7 +252,7 @@ void ControlProgram(void) {
 				Detector_DisableRecordMode();
 			}
 
-			ZaswiecKoniec();
+			LED_RedOn();
 
 		} else if (Detector_ThresholdExceeded_Flag == TRUE) {
 			InsertIntervalIntoSequence();
