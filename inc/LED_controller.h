@@ -11,14 +11,14 @@
 #include "stm32f4xx.h"
 
 #define LED_PORT GPIOA
-#define LED_GREEN GPIO_Pin_3
-#define LED_RED GPIO_Pin_5
+#define LED_GREEN GPIO_Pin_6
+#define LED_RED GPIO_Pin_7
 #define LED_RCC RCC_AHB1Periph_GPIOA
 
 void LED_Configuration();
 void LED_RedOn();
 void LED_GreenOn();
 void LED_RedOff();
-void LED_RedOff();
+void LED_GreenOff();
 
 #endif /* LED_CONTROLLER_H_ */
