@@ -8,8 +8,7 @@
  ******************************************************************************
  */
 
-#include "stm32f4xx.h"
-#include "stm32f4_discovery.h"
+
 #include "maincontroller.h"
 
 
@@ -26,6 +25,7 @@ int main(void) {
 
 void Controller_Configuration(void) {
 	DiodesOnBoard_Config();
+	LED_Configuration();
 	Database_Configuration();
 	Bluetooth_Configuration();
 	Detector_Configuration();
