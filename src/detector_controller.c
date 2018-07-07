@@ -297,6 +297,7 @@ void EndOfSequence(void) {
 
 static
 int ValidateSecretCode(void) {
+
 	if (Database_NumberOfUsers>0) {
 
 		int registeredCodeKnockCount;
@@ -307,7 +308,7 @@ int ValidateSecretCode(void) {
 			int totalTimeDifference=0;
 			int secretCodeKnockCount;
 			secretCodeKnockCount=CountCodeKnocks(Database_Users[i].secret_code);
-			if (registeredCodeKnockCount==secretCodeKnockCount) {
+			if (registeredCodeKnockCount==secretCodeKnockCount && registeredCodeKnockCount!=0) {
 				verdict=GOOD;
 				for (int j=0; j<Detector_MaximumKnocks; j++) {
 					int timeDifference;

@@ -13,10 +13,15 @@
 #include "database_controller.h"
 #include "bool.h"
 #include "lock.h"
+#include "LED_controller.h"
 
 
 #define Detector_Sampling 20000 //20000 in 1s
+<<<<<<< HEAD
 #define Detector_Threshold 100 //Sensor value
+=======
+#define Detector_Threshold 60 //Sensor value
+>>>>>>> 6f85e8ac2a5348875850a4fef16feef31210d276
 #define Detector_SingularErrorThreshold 25 //25ms
 #define Detector_GlobalErrorThreshold 15 //25ms
 #define Detector_DebouncingTime 3000 //3000 = 150ms
