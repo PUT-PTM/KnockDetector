@@ -11,7 +11,7 @@
 static void Sensor_GPIO_Config(void);
 static void Sensor_ADC_Config(void);
 
-
+int abc;
 
 
 
@@ -20,7 +20,7 @@ uint16_t Sensor_GetSensorValue(void) {
 	while (ADC_GetFlagStatus(Sensor_ADC, ADC_FLAG_EOC) == RESET) {
 				 			;
 	}
-	return ADC_GetConversionValue(Sensor_ADC);
+	return abc=ADC_GetConversionValue(Sensor_ADC);
 }
 
 

@@ -2,6 +2,10 @@
 
 ## Overview
 
+Mechanism which protects the door from intruders with a lock that will only open when it hears one of the secret knocks set by authorized users of Android application.
+
+## Description
+
 ## Tools
 
 ## How to run
