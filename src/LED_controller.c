@@ -24,7 +24,7 @@ void LED_GreenOn() {
 }
 
 void LED_GreenOff() {
-	GPIO_SetBits(LED_PORT, LED_GREEN);
+	GPIO_ResetBits(LED_PORT, LED_GREEN);
 }
 
 void LED_RedOn() {
@@ -32,5 +32,5 @@ void LED_RedOn() {
 }
 
 void LED_RedOff() {
-	GPIO_SetBits(LED_PORT, LED_RED);
+	GPIO_ResetBits(LED_PORT, LED_RED);
 }
