@@ -66,7 +66,7 @@ void TIM4_IRQHandler(void) {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) {
 		GPIO_ResetBits(Engine_Port, Engine_IN1 | Engine_IN2);
 		TIM_Cmd(TIM4, DISABLE);
-
+		LED_GreenOff();
 		// clear interrupt flag
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 	}
@@ -75,6 +75,7 @@ void TIM4_IRQHandler(void) {
 void Lock_Unlock(void) {
 	TIM_Cmd(TIM4, ENABLE);
 	GPIO_SetBits(Engine_Port, Engine_IN1);
+	LED_GreenOn();
 }
 
 void Lock_Lock(void) {

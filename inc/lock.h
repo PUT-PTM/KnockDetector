@@ -9,6 +9,7 @@
 #define LOCK_H_
 
 #include "stm32f4xx.h"
+#include "LED_controller.h"
 
 #define Engine_IN1 GPIO_Pin_1
 #define Engine_IN2 GPIO_Pin_2
