@@ -10,6 +10,13 @@ Mechanism which protects the door from intruders with a lock that will only open
 
 ## How to run
 
+| **STM32F4 DISCOVERY** | **Bluetooth module** | 
+| ----------------- | ------------------ |
+| 5V | VCC |
+| GND | GND |
+| PC10 | RXD |
+| PC11 | TXD |
+
 ## How to compile
 
 ## Future improvements
