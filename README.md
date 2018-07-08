@@ -28,13 +28,13 @@ Mechanism which protects the door from intruders with a lock that will only open
 
 | **STM32F4 DISCOVERY** | **H bridge** | **Power Supply**| **Engine**|
 | --------------------- | ------------ | --------------- | ----------|
-| PA1 | IN1 |  |  |  | 
-| PA2 | IN2 |  |  |  | 
-|  | OUT1 |  |  | IN1 |
-|  | OUT2 |  |  | IN2 |
-|  | 12V | 12V |  |  |
-| 5V | 5V | 5V |  |  |
-| GND | GND | GND |  |  |
+| PA1 | IN1 | - | - | - | 
+| PA2 | IN2 | - | - | - | 
+| - | OUT1 | - | - | IN1 |
+| - | OUT2 | - | - | IN2 |
+| - | 12V | 12V | - | - |
+| 5V | 5V | 5V | - | - |
+| GND | GND | GND | - | - |
 
 ## How to compile
 
