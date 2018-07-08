@@ -17,6 +17,15 @@ Mechanism which protects the door from intruders with a lock that will only open
 | PC10 | RXD |
 | PC11 | TXD |
 
+| **STM32F4 DISCOVERY** | **SD module** | 
+| ----------------- | ------------------ |
+| 3V | 3V3 |
+| GND | GND |
+| PB11 | CS |
+| PB13 | SCK |
+| PB14 | MISO |
+| PB15 | MOSI |
+
 ## How to compile
 
 ## Future improvements
