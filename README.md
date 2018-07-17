@@ -10,6 +10,8 @@ Mechanism which protects the door from intruders with a lock that will only open
 
 ## How to run
 
+### Wire Connections
+
 | **STM32F4 DISCOVERY** | **Bluetooth module** | 
 | ----------------- | ------------------ |
 | 5V | VCC |
@@ -50,6 +52,10 @@ Mechanism which protects the door from intruders with a lock that will only open
 | PA6 | GREEN |
 | PA7 | RED |
 | GND | shared GND |
+
+### IDE
+
+System Workbench for STM32
 
 ## How to compile
 
