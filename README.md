@@ -36,6 +36,9 @@ Mechanism which protects the door from intruders with a lock that will only open
 | 5V | 5V | 5V | - |
 | GND | GND | GND | - |
 
+<img src="readme-images/lm358n.jpg"/>
+
+
 | **STM32F4 DISCOVERY** | **Operational amplifier LM358N** | 
 | ----------------- | ------------------ |
 | 3V | V+ (8) |
@@ -66,6 +69,6 @@ Mechanism which protects the door from intruders with a lock that will only open
 
 The project was conducted during the Microprocessor Lab course held by the Institute of Control and Information Engineering, Poznan University of Technology.
 
-Contractors: Jakub Dąbrowski, Szymon Bandowski, Przemysław Czajka
+Contractors: Szymon Bandowski, Przemysław Czajka, Jakub Dąbrowski
 
 Supervisor: Tomasz Mańkowski
