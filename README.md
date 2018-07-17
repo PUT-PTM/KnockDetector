@@ -20,7 +20,7 @@ Loads data from SD card into memory and manages users and secret codes according
 
 ### Bluetooth controller
 
-Receives commands from mobile application, executes them on microcontroller and sends response with OK or ERROR to application. Basic functionalities are: add/delete user, change secret code, 
+Receives commands from mobile application, executes them on microcontroller and sends response with OK or ERROR to application. Basic functionalities are: add/delete user, change secret code(record new one), send database to mobile application. 
 
 ### LED controller
 
@@ -29,6 +29,10 @@ Receives commands from detector controller and according to the result of valida
 ### Lock controller
 
 After receiving Unlock command from Detector controllers sends signal to engine to open the door. Similarly, after receiving Lock command from Bluetooth controller locks the door.
+
+### Main controller
+
+
 
 ## Tools
 
@@ -56,6 +60,8 @@ After receiving Unlock command from Detector controllers sends signal to engine 
 ## How to run
 
 ### Wire Connections
+
+<img src="readme-images/inside.jpg" width="40%" height="40%" />
 
 - Bluetooth module.
 
@@ -115,7 +121,7 @@ In the picture not all wires are correctly connected.
 
 ### Printed circuit board
 
-<img src="readme-images/printed_circuit_board.jpg" width="50%" height="50%" />
+<img src="readme-images/printed_circuit_board.jpg" width="40%" height="40%" />
 
 ## How to compile
 
@@ -135,8 +141,8 @@ In the picture not all wires are correctly connected.
 
 ### Known issues
 :x: **Lock/Unlock mechanism is not fully implemented. Programmer has to adjust time for locking and unlocking according to lock and power of engine**<br/>
-:x: **SD module controller is not correctly implemented. Functions cause errors writing to/reading from SD card. **<br/>
-:x: **Thresholds set in detector controller and algorithm may not work properly. Can generate false negatives **<br/>
+:x: **SD module controller is not correctly implemented. Functions cause errors writing to/reading from SD card.**<br/>
+:x: **Thresholds set in detector controller and algorithm may not work properly. Can generate false negatives**<br/>
 
 ## Attributions
 
