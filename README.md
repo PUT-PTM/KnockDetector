@@ -45,6 +45,12 @@ Mechanism which protects the door from intruders with a lock that will only open
 | GND | GND (4) |
 | PA0 | Output A (1) |
 
+| **STM32F4 DISCOVERY** | **Diodes** | 
+| ----------------- | ------------------ |
+| PA6 | GREEN |
+| PA7 | RED |
+| GND | shared GND |
+
 ## How to compile
 
 :one: Clone repository to your machine. <br/>
