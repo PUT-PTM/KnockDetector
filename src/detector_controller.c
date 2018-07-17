@@ -8,38 +8,6 @@
 
 #include "detector_controller.h"
 
-void Zaswiec(void) {
-	GPIO_SetBits(GPIOD, GPIO_Pin_12 | GPIO_Pin_13);
-}
-
-void NieSwiec(void) {
-	GPIO_ResetBits(GPIOD, GPIO_Pin_12 | GPIO_Pin_13);
-}
-
-void ZaswiecGood(void) {
-	GPIO_SetBits(GPIOD, GPIO_Pin_13);
-}
-
-void NieSwiecGood(void) {
-	GPIO_ResetBits(GPIOD, GPIO_Pin_13);
-}
-
-void ZaswiecDebounce(void) {
-	GPIO_SetBits(GPIOD,GPIO_Pin_15);
-}
-
-void NieSwiecDebounce(void) {
-	GPIO_ResetBits(GPIOD,GPIO_Pin_15);
-}
-
-void ZaswiecKoniec(void) {
-	GPIO_SetBits(GPIOD,GPIO_Pin_14);
-}
-
-void NieSwiecKoniec(void) {
-	GPIO_ResetBits(GPIOD,GPIO_Pin_14);
-}
-
 static void Detector_Timer_Config(void);
 static void Detector_TimerNVIC_Config(void);
 static void Detector_IRQHandler(void);
