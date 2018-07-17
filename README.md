@@ -12,7 +12,7 @@ The division of duties was split to several controllers. Each of them has an imp
 
 ### Detector controller
 
-Reads analog signal from operational amplifier connected with buzzer. If readed value is under Detector_Threshold then controller start to listen to secret knock code. After three seconds of last exceedion controller validates secret code by algorithm comparing sequence of knocks with recorded data stored in database.
+Reads analog signal from operational amplifier connected with buzzer. Normal values oscilates above Detector_Threshold. If readed value is under Detector_Threshold this means somebody knocks to the door and then controller start to listen to secret knock code. After three seconds of last exceedion controller validates secret code with algorithm comparing sequence of knocks with recorded code sequences in data stored in the database.
 
 ### Database controller
 
