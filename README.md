@@ -8,6 +8,28 @@ Mechanism which protects the door from intruders with a lock that will only open
 
 ## Description
 
+The division of duties was split to several controllers. Each of them has an important function in the project.
+
+### Detector controller
+
+Reads analog signal from operational amplifier connected with buzzer. If readed value is under Detector_Threshold then controller start to listen to secret knock code. After three seconds of last exceedion controller validates secret code by algorithm comparing sequence of knocks with recorded data stored in database.
+
+### Database controller
+
+Loads data from SD card into memory and manages users and secret codes according to commands from detector controller and bluetooth controller. After every change on data it saves file on memory card. By default, can store up to 20 users. Number of users can be extended in Database_Parameters.h.
+
+### Bluetooth controller
+
+Receives commands from mobile application, executes them on microcontroller and sends response with OK or ERROR to application. Basic functionalities are: add/delete user, change secret code, 
+
+### LED controller
+
+Receives commands from detector controller and according to the result of validation lights red or green. Also lights red when person is knocking the door.
+
+### Lock controller
+
+After receiving Unlock command from Detector controllers sends signal to engine to open the door. Similarly, after receiving Lock command from Bluetooth controller locks the door.
+
 ## Tools
 
 ### Hardware
@@ -111,7 +133,14 @@ In the picture not all wires are correctly connected.
 ### :heavy_check_mark: Final version RELEASED on 8th July 2018
 ### :warning: This project will no longer be developed
 
+### Known issues
+:x: **Lock/Unlock mechanism is not fully implemented. Programmer has to adjust time for locking and unlocking according to lock and power of engine**<br/>
+:x: **SD module controller is not correctly implemented. Functions cause errors writing to/reading from SD card. **<br/>
+:x: **Thresholds set in detector controller and algorithm may not work properly. Can generate false negatives **<br/>
+
 ## Attributions
+
+- FatFS library for SD module (library files are mixed with project logic files in inc and src folders)
 
 ## License
 
